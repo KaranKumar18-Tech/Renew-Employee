@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ReNew Leaders Connect 2026 — Mobile App</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: #F2F2F2;
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 48px 24px;
+}
+.page-title {
+  font-size: 18px; font-weight: 600; color: #1A1A1A;
+  text-align: center; margin-bottom: 32px;
+}
+
+/* ── iPhone Shell ── */
+.iphone {
+  width: 320px; height: 694px; border-radius: 55px;
+  background: #000; position: relative; overflow: hidden;
+  box-shadow: 0 12px 48px rgba(0,0,0,0.25), inset 0 0 0 2px #1c1c1c;
+}
+.notch {
+  position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+  width: 120px; height: 28px; background: #000;
+  border-radius: 0 0 18px 18px; z-index: 100;
+}
+.home-bar {
+  position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%);
+  width: 100px; height: 4px; border-radius: 2px;
+  background: rgba(0,0,0,0.18); z-index: 100;
+}
+.screen {
+  position: absolute; inset: 0; border-radius: 55px; overflow: hidden;
+  display: flex; flex-direction: column; background: #F5F9F5;
+}
+
+/* ── Status Bar ── */
+.status-bar {
+  position: absolute; top: 0; left: 0; right: 0; height: 44px;
+  z-index: 90; display: flex; align-items: center;
+  justify-content: space-between; padding: 12px 22px 0;
+  font-size: 12px; font-weight: 600; color: #FFFFFF;
+  pointer-events: none;
+}
+.sb-right { display: flex; align-items: center; gap: 5px; }
+.sb-right svg { width: 16px; height: 16px; }
+
+/* ── Top Nav ── */
+.top-nav {
+  background: #1B5E20; padding: 56px 16px 0;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.nav-left { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+.nav-title { font-size: 16px; font-weight: 600; color: #FFFFFF; }
+
+/* ── Day Selector ── */
+.day-selector {
+  background: #1B5E20; padding: 12px 16px 16px;
+  display: flex; gap: 8px; justify-content: center;
+}
+.day-tab {
+  border-radius: 20px; padding: 6px 16px;
+  font-size: 12px; font-weight: 500;
+  cursor: pointer; border: none; font-family: 'Inter', sans-serif;
+  transition: background 0.15s, color 0.15s;
+}
+.day-tab.active { background: #FFFFFF; color: #1B5E20; font-weight: 600; }
+.day-tab.inactive { background: rgba(255,255,255,0.2); color: #FFFFFF; }
+
+/* ── Filter Chips ── */
+.filter-bar {
+  background: #F5F9F5; padding: 12px 16px;
+  display: flex; gap: 8px; overflow-x: auto;
+  scrollbar-width: none; flex-shrink: 0;
+}
+.filter-bar::-webkit-scrollbar { display: none; }
+.chip {
+  border-radius: 20px; padding: 5px 12px;
+  font-size: 11px; font-weight: 500;
+  cursor: pointer; white-space: nowrap; border: none;
+  font-family: 'Inter', sans-serif; flex-shrink: 0;
+  transition: background 0.15s, color 0.15s;
+}
+.chip.active { background: #1B5E20; color: #FFFFFF; }
+.chip.inactive { background: #FFFFFF; border: 1px solid #C8E6C9; color: #1B5E20; }
+
+/* ── Schedule Scroll ── */
+.schedule-scroll {
+  flex: 1; overflow-y: auto; overflow-x: hidden;
+  -webkit-overflow-scrolling: touch; scrollbar-width: none;
+  padding: 10px 16px 80px;
+}
+.schedule-scroll::-webkit-scrollbar { display: none; }
+
+/* ── Time Label ── */
+.time-label {
+  font-size: 11px; font-weight: 500; color: #9E9E9E;
+  margin: 10px 0 6px; letter-spacing: 0.4px; text-transform: uppercase;
+}
+
+/* ── Session Card ── */
+.session-card {
+  background: #FFFFFF; border-radius: 12px; padding: 14px;
+  margin-bottom: 10px; border-left: 3px solid #1B5E20;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  position: relative;
+}
+.session-time { font-size: 11px; font-weight: 500; color: #4CAF50; margin-bottom: 4px; }
+.session-title { font-size: 14px; font-weight: 600; color: #1A1A1A; margin-bottom: 4px; line-height: 1.35; }
+.session-speaker { font-size: 12px; font-weight: 400; color: #616161; margin-bottom: 2px; }
+.session-room { font-size: 11px; font-weight: 400; color: #616161; margin-bottom: 10px; }
+.session-footer { display: flex; align-items: center; justify-content: space-between; }
+.track-pill {
+  border-radius: 20px; padding: 3px 10px;
+  font-size: 10px; font-weight: 600;
+  display: inline-flex; align-items: center; gap: 4px;
+}
+.pill-strategy { background: #E8F5E9; color: #1B5E20; }
+.pill-tech { background: #E3F2FD; color: #1565C0; }
+.pill-people { background: #F3E5F5; color: #7B1FA2; }
+.pill-ops { background: #FFF3E0; color: #E65100; }
+.pill-all { background: #E8F5E9; color: #1B5E20; }
+
+/* ── Bookmark ── */
+.bookmark-btn {
+  background: none; border: none; cursor: pointer; padding: 2px;
+  display: flex; align-items: center; justify-content: center;
+  transition: transform 0.15s;
+}
+.bookmark-btn:hover { transform: scale(1.15); }
+.bookmark-btn svg { width: 20px; height: 20px; }
+
+/* ── LIVE badge ── */
+.live-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: #D32F2F; color: #FFFFFF; border-radius: 20px;
+  padding: 3px 8px; font-size: 9px; font-weight: 700;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.4; transform: scale(0.75); }
+}
+.live-dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: #FFFFFF; animation: pulse 1.2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+/* ── Bottom Nav ── */
+.bottom-nav {
+  background: #FFFFFF; border-top: 1px solid #E0E0E0;
+  padding: 8px 0 20px; display: flex; justify-content: space-around;
+  flex-shrink: 0;
+}
+.nav-tab { display: flex; flex-direction: column; align-items: center; gap: 3px; cursor: pointer; flex: 1; }
+.nav-icon { font-size: 18px; line-height: 1; }
+.nav-lbl { font-size: 10px; font-weight: 400; color: #9E9E9E; }
+.nav-tab.active .nav-lbl { font-weight: 600; color: #1B5E20; }
+
+/* ── Frame label ── */
+.frame-label { margin-top: 16px; font-size: 13px; font-weight: 500; color: #888888; text-align: center; }
+
+/* ── Hidden ── */
+.hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<div class="page-title">ReNew Leaders Connect 2026 — Mobile App</div>
+
+<div style="display:flex;flex-direction:column;align-items:center;">
+<div class="iphone">
+  <div class="notch"></div>
+  <div class="home-bar"></div>
+
+  <!-- Status Bar -->
+  <div class="status-bar">
+    <span>9:41</span>
+    <div class="sb-right">
+      <svg viewBox="0 0 16 16"><rect x="0" y="9" width="3" height="7" rx="0.5" fill="white"/><rect x="4" y="6" width="3" height="10" rx="0.5" fill="white"/><rect x="8" y="3" width="3" height="13" rx="0.5" fill="white"/><rect x="12" y="0" width="3" height="16" rx="0.5" fill="white" opacity="0.35"/></svg>
+      <svg viewBox="0 0 16 16" fill="none"><path d="M1 12.5C3.5 8.5 12.5 8.5 15 12.5" stroke="white" stroke-width="1.5" stroke-linecap="round"/><path d="M3.5 10C5.5 7.5 10.5 7.5 12.5 10" stroke="white" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="14" r="1.2" fill="white"/></svg>
+      <svg viewBox="0 0 24 12" fill="none"><rect x="0" y="1" width="20" height="10" rx="2" stroke="white" stroke-width="1"/><rect x="21" y="3.5" width="2" height="5" rx="1" fill="white" opacity="0.4"/><rect x="2" y="3" width="13" height="6" rx="1" fill="white"/></svg>
+    </div>
+  </div>
+
+  <div class="screen">
+
+    <!-- Top Nav -->
+    <div class="top-nav">
+      <div class="nav-left" onclick="window.location.href='/mobile/m-07-home-dashboard.html'">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        <span class="nav-title">Schedule</span>
+      </div>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="cursor:pointer;">
+        <line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="20" y2="12"/><line x1="12" y1="18" x2="20" y2="18"/>
+      </svg>
+    </div>
+
+    <!-- Day Selector -->
+    <div class="day-selector">
+      <button class="day-tab active" id="tab-day1" onclick="switchDay(1)">Day 1 — May 15</button>
+      <button class="day-tab inactive" id="tab-day2" onclick="switchDay(2)">Day 2 — May 16</button>
+    </div>
+
+    <!-- Filter Chips -->
+    <div class="filter-bar">
+      <button class="chip active" id="chip-all" onclick="setFilter('all')">All</button>
+      <button class="chip inactive" id="chip-strategy" onclick="setFilter('strategy')">Strategy</button>
+      <button class="chip inactive" id="chip-technology" onclick="setFilter('technology')">Technology</button>
+      <button class="chip inactive" id="chip-people" onclick="setFilter('people')">People</button>
+      <button class="chip inactive" id="chip-operations" onclick="setFilter('operations')">Operations</button>
+    </div>
+
+    <!-- Schedule Scroll -->
+    <div class="schedule-scroll" id="scheduleScroll">
+
+      <!-- DAY 1 -->
+      <div id="day1-content">
+
+        <div class="time-label">Morning</div>
+
+        <!-- Card 1: Strategy / not bookmarked -->
+        <div class="session-card" data-track="strategy" style="border-left-color:#1B5E20;">
+          <div class="session-time">09:00 – 10:00 AM</div>
+          <div class="session-title">ReNew 2030: Our Path to 50GW</div>
+          <div class="session-speaker">🎤 Sumant Sinha, CEO ReNew</div>
+          <div class="session-room">📍 Main Auditorium</div>
+          <div class="session-footer">
+            <span class="track-pill pill-strategy">Strategy</span>
+            <button class="bookmark-btn" onclick="toggleBookmark(this)" aria-label="Bookmark">
+              <!-- outline bookmark -->
+              <svg viewBox="0 0 24 24" fill="none" stroke="#9E9E9E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Card 2: Technology / bookmarked -->
+        <div class="session-card" data-track="technology" style="border-left-color:#4CAF50;">
+          <div class="session-time">10:30 – 11:30 AM</div>
+          <div class="session-title">AI in Renewable Operations</div>
+          <div class="session-speaker">🎤 Rohan Kapoor, Lead Engineer</div>
+          <div class="session-room">📍 Hall B</div>
+          <div class="session-footer">
+            <span class="track-pill pill-tech">Technology</span>
+            <button class="bookmark-btn bookmarked" onclick="toggleBookmark(this)" aria-label="Bookmark">
+              <!-- filled bookmark -->
+              <svg viewBox="0 0 24 24" fill="#1B5E20" stroke="#1B5E20" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="time-label">Afternoon</div>
+
+        <!-- Card 3: People -->
+        <div class="session-card" data-track="people" style="border-left-color:#9C27B0;">
+          <div class="session-time">11:30 AM – 12:30 PM</div>
+          <div class="session-title">Building High-Performance Teams</div>
+          <div class="session-speaker">🎤 Priya Sharma, Senior Manager HR</div>
+          <div class="session-room">📍 Hall C</div>
+          <div class="session-footer">
+            <span class="track-pill pill-people">People</span>
+            <button class="bookmark-btn" onclick="toggleBookmark(this)" aria-label="Bookmark">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#9E9E9E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Card 4: All Tracks + LIVE -->
+        <div class="session-card" data-track="all" style="border-left-color:#1B5E20;">
+          <div class="session-time">02:00 – 03:30 PM</div>
+          <div class="session-title">Townhall: Q&amp;A with Leadership</div>
+          <div class="session-speaker">🎤 Leadership Panel</div>
+          <div class="session-room">📍 Main Auditorium</div>
+          <div class="session-footer">
+            <div style="display:flex;align-items:center;gap:6px;">
+              <span class="track-pill pill-all">All Tracks</span>
+              <span class="live-badge"><span class="live-dot"></span>LIVE</span>
+            </div>
+            <button class="bookmark-btn" onclick="toggleBookmark(this)" aria-label="Bookmark">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#9E9E9E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Card 5: Operations -->
+        <div class="session-card" data-track="operations" style="border-left-color:#FF6F00;">
+          <div class="session-time">04:00 – 05:00 PM</div>
+          <div class="session-title">Project Delivery Excellence Workshop</div>
+          <div class="session-speaker">🎤 Amit Verma, Director Operations</div>
+          <div class="session-room">📍 Breakout Room 1</div>
+          <div class="session-footer">
+            <span class="track-pill pill-ops">Operations</span>
+            <button class="bookmark-btn" onclick="toggleBookmark(this)" aria-label="Bookmark">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#9E9E9E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+            </button>
+          </div>
+        </div>
+
+      </div><!-- /day1-content -->
+
+      <!-- DAY 2 -->
+      <div id="day2-content" class="hidden">
+
+        <div class="time-label">Morning</div>
+
+        <!-- D2 Card 1: Strategy -->
+        <div class="session-card" data-track="strategy" style="border-left-color:#1B5E20;">
+          <div class="session-time">09:30 – 10:30 AM</div>
+          <div class="session-title">Renewable Energy Policy: 2030 Outlook</div>
+          <div class="session-speaker">🎤 Neha Joshi, Business Analyst</div>
+          <div class="session-room">📍 Main Auditorium</div>
+          <div class="session-footer">
+            <span class="track-pill pill-strategy">Strategy</span>
+            <button class="bookmark-btn" onclick="toggleBookmark(this)" aria-label="Bookmark">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#9E9E9E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- D2 Card 2: Operations -->
+        <div class="session-card" data-track="operations" style="border-left-color:#FF6F00;">
+          <div class="session-time">11:00 AM – 12:00 PM</div>
+          <div class="session-title">Operational Excellence in Wind Projects</div>
+          <div class="session-speaker">🎤 Amit Verma, Director Operations</div>
+          <div class="session-room">📍 Hall B</div>
+          <div class="session-footer">
+            <span class="track-pill pill-ops">Operations</span>
+            <button class="bookmark-btn" onclick="toggleBookmark(this)" aria-label="Bookmark">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#9E9E9E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="time-label">Afternoon</div>
+
+        <!-- D2 Card 3: All Tracks + LIVE -->
+        <div class="session-card" data-track="all" style="border-left-color:#4CAF50;">
+          <div class="session-time">02:00 – 03:00 PM</div>
+          <div class="session-title">Closing Keynote: The Next Decade of ReNew</div>
+          <div class="session-speaker">🎤 Sumant Sinha, CEO ReNew</div>
+          <div class="session-room">📍 Main Auditorium</div>
+          <div class="session-footer">
+            <div style="display:flex;align-items:center;gap:6px;">
+              <span class="track-pill pill-all">All Tracks</span>
+              <span class="live-badge"><span class="live-dot"></span>LIVE</span>
+            </div>
+            <button class="bookmark-btn" onclick="toggleBookmark(this)" aria-label="Bookmark">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#9E9E9E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+            </button>
+          </div>
+        </div>
+
+      </div><!-- /day2-content -->
+
+    </div><!-- /schedule-scroll -->
+
+    <!-- Bottom Nav -->
+    <div class="bottom-nav">
+      <div class="nav-tab" onclick="window.location.href='/mobile/m-07-home-dashboard.html'">
+        <div class="nav-icon">🏠</div>
+        <div class="nav-lbl">Home</div>
+      </div>
+      <div class="nav-tab active">
+        <div class="nav-icon">📅</div>
+        <div class="nav-lbl">Agenda</div>
+      </div>
+      <div class="nav-tab">
+        <div class="nav-icon">🤝</div>
+        <div class="nav-lbl">Network</div>
+      </div>
+      <div class="nav-tab">
+        <div class="nav-icon">📸</div>
+        <div class="nav-lbl">Feed</div>
+      </div>
+      <div class="nav-tab">
+        <div class="nav-icon">☰</div>
+        <div class="nav-lbl">More</div>
+      </div>
+    </div>
+
+  </div><!-- /screen -->
+</div><!-- /iphone -->
+<div class="frame-label">Master Schedule</div>
+</div>
+
+<script>
+/* ── DAY SWITCHER ── */
+let activeDay = 1;
+function switchDay(day) {
+  activeDay = day;
+  document.getElementById('tab-day1').className = 'day-tab ' + (day === 1 ? 'active' : 'inactive');
+  document.getElementById('tab-day2').className = 'day-tab ' + (day === 2 ? 'active' : 'inactive');
+  document.getElementById('day1-content').classList.toggle('hidden', day !== 1);
+  document.getElementById('day2-content').classList.toggle('hidden', day !== 2);
+  // Reset filter when switching days
+  setFilter('all');
+  document.getElementById('scheduleScroll').scrollTop = 0;
+}
+
+/* ── TRACK FILTER ── */
+let activeFilter = 'all';
+const CHIPS = ['all','strategy','technology','people','operations'];
+function setFilter(track) {
+  activeFilter = track;
+  // Update chip styles
+  CHIPS.forEach(c => {
+    const el = document.getElementById('chip-' + c);
+    el.className = 'chip ' + (c === track ? 'active' : 'inactive');
+  });
+  // Show/hide cards in active day
+  const dayId = activeDay === 1 ? 'day1-content' : 'day2-content';
+  const cards = document.querySelectorAll('#' + dayId + ' .session-card');
+  cards.forEach(card => {
+    const cardTrack = card.getAttribute('data-track');
+    const show = (track === 'all') || (cardTrack === track) || (cardTrack === 'all');
+    card.style.display = show ? 'block' : 'none';
+  });
+  // Show/hide time labels: hide if all cards below it are hidden
+  const labels = document.querySelectorAll('#' + dayId + ' .time-label');
+  labels.forEach(label => {
+    // Find all sibling session-cards between this label and the next label
+    let sibling = label.nextElementSibling;
+    let hasVisible = false;
+    while (sibling && !sibling.classList.contains('time-label')) {
+      if (sibling.classList.contains('session-card') && sibling.style.display !== 'none') {
+        hasVisible = true;
+        break;
+      }
+      sibling = sibling.nextElementSibling;
+    }
+    label.style.display = hasVisible ? 'block' : 'none';
+  });
+}
+
+/* ── BOOKMARK TOGGLE ── */
+function toggleBookmark(btn) {
+  const isBookmarked = btn.classList.contains('bookmarked');
+  if (isBookmarked) {
+    // Remove bookmark → outline
+    btn.classList.remove('bookmarked');
+    btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="#9E9E9E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>`;
+  } else {
+    // Add bookmark → filled
+    btn.classList.add('bookmarked');
+    btn.innerHTML = `<svg viewBox="0 0 24 24" fill="#1B5E20" stroke="#1B5E20" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>`;
+  }
+}
+</script>
+
+</body>
+</html>
