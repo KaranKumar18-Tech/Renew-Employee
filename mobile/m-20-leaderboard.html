@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ReNew Leaders Connect 2026 — Mobile App</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: #F2F2F2; font-family: 'Inter', sans-serif;
+  min-height: 100vh; display: flex; flex-direction: column;
+  align-items: center; padding: 48px 24px;
+}
+.page-title { font-size: 18px; font-weight: 600; color: #1A1A1A; text-align: center; margin-bottom: 32px; }
+
+/* ── iPhone Shell ── */
+.iphone {
+  width: 320px; height: 694px; border-radius: 55px;
+  background: #000; position: relative; overflow: hidden;
+  box-shadow: 0 12px 48px rgba(0,0,0,0.25), inset 0 0 0 2px #1c1c1c;
+}
+.notch { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 120px; height: 28px; background: #000; border-radius: 0 0 18px 18px; z-index: 100; }
+.home-bar { position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); width: 100px; height: 4px; border-radius: 2px; background: rgba(0,0,0,0.18); z-index: 100; }
+
+/* ── Status Bar ── */
+.status-bar {
+  position: absolute; top: 0; left: 0; right: 0; height: 44px; z-index: 90;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 22px 0; font-size: 12px; font-weight: 600; color: #FFFFFF;
+  pointer-events: none;
+}
+.sb-right { display: flex; align-items: center; gap: 5px; }
+.sb-right svg { width: 16px; height: 16px; }
+
+/* ── Screen ── */
+.screen {
+  position: absolute; inset: 0; border-radius: 55px; overflow: hidden;
+  display: flex; flex-direction: column; background: #F5F9F5;
+}
+.screen-scroll { flex: 1; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+.screen-scroll::-webkit-scrollbar { display: none; }
+
+/* ── Top Nav ── */
+.top-nav {
+  background: #1B5E20; padding: 56px 16px 0;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.nav-back { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+.nav-back:hover { opacity: 0.75; }
+.nav-back-title { font-size: 16px; font-weight: 600; color: #FFFFFF; }
+
+/* ── Filter chips ── */
+.filter-row {
+  background: #1B5E20; padding: 10px 16px 16px;
+  display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none;
+}
+.filter-row::-webkit-scrollbar { display: none; }
+.fchip {
+  border-radius: 20px; padding: 5px 14px; font-size: 11px;
+  cursor: pointer; white-space: nowrap; border: none;
+  font-family: 'Inter', sans-serif; flex-shrink: 0;
+  transition: background 0.15s, color 0.15s;
+}
+.fchip.active { background: #FFFFFF; color: #1B5E20; font-weight: 600; }
+.fchip.inactive { background: rgba(255,255,255,0.2); color: #FFFFFF; font-weight: 500; }
+
+/* ── Podium ── */
+.podium-zone { background: #1B5E20; padding: 4px 16px 28px; }
+.podium-row { display: flex; align-items: flex-end; justify-content: center; gap: 12px; }
+.podium-col { display: flex; flex-direction: column; align-items: center; }
+.podium-block { border-radius: 8px 8px 0 0; width: 80px; flex-shrink: 0; }
+
+/* Avatar circles */
+.av { border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+
+/* Stagger animation */
+@keyframes riseUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.podium-col { opacity: 0; }
+.podium-col.animate { animation: riseUp 400ms ease-out forwards; }
+
+/* ── Ranked list ── */
+.ranked-section {
+  background: #F5F9F5; border-radius: 20px 20px 0 0;
+  margin-top: -12px; padding: 16px 16px 80px;
+}
+.section-lbl { font-size: 11px; font-weight: 500; color: #9E9E9E; margin-bottom: 4px; }
+.section-lbl.mt { margin-top: 12px; margin-bottom: 4px; }
+
+/* Your row */
+.your-row {
+  background: #E8F5E9; border-radius: 12px; padding: 12px;
+  border-left: 4px solid #1B5E20; display: flex; align-items: center; gap: 10px;
+}
+.rank-num-you { font-size: 18px; font-weight: 700; color: #1B5E20; width: 28px; flex-shrink: 0; text-align: center; }
+.row-mid { flex: 1; min-width: 0; }
+.row-name { font-size: 13px; font-weight: 600; color: #1A1A1A; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.row-sub { font-size: 11px; font-weight: 400; color: #616161; margin-top: 1px; }
+.row-right { display: flex; flex-direction: column; align-items: flex-end; flex-shrink: 0; }
+.pts-you { font-size: 13px; font-weight: 700; color: #1B5E20; }
+.you-badge { background: #1B5E20; color: #FFFFFF; font-size: 9px; font-weight: 600; border-radius: 8px; padding: 2px 6px; margin-top: 3px; }
+
+/* Other rows */
+.rank-row {
+  background: #FFFFFF; border-radius: 10px; padding: 10px 12px;
+  display: flex; align-items: center; gap: 10px;
+  opacity: 0; /* animated in */
+}
+.rank-row.animate { animation: riseUp 350ms ease-out forwards; }
+.rank-num { font-size: 14px; font-weight: 600; color: #9E9E9E; width: 28px; flex-shrink: 0; text-align: center; }
+.pts-other { font-size: 12px; font-weight: 600; color: #1B5E20; white-space: nowrap; }
+
+/* Points info card */
+.info-card { background: #FFFFFF; border-radius: 12px; padding: 14px; border: 1px solid #C8E6C9; margin-top: 12px; }
+.info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 8px; }
+.info-item { display: flex; align-items: center; justify-content: space-between; }
+.info-label { font-size: 11px; font-weight: 400; color: #616161; }
+.info-pts { font-size: 11px; font-weight: 600; color: #1B5E20; }
+
+/* Toast */
+.toast {
+  position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%);
+  background: #1A1A1A; color: #FFFFFF; font-size: 12px; font-weight: 500;
+  font-family: 'Inter', sans-serif; border-radius: 8px; padding: 8px 16px;
+  white-space: nowrap; z-index: 200; pointer-events: none;
+  opacity: 0; transition: opacity 0.2s;
+}
+.toast.show { opacity: 1; }
+
+/* No results */
+.no-results { font-size: 12px; font-weight: 400; color: #9E9E9E; text-align: center; padding: 20px 0; }
+
+/* ── Bottom Nav ── */
+.bottom-nav {
+  background: #FFFFFF; border-top: 1px solid #E0E0E0;
+  padding: 8px 0 20px; display: flex; justify-content: space-around; flex-shrink: 0;
+}
+.nav-tab { display: flex; flex-direction: column; align-items: center; gap: 3px; cursor: pointer; flex: 1; text-decoration: none; }
+.nav-icon { font-size: 18px; line-height: 1; }
+.nav-lbl { font-size: 10px; font-weight: 400; color: #9E9E9E; }
+
+/* ── Frame label ── */
+.frame-label { margin-top: 16px; font-size: 13px; font-weight: 500; color: #888888; text-align: center; }
+</style>
+</head>
+<body>
+
+<div class="page-title">ReNew Leaders Connect 2026 — Mobile App</div>
+
+<div style="display:flex;flex-direction:column;align-items:center;">
+<div class="iphone">
+  <div class="notch"></div>
+  <div class="home-bar"></div>
+
+  <!-- Status Bar -->
+  <div class="status-bar">
+    <span>9:41</span>
+    <div class="sb-right">
+      <svg viewBox="0 0 16 16"><rect x="0" y="9" width="3" height="7" rx="0.5" fill="white"/><rect x="4" y="6" width="3" height="10" rx="0.5" fill="white"/><rect x="8" y="3" width="3" height="13" rx="0.5" fill="white"/><rect x="12" y="0" width="3" height="16" rx="0.5" fill="white" opacity="0.35"/></svg>
+      <svg viewBox="0 0 16 16" fill="none"><path d="M1 12.5C3.5 8.5 12.5 8.5 15 12.5" stroke="white" stroke-width="1.5" stroke-linecap="round"/><path d="M3.5 10C5.5 7.5 10.5 7.5 12.5 10" stroke="white" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="14" r="1.2" fill="white"/></svg>
+      <svg viewBox="0 0 24 12" fill="none"><rect x="0" y="1" width="20" height="10" rx="2" stroke="white" stroke-width="1"/><rect x="21" y="3.5" width="2" height="5" rx="1" fill="white" opacity="0.4"/><rect x="2" y="3" width="13" height="6" rx="1" fill="white"/></svg>
+    </div>
+  </div>
+
+  <div class="screen">
+    <div class="screen-scroll">
+
+      <!-- ── Top Nav ── -->
+      <div class="top-nav">
+        <a href="/mobile/m-07-home-dashboard.html" class="nav-back">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          <span class="nav-back-title">Leaderboard</span>
+        </a>
+        <span style="font-size:22px;">🏆</span>
+      </div>
+
+      <!-- ── Filter Chips ── -->
+      <div class="filter-row">
+        <button class="fchip active" id="fc-all" onclick="setDeptFilter('all')">All</button>
+        <button class="fchip inactive" id="fc-strategy" onclick="setDeptFilter('strategy')">Strategy</button>
+        <button class="fchip inactive" id="fc-technology" onclick="setDeptFilter('technology')">Technology</button>
+        <button class="fchip inactive" id="fc-hr" onclick="setDeptFilter('hr')">HR</button>
+        <button class="fchip inactive" id="fc-operations" onclick="setDeptFilter('operations')">Operations</button>
+        <button class="fchip inactive" id="fc-finance" onclick="setDeptFilter('finance')">Finance</button>
+      </div>
+
+      <!-- ── Podium ── -->
+      <div class="podium-zone">
+        <div class="podium-row">
+
+          <!-- 2nd place -->
+          <div class="podium-col" id="podium-2" style="animation-delay:400ms;">
+            <div class="av" style="width:44px;height:44px;background:rgba(255,255,255,0.2);border:2px solid rgba(255,255,255,0.5);font-size:16px;font-weight:700;color:#FFFFFF;">PS</div>
+            <div style="font-size:18px;margin-top:4px;">🥈</div>
+            <div style="font-size:11px;font-weight:600;color:#FFFFFF;margin-top:4px;text-align:center;">Priya Sharma</div>
+            <div style="font-size:10px;font-weight:400;color:rgba(255,255,255,0.7);text-align:center;">HR</div>
+            <div style="font-size:11px;font-weight:600;color:rgba(255,255,255,0.9);text-align:center;">1,105 pts</div>
+            <div class="podium-block" style="height:50px;background:rgba(255,255,255,0.15);margin-top:8px;"></div>
+          </div>
+
+          <!-- 1st place -->
+          <div class="podium-col" id="podium-1" style="animation-delay:600ms;">
+            <div style="font-size:16px;text-align:center;">👑</div>
+            <div class="av" style="width:56px;height:56px;background:#FFFFFF;border:3px solid #4CAF50;box-shadow:0 0 0 4px rgba(76,175,80,0.3);font-size:20px;font-weight:700;color:#1B5E20;margin-top:4px;">AM</div>
+            <div style="font-size:20px;margin-top:4px;">🥇</div>
+            <div style="font-size:12px;font-weight:700;color:#FFFFFF;margin-top:4px;text-align:center;">Arjun Mehta</div>
+            <div style="font-size:10px;font-weight:400;color:rgba(255,255,255,0.7);text-align:center;">VP Strategy</div>
+            <div style="background:#4CAF50;border-radius:20px;padding:3px 12px;margin-top:6px;">
+              <span style="font-size:11px;font-weight:700;color:#FFFFFF;">1,240 pts</span>
+            </div>
+            <div class="podium-block" style="height:70px;background:rgba(255,255,255,0.25);margin-top:8px;"></div>
+          </div>
+
+          <!-- 3rd place -->
+          <div class="podium-col" id="podium-3" style="animation-delay:200ms;">
+            <div class="av" style="width:40px;height:40px;background:rgba(255,255,255,0.15);border:2px solid rgba(255,255,255,0.3);font-size:14px;font-weight:700;color:#FFFFFF;">RK</div>
+            <div style="font-size:18px;margin-top:4px;">🥉</div>
+            <div style="font-size:11px;font-weight:600;color:#FFFFFF;margin-top:4px;text-align:center;">Rohan Kapoor</div>
+            <div style="font-size:10px;font-weight:400;color:rgba(255,255,255,0.7);text-align:center;">Engineering</div>
+            <div style="font-size:11px;font-weight:600;color:rgba(255,255,255,0.9);text-align:center;">980 pts</div>
+            <div class="podium-block" style="height:35px;background:rgba(255,255,255,0.1);margin-top:8px;"></div>
+          </div>
+
+        </div>
+      </div><!-- /podium-zone -->
+
+      <!-- ── Ranked List ── -->
+      <div class="ranked-section">
+
+        <!-- Your row — always visible -->
+        <div class="section-lbl">Your Rank</div>
+        <div class="your-row">
+          <div class="rank-num-you">#4</div>
+          <div class="av" style="width:36px;height:36px;background:#1B5E20;font-size:13px;font-weight:600;color:#FFFFFF;flex-shrink:0;">AM</div>
+          <div class="row-mid">
+            <div class="row-name">Arjun Mehta</div>
+            <div class="row-sub">VP Strategy · Delhi</div>
+          </div>
+          <div class="row-right">
+            <div class="pts-you">870 pts</div>
+            <div class="you-badge">YOU</div>
+          </div>
+        </div>
+
+        <div class="section-lbl mt">Others</div>
+
+        <!-- Filterable rows -->
+        <div id="rankRows" style="display:flex;flex-direction:column;gap:8px;">
+
+          <div class="rank-row" data-dept="hr" id="row5" style="animation-delay:700ms;">
+            <div class="rank-num">#5</div>
+            <div class="av" style="width:32px;height:32px;background:#E8F5E9;font-size:12px;font-weight:600;color:#1B5E20;flex-shrink:0;">NJ</div>
+            <div class="row-mid">
+              <div class="row-name">Neha Joshi</div>
+              <div class="row-sub">Business Analyst · Hyderabad</div>
+            </div>
+            <div class="pts-other">760 pts</div>
+          </div>
+
+          <div class="rank-row" data-dept="technology" id="row6" style="animation-delay:800ms;">
+            <div class="rank-num">#6</div>
+            <div class="av" style="width:32px;height:32px;background:#F3E5F5;font-size:12px;font-weight:600;color:#7B1FA2;flex-shrink:0;">SR</div>
+            <div class="row-mid">
+              <div class="row-name">Sunita Rao</div>
+              <div class="row-sub">Product Manager · Bangalore</div>
+            </div>
+            <div class="pts-other">710 pts</div>
+          </div>
+
+          <div class="rank-row" data-dept="finance" id="row7" style="animation-delay:900ms;">
+            <div class="rank-num">#7</div>
+            <div class="av" style="width:32px;height:32px;background:#FFF3E0;font-size:12px;font-weight:600;color:#E65100;flex-shrink:0;">VS</div>
+            <div class="row-mid">
+              <div class="row-name">Vikram Singh</div>
+              <div class="row-sub">Finance · Delhi</div>
+            </div>
+            <div class="pts-other">650 pts</div>
+          </div>
+
+          <div class="rank-row" data-dept="hr" id="row8" style="animation-delay:1000ms;">
+            <div class="rank-num">#8</div>
+            <div class="av" style="width:32px;height:32px;background:#FCE4EC;font-size:12px;font-weight:600;color:#C62828;flex-shrink:0;">PN</div>
+            <div class="row-mid">
+              <div class="row-name">Pooja Nair</div>
+              <div class="row-sub">CSR Lead · Chennai</div>
+            </div>
+            <div class="pts-other">590 pts</div>
+          </div>
+
+        </div><!-- /rankRows -->
+
+        <div id="noResults" class="no-results" style="display:none;">No results for this filter</div>
+
+        <!-- Points info card -->
+        <div class="info-card">
+          <div style="font-size:12px;font-weight:600;color:#1B5E20;">💡 How to earn points</div>
+          <div class="info-grid">
+            <div class="info-item"><span class="info-label">✅ Attend session</span><span class="info-pts">+50 pts</span></div>
+            <div class="info-item"><span class="info-label">✅ Complete quiz</span><span class="info-pts">+100 pts</span></div>
+            <div class="info-item"><span class="info-label">✅ Scan booth</span><span class="info-pts">+30 pts</span></div>
+            <div class="info-item"><span class="info-label">✅ Connect with peer</span><span class="info-pts">+15 pts</span></div>
+          </div>
+        </div>
+
+        <div style="text-align:center;margin-top:12px;">
+          <span style="font-size:10px;font-weight:400;color:#9E9E9E;">🔄 Updates live every 30 seconds</span>
+        </div>
+
+      </div><!-- /ranked-section -->
+    </div><!-- /screen-scroll -->
+
+    <!-- Toast -->
+    <div class="toast" id="navToast">Coming soon</div>
+
+    <!-- ── Bottom Nav ── -->
+    <div class="bottom-nav">
+      <a href="/mobile/m-07-home-dashboard.html" class="nav-tab" style="text-decoration:none;">
+        <div class="nav-icon">🏠</div>
+        <div class="nav-lbl">Home</div>
+      </a>
+      <a href="/mobile/m-22-master-schedule.html" class="nav-tab" style="text-decoration:none;">
+        <div class="nav-icon">📅</div>
+        <div class="nav-lbl">Agenda</div>
+      </a>
+      <div class="nav-tab" onclick="showNavToast()">
+        <div class="nav-icon">🤝</div>
+        <div class="nav-lbl">Network</div>
+      </div>
+      <div class="nav-tab" onclick="showNavToast()">
+        <div class="nav-icon">📸</div>
+        <div class="nav-lbl">Feed</div>
+      </div>
+      <div class="nav-tab" onclick="showNavToast()">
+        <div class="nav-icon">☰</div>
+        <div class="nav-lbl">More</div>
+      </div>
+    </div>
+
+  </div><!-- /screen -->
+</div><!-- /iphone -->
+<div class="frame-label">Leaderboard</div>
+</div>
+
+<script>
+/* ── DEPARTMENT FILTER ── */
+const DEPT_CHIPS = ['all','strategy','technology','hr','operations','finance'];
+let activeFilter = 'all';
+
+function setDeptFilter(dept) {
+  activeFilter = dept;
+  DEPT_CHIPS.forEach(d => {
+    document.getElementById('fc-' + d).className = 'fchip ' + (d === dept ? 'active' : 'inactive');
+  });
+
+  const rows = document.querySelectorAll('.rank-row');
+  let visibleCount = 0;
+  rows.forEach(row => {
+    const rowDept = row.getAttribute('data-dept');
+    const show = (dept === 'all') || (rowDept === dept);
+    row.style.display = show ? 'flex' : 'none';
+    if (show) visibleCount++;
+  });
+
+  document.getElementById('noResults').style.display = visibleCount === 0 ? 'block' : 'none';
+}
+
+/* ── NAV TOAST ── */
+let toastTimer = null;
+function showNavToast() {
+  const t = document.getElementById('navToast');
+  if (toastTimer) clearTimeout(toastTimer);
+  t.classList.add('show');
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+/* ── ENTRY ANIMATIONS ── */
+window.addEventListener('DOMContentLoaded', () => {
+  // Staggered podium rise: 3rd first (200ms), 2nd (400ms), 1st (600ms)
+  [
+    { id: 'podium-3', delay: 200 },
+    { id: 'podium-2', delay: 400 },
+    { id: 'podium-1', delay: 600 }
+  ].forEach(({ id, delay }) => {
+    setTimeout(() => {
+      const el = document.getElementById(id);
+      el.classList.add('animate');
+    }, delay);
+  });
+
+  // Staggered rank rows after podium (starting at 700ms, 100ms apart)
+  const rows = document.querySelectorAll('.rank-row');
+  rows.forEach((row, i) => {
+    setTimeout(() => {
+      row.classList.add('animate');
+    }, 700 + i * 100);
+  });
+});
+
+/* ── BROWSER BACK SUPPORT ── */
+history.pushState(null, null, window.location.href);
+window.addEventListener('popstate', function() { window.history.back(); });
+</script>
+
+</body>
+</html>
