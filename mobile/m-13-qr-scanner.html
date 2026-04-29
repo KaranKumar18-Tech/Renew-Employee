@@ -35,13 +35,15 @@
       border-radius: 40px;
       overflow: hidden;
       box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-      display: flex;
-      flex-direction: column;
       position: relative;
-      background: #1A1A1A;
+      background: #000;
     }
 
     .status-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
       height: 44px;
       padding: 0 16px;
       display: flex;
@@ -51,6 +53,7 @@
       font-weight: 600;
       color: #FFFFFF;
       background: #000;
+      z-index: 50;
     }
 
     .status-bar-time {
@@ -60,6 +63,7 @@
 
     .nav-top {
       padding: 14px 16px;
+      padding-top: 50px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -772,15 +776,33 @@
       animation: scanLine 0.3s linear infinite;
     }
 
-    /* Fade transitions */
+    /* State positioning and transitions */
     .state {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
       opacity: 1;
+      pointer-events: all;
       transition: opacity 0.3s ease-out;
+      z-index: 10;
     }
 
     .state.hidden {
       opacity: 0;
       pointer-events: none;
+      z-index: 0;
+    }
+
+    #state1 {
+      background: #1A1A1A;
+    }
+
+    #state2 {
+      background: #1A1A1A;
     }
   </style>
 </head>
