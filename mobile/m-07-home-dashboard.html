@@ -326,6 +326,9 @@ function showToast(e) {
   toast.classList.add('show');
   toastTimer = setTimeout(() => toast.classList.remove('show'), 2000);
 }
+// Browser back gesture support
+history.pushState(null, null, window.location.href);
+window.addEventListener('popstate', function() { window.history.back(); });
 </script>
 </body>
 </html>
