@@ -222,10 +222,23 @@ body {
   border-radius: 20px;
   padding: 7px 12px;
   font-size: 12px;
-  cursor: default;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
 }
-.tag.sel { background: #1B5E20; color: #FFFFFF; font-weight: 600; }
+.tag.sel { background: #1B5E20; color: #FFFFFF; font-weight: 600; border: 1px solid #1B5E20; }
 .tag.unsel { background: #FFFFFF; border: 1px solid #C8E6C9; color: #1B5E20; font-weight: 500; }
+
+/* Shake animation for max-tags reached */
+@keyframes shake {
+  0%   { transform: translateX(0); }
+  20%  { transform: translateX(-5px); }
+  40%  { transform: translateX(5px); }
+  60%  { transform: translateX(-4px); }
+  80%  { transform: translateX(4px); }
+  100% { transform: translateX(0); }
+}
+.tag.shake { animation: shake 0.35s ease; }
 
 /* ─── GOAL CARDS ─── */
 .goal-card {
@@ -236,6 +249,8 @@ body {
   display: flex;
   align-items: flex-start;
   gap: 10px;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
 }
 .goal-card.chosen { border: 1.5px solid #1B5E20; background: #F5F9F5; }
 .radio-dot {
@@ -245,11 +260,19 @@ body {
   border: 2px solid #9E9E9E;
   flex-shrink: 0;
   margin-top: 1px;
+  transition: border-color 0.15s, background 0.15s, box-shadow 0.15s;
 }
 .radio-dot.on {
   border-color: #1B5E20;
   background: #1B5E20;
   box-shadow: inset 0 0 0 3px #F5F9F5;
+}
+
+/* ─── DISABLED BUTTON STATE ─── */
+.btn-dark.disabled {
+  background: #C8E6C9;
+  cursor: not-allowed;
+  pointer-events: none;
 }
 
 /* ─── TEXTAREA ─── */
@@ -462,26 +485,13 @@ body {
         <div style="font-size:16px;font-weight:700;color:#1A1A1A;">What are you interested in?</div>
         <span class="g6"></span>
         <div style="font-size:12px;font-weight:400;color:#616161;line-height:1.5;">Select up to 3 topics. This helps us match you with the right people.</div>
-        <div class="tags-wrap">
-          <span class="tag sel">✓ Energy Transition</span>
-          <span class="tag sel">✓ AI &amp; Technology</span>
-          <span class="tag unsel">People Strategy</span>
-          <span class="tag unsel">Finance &amp; Risk</span>
-          <span class="tag unsel">Operations</span>
-          <span class="tag unsel">CSR &amp; Sustainability</span>
-          <span class="tag sel">✓ Innovation</span>
-          <span class="tag unsel">Policy &amp; Regulation</span>
-          <span class="tag unsel">Leadership</span>
-          <span class="tag unsel">Project Management</span>
-          <span class="tag unsel">Green Hydrogen</span>
-          <span class="tag unsel">Storage Solutions</span>
-        </div>
+        <div class="tags-wrap" id="tagsWrap"></div>
         <span class="g10"></span>
-        <div style="font-size:12px;font-weight:500;color:#4CAF50;">3/3 selected</div>
+        <div id="tagCounter" style="font-size:12px;font-weight:500;color:#9E9E9E;">0/3 selected</div>
         <span class="g20"></span>
       </div>
       <div style="padding:14px 20px 28px;flex-shrink:0;">
-        <button class="btn-dark sm" onclick="goTo(5)">Continue →</button>
+        <button class="btn-dark sm disabled" id="btnContinue4" onclick="goTo(5)">Continue →</button>
       </div>
     </div>
 
@@ -503,43 +513,14 @@ body {
         <div style="font-size:16px;font-weight:700;color:#1A1A1A;">What's your goal for this event?</div>
         <span class="g6"></span>
         <div style="font-size:12px;font-weight:400;color:#616161;line-height:1.5;">This helps our AI suggest the most relevant connections for you.</div>
-        <div style="display:flex;flex-direction:column;gap:8px;margin-top:14px;">
-          <div class="goal-card chosen">
-            <div class="radio-dot on"></div>
-            <div>
-              <div style="font-size:13px;font-weight:600;color:#1A1A1A;">Meet peers from other departments</div>
-              <div style="font-size:11px;font-weight:400;color:#616161;margin-top:2px;">Connect with people outside my immediate team</div>
-            </div>
-          </div>
-          <div class="goal-card">
-            <div class="radio-dot"></div>
-            <div>
-              <div style="font-size:13px;font-weight:600;color:#1A1A1A;">Learn from leadership</div>
-              <div style="font-size:11px;font-weight:400;color:#616161;margin-top:2px;">Have meaningful conversations with senior leaders</div>
-            </div>
-          </div>
-          <div class="goal-card">
-            <div class="radio-dot"></div>
-            <div>
-              <div style="font-size:13px;font-weight:600;color:#1A1A1A;">Find collaboration opportunities</div>
-              <div style="font-size:11px;font-weight:400;color:#616161;margin-top:2px;">Identify potential cross-team projects</div>
-            </div>
-          </div>
-          <div class="goal-card">
-            <div class="radio-dot"></div>
-            <div>
-              <div style="font-size:13px;font-weight:600;color:#1A1A1A;">Expand my knowledge</div>
-              <div style="font-size:11px;font-weight:400;color:#616161;margin-top:2px;">Attend sessions relevant to my growth areas</div>
-            </div>
-          </div>
-        </div>
+        <div id="goalCardsWrap" style="display:flex;flex-direction:column;gap:8px;margin-top:14px;"></div>
         <span class="g12"></span>
         <div style="font-size:11px;font-weight:500;color:#616161;margin-bottom:4px;">Or describe your own goal (optional)</div>
         <textarea class="custom-textarea" placeholder="e.g. Connect with the Green Hydrogen team"></textarea>
         <span class="g20"></span>
       </div>
       <div style="padding:14px 20px 28px;flex-shrink:0;">
-        <button class="btn-dark sm" onclick="goTo(6)">Complete Setup 🎉</button>
+        <button class="btn-dark sm disabled" id="btnComplete5" onclick="goTo(6)">Complete Setup 🎉</button>
       </div>
     </div>
 
@@ -596,7 +577,9 @@ body {
 <div class="screen-name-label" id="screenLabel">Splash · 1 of 6</div>
 
 <!-- ══════════════════ JAVASCRIPT ══════════════════ -->
+<!-- build: 2026-04-29T08:00:00 -->
 <script>
+/* ── SCREEN NAVIGATION ── */
 const SCREEN_NAMES = [
   'Splash · 1 of 6',
   'Login · 2 of 6',
@@ -605,68 +588,147 @@ const SCREEN_NAMES = [
   'Networking Goal · 5 of 6',
   'Ready! · 6 of 6'
 ];
-
-// Dark-bg screens use white status bar + home bar
 const DARK_SCREENS = new Set([1, 6]);
-
 let current = 1;
 let autoTimer = null;
 
-function updateChrome(screenNum) {
+function updateChrome(n) {
   const sb = document.getElementById('statusBar');
   const hb = document.getElementById('homeBar');
-  if (DARK_SCREENS.has(screenNum)) {
-    sb.style.color = '#FFFFFF';
-    hb.className = 'home-bar light';
-  } else {
-    sb.style.color = '#1A1A1A';
-    hb.className = 'home-bar dark';
-  }
+  if (DARK_SCREENS.has(n)) { sb.style.color = '#FFFFFF'; hb.className = 'home-bar light'; }
+  else                      { sb.style.color = '#1A1A1A'; hb.className = 'home-bar dark'; }
 }
-
-function updateDots(screenNum) {
-  const dots = document.querySelectorAll('.dot');
-  dots.forEach((d, i) => {
-    d.classList.toggle('active', i === screenNum - 1);
-  });
-  document.getElementById('screenLabel').textContent = SCREEN_NAMES[screenNum - 1];
+function updateDots(n) {
+  document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === n - 1));
+  document.getElementById('screenLabel').textContent = SCREEN_NAMES[n - 1];
 }
-
 function goTo(target) {
   if (target === current) return;
   if (autoTimer) { clearTimeout(autoTimer); autoTimer = null; }
-
   const fromEl = document.getElementById('screen' + current);
   const toEl   = document.getElementById('screen' + target);
-
-  // Fade out current
   fromEl.style.opacity = '0';
   setTimeout(() => {
     fromEl.style.display = 'none';
     fromEl.classList.remove('active');
-
-    // Reset scroll on the incoming screen
     const scroll = toEl.querySelector('.screen-scroll');
     if (scroll) scroll.scrollTop = 0;
-
     toEl.style.display = 'flex';
     toEl.style.opacity = '0';
-    // Force reflow
     void toEl.offsetWidth;
     toEl.style.opacity = '1';
     toEl.classList.add('active');
-
     current = target;
     updateChrome(current);
     updateDots(current);
   }, 150);
 }
 
-// Init
+/* ── SCREEN 4: INTERACTIVE TAGS ── */
+const TAG_NAMES = [
+  'Energy Transition', 'AI & Technology', 'People Strategy',
+  'Finance & Risk', 'Operations', 'CSR & Sustainability',
+  'Innovation', 'Policy & Regulation', 'Leadership',
+  'Project Management', 'Green Hydrogen', 'Storage Solutions'
+];
+let selectedTags = new Set();
+
+function renderTags() {
+  const wrap = document.getElementById('tagsWrap');
+  wrap.innerHTML = '';
+  TAG_NAMES.forEach(name => {
+    const isSel = selectedTags.has(name);
+    const span = document.createElement('span');
+    span.className = 'tag ' + (isSel ? 'sel' : 'unsel');
+    span.textContent = isSel ? '✓ ' + name : name;
+    span.addEventListener('click', () => toggleTag(name, span));
+    wrap.appendChild(span);
+  });
+  updateTagCounter();
+}
+
+function toggleTag(name, el) {
+  if (selectedTags.has(name)) {
+    selectedTags.delete(name);
+    renderTags();
+  } else {
+    if (selectedTags.size >= 3) {
+      // Shake the clicked tag
+      el.classList.remove('shake');
+      void el.offsetWidth; // reflow to restart animation
+      el.classList.add('shake');
+      el.addEventListener('animationend', () => el.classList.remove('shake'), { once: true });
+      return;
+    }
+    selectedTags.add(name);
+    renderTags();
+  }
+}
+
+function updateTagCounter() {
+  const count = selectedTags.size;
+  const counter = document.getElementById('tagCounter');
+  const btn = document.getElementById('btnContinue4');
+  counter.textContent = count + '/3 selected';
+  counter.style.color = count > 0 ? '#4CAF50' : '#9E9E9E';
+  if (count > 0) {
+    btn.classList.remove('disabled');
+    btn.style.pointerEvents = '';
+  } else {
+    btn.classList.add('disabled');
+    btn.style.pointerEvents = 'none';
+  }
+}
+
+/* ── SCREEN 5: INTERACTIVE GOAL CARDS ── */
+const GOALS = [
+  { title: 'Meet peers from other departments',  sub: 'Connect with people outside my immediate team' },
+  { title: 'Learn from leadership',               sub: 'Have meaningful conversations with senior leaders' },
+  { title: 'Find collaboration opportunities',    sub: 'Identify potential cross-team projects' },
+  { title: 'Expand my knowledge',                 sub: 'Attend sessions relevant to my growth areas' }
+];
+let selectedGoal = null;
+
+function renderGoals() {
+  const wrap = document.getElementById('goalCardsWrap');
+  wrap.innerHTML = '';
+  GOALS.forEach((g, idx) => {
+    const isChosen = selectedGoal === idx;
+    const card = document.createElement('div');
+    card.className = 'goal-card' + (isChosen ? ' chosen' : '');
+    card.innerHTML =
+      '<div class="radio-dot' + (isChosen ? ' on' : '') + '"></div>' +
+      '<div>' +
+        '<div style="font-size:13px;font-weight:600;color:#1A1A1A;">' + g.title + '</div>' +
+        '<div style="font-size:11px;font-weight:400;color:#616161;margin-top:2px;">' + g.sub + '</div>' +
+      '</div>';
+    card.addEventListener('click', () => selectGoal(idx));
+    wrap.appendChild(card);
+  });
+  updateGoalCTA();
+}
+
+function selectGoal(idx) {
+  selectedGoal = idx;
+  renderGoals();
+}
+
+function updateGoalCTA() {
+  const btn = document.getElementById('btnComplete5');
+  if (selectedGoal !== null) {
+    btn.classList.remove('disabled');
+    btn.style.pointerEvents = '';
+  } else {
+    btn.classList.add('disabled');
+    btn.style.pointerEvents = 'none';
+  }
+}
+
+/* ── INIT ── */
 updateChrome(1);
 updateDots(1);
-
-// Screen 1 auto-advances after 2500ms
+renderTags();
+renderGoals();
 autoTimer = setTimeout(() => goTo(2), 2500);
 </script>
 
