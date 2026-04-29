@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ReNew Leaders Connect 2026 — Mobile App</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: #F2F2F2; font-family: 'Inter', sans-serif;
+  min-height: 100vh; display: flex; flex-direction: column;
+  align-items: center; padding: 48px 24px;
+}
+.page-title { font-size: 18px; font-weight: 600; color: #1A1A1A; text-align: center; margin-bottom: 32px; }
+
+/* ── iPhone Shell ── */
+.iphone { width: 320px; height: 694px; border-radius: 55px; background: #000; position: relative; overflow: hidden; box-shadow: 0 12px 48px rgba(0,0,0,0.25), inset 0 0 0 2px #1c1c1c; }
+.notch { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 120px; height: 28px; background: #000; border-radius: 0 0 18px 18px; z-index: 100; }
+.home-bar { position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); width: 100px; height: 4px; border-radius: 2px; background: rgba(0,0,0,0.18); z-index: 100; }
+
+/* ── Status Bar ── */
+.status-bar { position: absolute; top: 0; left: 0; right: 0; height: 44px; z-index: 90; display: flex; align-items: center; justify-content: space-between; padding: 12px 22px 0; font-size: 12px; font-weight: 600; color: #FFFFFF; pointer-events: none; }
+.sb-right { display: flex; align-items: center; gap: 5px; }
+.sb-right svg { width: 16px; height: 16px; }
+
+/* ── Screen shell ── */
+.screen { position: absolute; inset: 0; border-radius: 55px; overflow: hidden; display: flex; flex-direction: column; background: #F5F9F5; }
+.screen-scroll { flex: 1; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+.screen-scroll::-webkit-scrollbar { display: none; }
+
+/* ── State visibility ── */
+.state { transition: opacity 0.3s ease; }
+.state.hidden { display: none; opacity: 0; }
+
+/* ── Top Nav ── */
+.top-nav { background: #1B5E20; padding: 56px 16px 0; display: flex; align-items: center; justify-content: space-between; }
+.back-pill { display: inline-flex; align-items: center; gap: 4px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25); border-radius: 8px; padding: 4px 8px 4px 4px; text-decoration: none; flex-shrink: 0; }
+.back-pill:hover { background: rgba(255,255,255,0.25); }
+.back-pill-text { font-size: 13px; font-weight: 600; color: #FFFFFF; }
+.nav-center { font-size: 16px; font-weight: 600; color: #FFFFFF; }
+
+/* ── Meeting-with strip ── */
+.with-strip { background: #1B5E20; padding: 0 16px 20px; }
+.with-card { background: rgba(255,255,255,0.12); border-radius: 12px; padding: 12px; border: 1px solid rgba(255,255,255,0.2); }
+.with-row { display: flex; align-items: center; gap: 8px; margin-top: 6px; flex-wrap: wrap; }
+.ps-av { width: 32px; height: 32px; border-radius: 50%; background: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: #1B5E20; flex-shrink: 0; }
+.match-tag { background: #4CAF50; border-radius: 20px; padding: 2px 8px; font-size: 10px; font-weight: 600; color: #FFFFFF; white-space: nowrap; }
+
+/* ── Main content ── */
+.main-content { background: #F5F9F5; border-radius: 20px 20px 0 0; margin-top: -8px; padding: 16px 16px 110px; }
+.sec-label { font-size: 13px; font-weight: 600; color: #1A1A1A; margin-bottom: 10px; }
+.sec-label.mt { margin-top: 14px; }
+
+/* ── Date pills ── */
+.date-row { display: flex; gap: 8px; }
+.date-pill { flex: 1; border-radius: 10px; padding: 10px 16px; text-align: center; cursor: pointer; border: 1px solid #E0E0E0; background: #FFFFFF; transition: background 0.15s, border-color 0.15s; }
+.date-pill.sel { background: #1B5E20; border-color: #1B5E20; }
+.date-pill .dp-label { font-size: 12px; font-weight: 600; }
+.date-pill.sel .dp-label { color: #FFFFFF; }
+.date-pill:not(.sel) .dp-label { color: #1A1A1A; }
+.date-pill .dp-sub { font-size: 11px; font-weight: 400; margin-top: 2px; }
+.date-pill.sel .dp-sub { color: rgba(255,255,255,0.8); }
+.date-pill:not(.sel) .dp-sub { color: #9E9E9E; }
+
+/* ── Time slots ── */
+.slot-card { border-radius: 10px; padding: 12px 14px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; border: 1px solid #E0E0E0; background: #FFFFFF; margin-bottom: 8px; transition: background 0.15s, border-color 0.15s; }
+.slot-card:last-child { margin-bottom: 0; }
+.slot-card.sel { background: #E8F5E9; border: 1.5px solid #1B5E20; }
+.slot-card.unavail { background: #F5F5F5; opacity: 0.5; cursor: not-allowed; }
+.slot-time { font-size: 13px; }
+.slot-card.sel .slot-time { font-weight: 600; color: #1B5E20; }
+.slot-card:not(.sel):not(.unavail) .slot-time { font-weight: 500; color: #1A1A1A; }
+.slot-card.unavail .slot-time { font-weight: 500; color: #9E9E9E; }
+.slot-status { font-size: 11px; white-space: nowrap; }
+.slot-card.sel .slot-status { color: #4CAF50; font-weight: 600; }
+.slot-card:not(.sel):not(.unavail) .slot-status { color: #4CAF50; font-weight: 400; }
+.slot-card.unavail .slot-status { color: #D32F2F; font-weight: 400; }
+
+/* ── Hub cards ── */
+.hub-card { border-radius: 10px; padding: 12px 14px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; border: 1px solid #E0E0E0; background: #FFFFFF; margin-bottom: 8px; transition: background 0.15s, border-color 0.15s; }
+.hub-card:last-child { margin-bottom: 0; }
+.hub-card.sel { background: #E8F5E9; border: 1.5px solid #1B5E20; }
+.hub-info .hub-name { font-size: 13px; }
+.hub-card.sel .hub-name { font-weight: 600; color: #1B5E20; }
+.hub-card:not(.sel) .hub-name { font-weight: 500; color: #1A1A1A; }
+.hub-info .hub-sub { font-size: 11px; font-weight: 400; margin-top: 2px; }
+.hub-card.sel .hub-sub { color: #616161; }
+.hub-card:not(.sel) .hub-sub { color: #9E9E9E; }
+.radio { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; border: 2px solid #9E9E9E; transition: background 0.15s, border-color 0.15s, box-shadow 0.15s; }
+.radio.on { border-color: #1B5E20; background: #1B5E20; box-shadow: inset 0 0 0 3px #E8F5E9; }
+
+/* ── Textarea ── */
+.note-area { width: 100%; height: 72px; background: #FFFFFF; border: 1px solid #C8E6C9; border-radius: 10px; padding: 12px 14px; font-size: 12px; font-family: 'Inter', sans-serif; color: #1A1A1A; resize: none; outline: none; transition: border-color 0.15s, box-shadow 0.15s; }
+.note-area:focus { border-color: #4CAF50; box-shadow: 0 0 0 3px rgba(76,175,80,0.12); }
+.note-area::placeholder { color: #9E9E9E; }
+
+/* ── CTA bar ── */
+.cta-bar { position: absolute; bottom: 52px; left: 0; right: 0; background: #FFFFFF; border-top: 1px solid #E0E0E0; padding: 12px 16px; z-index: 50; }
+.btn-confirm { width: 100%; height: 50px; background: #1B5E20; border: none; border-radius: 10px; font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 700; color: #FFFFFF; cursor: pointer; transition: background 0.15s; }
+.btn-confirm:hover { background: #2E7D32; }
+
+/* ── Bottom Nav ── */
+.bottom-nav { position: absolute; bottom: 0; left: 0; right: 0; background: #FFFFFF; border-top: 1px solid #E0E0E0; padding: 8px 0 20px; display: flex; justify-content: space-around; z-index: 60; }
+.nav-tab { display: flex; flex-direction: column; align-items: center; gap: 3px; cursor: pointer; flex: 1; text-decoration: none; }
+.nav-icon { font-size: 18px; line-height: 1; }
+.nav-lbl { font-size: 10px; font-weight: 400; color: #9E9E9E; }
+.nav-tab.active .nav-lbl { font-weight: 600; color: #1B5E20; }
+
+/* ── Toast ── */
+.toast { position: absolute; bottom: 120px; left: 50%; transform: translateX(-50%); background: #1A1A1A; color: #FFFFFF; font-size: 12px; font-weight: 500; font-family: 'Inter', sans-serif; border-radius: 8px; padding: 8px 16px; white-space: nowrap; z-index: 200; pointer-events: none; opacity: 0; transition: opacity 0.2s; }
+.toast.show { opacity: 1; }
+
+/* ── Confirmation state ── */
+.confirm-scroll { flex: 1; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+.confirm-scroll::-webkit-scrollbar { display: none; }
+
+@keyframes popIn { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.success-ring { width: 90px; height: 90px; border-radius: 50%; background: #E8F5E9; display: flex; align-items: center; justify-content: center; animation: popIn 0.4s ease-out forwards; }
+.success-circle { width: 70px; height: 70px; border-radius: 50%; background: #4CAF50; display: flex; align-items: center; justify-content: center; }
+
+.summary-card { background: #F5F9F5; border-radius: 14px; padding: 4px 16px; border: 1px solid #C8E6C9; width: 100%; }
+.summary-row { display: flex; flex-direction: column; padding: 10px 0; border-bottom: 1px solid #E8F5E9; }
+.summary-row:last-child { border-bottom: none; }
+.summary-key { font-size: 11px; font-weight: 400; color: #9E9E9E; margin-bottom: 3px; }
+.summary-val { font-size: 13px; font-weight: 600; color: #1A1A1A; }
+.summary-val.note { font-weight: 400; font-style: italic; color: #616161; font-size: 12px; }
+
+.pts-badge { background: #1B5E20; border-radius: 12px; padding: 10px 20px; text-align: center; font-size: 13px; font-weight: 600; color: #FFFFFF; }
+
+.btn-filled { width: 100%; height: 46px; background: #1B5E20; border: none; border-radius: 10px; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600; color: #FFFFFF; cursor: pointer; text-align: center; text-decoration: none; display: flex; align-items: center; justify-content: center; transition: background 0.15s; }
+.btn-filled:hover { background: #2E7D32; }
+.btn-outline { width: 100%; height: 46px; background: #FFFFFF; border: 1.5px solid #1B5E20; border-radius: 10px; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600; color: #1B5E20; cursor: pointer; text-align: center; text-decoration: none; display: flex; align-items: center; justify-content: center; transition: background 0.15s; }
+.btn-outline:hover { background: #E8F5E9; }
+
+/* ── Frame label ── */
+.frame-label { margin-top: 16px; font-size: 13px; font-weight: 500; color: #888888; text-align: center; }
+</style>
+</head>
+<body>
+
+<!-- ← Directory -->
+<a href="/" style="position:fixed;top:24px;left:24px;z-index:999;background:#FFFFFF;border:1px solid #C8E6C9;border-radius:8px;padding:8px 14px;display:inline-flex;align-items:center;gap:6px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.08);text-decoration:none;transition:all 0.2s;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:#1B5E20;" onmouseover="this.style.background='#F5F9F5';this.style.borderColor='#1B5E20';" onmouseout="this.style.background='#FFFFFF';this.style.borderColor='#C8E6C9';">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1B5E20" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  Directory
+</a>
+
+<div class="page-title">ReNew Leaders Connect 2026 — Mobile App</div>
+
+<div style="display:flex;flex-direction:column;align-items:center;">
+<div class="iphone">
+  <div class="notch"></div>
+  <div class="home-bar"></div>
+
+  <!-- Status Bar -->
+  <div class="status-bar">
+    <span>9:41</span>
+    <div class="sb-right">
+      <svg viewBox="0 0 16 16"><rect x="0" y="9" width="3" height="7" rx="0.5" fill="white"/><rect x="4" y="6" width="3" height="10" rx="0.5" fill="white"/><rect x="8" y="3" width="3" height="13" rx="0.5" fill="white"/><rect x="12" y="0" width="3" height="16" rx="0.5" fill="white" opacity="0.35"/></svg>
+      <svg viewBox="0 0 16 16" fill="none"><path d="M1 12.5C3.5 8.5 12.5 8.5 15 12.5" stroke="white" stroke-width="1.5" stroke-linecap="round"/><path d="M3.5 10C5.5 7.5 10.5 7.5 12.5 10" stroke="white" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="14" r="1.2" fill="white"/></svg>
+      <svg viewBox="0 0 24 12" fill="none"><rect x="0" y="1" width="20" height="10" rx="2" stroke="white" stroke-width="1"/><rect x="21" y="3.5" width="2" height="5" rx="1" fill="white" opacity="0.4"/><rect x="2" y="3" width="13" height="6" rx="1" fill="white"/></svg>
+    </div>
+  </div>
+
+  <div class="screen">
+
+    <!-- ══════════ STATE 1: BOOKING FORM ══════════ -->
+    <div class="state" id="state-book" style="display:flex;flex-direction:column;flex:1;overflow:hidden;">
+
+      <!-- Top Nav -->
+      <div class="top-nav">
+        <a href="/mobile/m-10-match-profile.html" class="back-pill">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          <span class="back-pill-text">Profile</span>
+        </a>
+        <span class="nav-center">Book Meeting</span>
+        <div style="width:60px;"></div>
+      </div>
+
+      <!-- Meeting-with strip -->
+      <div class="with-strip">
+        <div class="with-card">
+          <div style="font-size:11px;font-weight:400;color:rgba(255,255,255,0.7);">Meeting with</div>
+          <div class="with-row">
+            <div class="ps-av">PS</div>
+            <span style="font-size:14px;font-weight:600;color:#FFFFFF;">Priya Sharma</span>
+            <span class="match-tag">92% Match</span>
+          </div>
+          <div style="font-size:11px;font-weight:400;color:rgba(255,255,255,0.7);margin-top:4px;">Senior Manager HR · Mumbai</div>
+        </div>
+      </div>
+
+      <!-- Scrollable form -->
+      <div class="screen-scroll">
+        <div class="main-content">
+
+          <!-- Date -->
+          <div class="sec-label">Select Date</div>
+          <div class="date-row">
+            <div class="date-pill sel" id="date-today" onclick="selectDate('today')">
+              <div class="dp-label">Today</div>
+              <div class="dp-sub">May 15</div>
+            </div>
+            <div class="date-pill" id="date-tomorrow" onclick="selectDate('tomorrow')">
+              <div class="dp-label">Tomorrow</div>
+              <div class="dp-sub">May 16</div>
+            </div>
+          </div>
+
+          <!-- Time Slots -->
+          <div class="sec-label mt">Available Time Slots</div>
+          <div>
+            <div class="slot-card sel" id="slot-1" onclick="selectSlot(1)">
+              <span class="slot-time">🕙 11:00 AM – 11:30 AM</span>
+              <span class="slot-status">✓ Selected</span>
+            </div>
+            <div class="slot-card" id="slot-2" onclick="selectSlot(2)">
+              <span class="slot-time">🕛 12:00 PM – 12:30 PM</span>
+              <span class="slot-status">Available</span>
+            </div>
+            <div class="slot-card" id="slot-3" onclick="selectSlot(3)">
+              <span class="slot-time">🕑 2:30 PM – 3:00 PM</span>
+              <span class="slot-status">Available</span>
+            </div>
+            <div class="slot-card unavail" id="slot-4">
+              <span class="slot-time">🕓 4:00 PM – 4:30 PM</span>
+              <span class="slot-status">Booked</span>
+            </div>
+          </div>
+
+          <!-- Hub -->
+          <div class="sec-label mt">Networking Hub</div>
+          <div>
+            <div class="hub-card sel" id="hub-1" onclick="selectHub(1)">
+              <div class="hub-info">
+                <div class="hub-name">📍 Networking Hub 1 · Room A</div>
+                <div class="hub-sub">Ground Floor · Near Main Auditorium</div>
+              </div>
+              <div class="radio on" id="radio-1"></div>
+            </div>
+            <div class="hub-card" id="hub-2" onclick="selectHub(2)">
+              <div class="hub-info">
+                <div class="hub-name">📍 Networking Hub 2 · Room C</div>
+                <div class="hub-sub">First Floor · Near Hall B</div>
+              </div>
+              <div class="radio" id="radio-2"></div>
+            </div>
+            <div class="hub-card" id="hub-3" onclick="selectHub(3)">
+              <div class="hub-info">
+                <div class="hub-name">📍 Networking Hub 3 · Room E</div>
+                <div class="hub-sub">First Floor · Near Hall C</div>
+              </div>
+              <div class="radio" id="radio-3"></div>
+            </div>
+          </div>
+
+          <!-- Note -->
+          <div class="sec-label mt">Add a note (optional)</div>
+          <textarea class="note-area" id="noteField" placeholder="e.g. Would love to discuss AI in HR..."></textarea>
+
+        </div>
+      </div>
+
+      <!-- CTA Bar -->
+      <div class="cta-bar">
+        <button class="btn-confirm" onclick="confirmBooking()">Confirm Booking</button>
+        <div style="font-size:11px;font-weight:400;color:#9E9E9E;text-align:center;margin-top:8px;">Priya will be notified instantly</div>
+      </div>
+
+    </div><!-- /state-book -->
+
+    <!-- ══════════ STATE 2: CONFIRMATION ══════════ -->
+    <div class="state hidden" id="state-confirm" style="display:none;flex-direction:column;flex:1;overflow:hidden;background:#FFFFFF;">
+
+      <!-- Top Nav -->
+      <div class="top-nav">
+        <a href="/mobile/m-09-networking.html" class="back-pill">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          <span class="back-pill-text">Matches</span>
+        </a>
+        <span class="nav-center">Confirmed! ✅</span>
+        <div style="width:60px;"></div>
+      </div>
+
+      <!-- Confirm content -->
+      <div class="confirm-scroll">
+        <div style="padding:24px 20px 100px;display:flex;flex-direction:column;align-items:center;">
+
+          <!-- Success animation -->
+          <div style="margin-top:20px;" id="successRing">
+            <div class="success-ring">
+              <div class="success-circle">
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                  <path d="M7 17L13 23L25 11" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <div style="font-size:20px;font-weight:700;color:#1A1A1A;margin-top:20px;">Meeting Booked!</div>
+          <div style="font-size:13px;font-weight:400;color:#616161;margin-top:6px;text-align:center;">You and Priya are confirmed for:</div>
+
+          <!-- Booking summary card -->
+          <div class="summary-card" style="margin-top:20px;">
+            <div class="summary-row">
+              <span class="summary-key">👤 With</span>
+              <span class="summary-val">Priya Sharma · Senior Manager HR</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-key">🗓 When</span>
+              <span class="summary-val" id="confirm-when">Today · May 15 · 11:00 – 11:30 AM</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-key">📍 Where</span>
+              <span class="summary-val" id="confirm-where">Networking Hub 1 · Room A</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-key">📝 Note</span>
+              <span class="summary-val note" id="confirm-note">Would love to discuss AI in HR...</span>
+            </div>
+          </div>
+
+          <!-- Points badge -->
+          <div class="pts-badge" style="margin-top:16px;width:100%;">🏆 +15 pts earned for connecting!</div>
+
+          <!-- Action buttons -->
+          <div style="margin-top:20px;display:flex;flex-direction:column;gap:10px;width:100%;">
+            <a href="/mobile/m-09-networking.html" class="btn-filled">View My Meetings</a>
+            <a href="/mobile/m-09-networking.html" class="btn-outline">Back to Matches</a>
+          </div>
+
+        </div>
+      </div>
+
+    </div><!-- /state-confirm -->
+
+    <!-- Toast -->
+    <div class="toast" id="mainToast">Coming soon</div>
+
+    <!-- ── Bottom Nav (shared) ── -->
+    <div class="bottom-nav">
+      <a href="/mobile/m-07-home-dashboard.html" class="nav-tab" style="text-decoration:none;">
+        <div class="nav-icon">🏠</div>
+        <div class="nav-lbl">Home</div>
+      </a>
+      <a href="/mobile/m-22-master-schedule.html" class="nav-tab" style="text-decoration:none;">
+        <div class="nav-icon">📅</div>
+        <div class="nav-lbl">Agenda</div>
+      </a>
+      <a href="/mobile/m-09-networking.html" class="nav-tab active" style="text-decoration:none;">
+        <div class="nav-icon">🤝</div>
+        <div class="nav-lbl" style="color:#1B5E20;font-weight:600;">Network</div>
+      </a>
+      <div class="nav-tab" onclick="showNavToast()">
+        <div class="nav-icon">📸</div>
+        <div class="nav-lbl">Feed</div>
+      </div>
+      <div class="nav-tab" onclick="showNavToast()">
+        <div class="nav-icon">☰</div>
+        <div class="nav-lbl">More</div>
+      </div>
+    </div>
+
+  </div><!-- /screen -->
+</div><!-- /iphone -->
+<div class="frame-label">Meeting Scheduler</div>
+</div>
+
+<script>
+/* ── DATE SELECTION ── */
+const DATE_LABELS = { today: ['Today', 'May 15'], tomorrow: ['Tomorrow', 'May 16'] };
+let selectedDate = 'today';
+function selectDate(d) {
+  selectedDate = d;
+  ['today','tomorrow'].forEach(k => {
+    const el = document.getElementById('date-' + k);
+    el.classList.toggle('sel', k === d);
+  });
+}
+
+/* ── TIME SLOT SELECTION ── */
+const SLOT_DATA = {
+  1: { time: '11:00 – 11:30 AM', label: '11:00 – 11:30 AM' },
+  2: { time: '12:00 PM – 12:30 PM', label: '12:00 – 12:30 PM' },
+  3: { time: '2:30 PM – 3:00 PM',  label: '2:30 – 3:00 PM' }
+};
+let selectedSlot = 1;
+function selectSlot(n) {
+  if (n === 4) return;
+  selectedSlot = n;
+  [1,2,3].forEach(i => {
+    const el = document.getElementById('slot-' + i);
+    const isSel = i === n;
+    el.classList.toggle('sel', isSel);
+    el.querySelector('.slot-status').textContent = isSel ? '✓ Selected' : 'Available';
+  });
+}
+
+/* ── HUB SELECTION ── */
+const HUB_DATA = {
+  1: 'Networking Hub 1 · Room A',
+  2: 'Networking Hub 2 · Room C',
+  3: 'Networking Hub 3 · Room E'
+};
+let selectedHub = 1;
+function selectHub(n) {
+  selectedHub = n;
+  [1,2,3].forEach(i => {
+    document.getElementById('hub-' + i).classList.toggle('sel', i === n);
+    const r = document.getElementById('radio-' + i);
+    r.classList.toggle('on', i === n);
+  });
+}
+
+/* ── CONFIRM BOOKING ── */
+function confirmBooking() {
+  // Build confirmation values
+  const dateLbl = DATE_LABELS[selectedDate][0] + ' · May ' + (selectedDate === 'today' ? '15' : '16');
+  const slotLbl = SLOT_DATA[selectedSlot].time;
+  const hubLbl  = HUB_DATA[selectedHub];
+  const noteVal = document.getElementById('noteField').value.trim() || 'No note added';
+
+  document.getElementById('confirm-when').textContent  = dateLbl + ' · ' + slotLbl;
+  document.getElementById('confirm-where').textContent = hubLbl;
+  document.getElementById('confirm-note').textContent  = noteVal;
+
+  // Fade out state 1
+  const book    = document.getElementById('state-book');
+  const confirm = document.getElementById('state-confirm');
+  book.style.opacity = '0';
+  setTimeout(() => {
+    book.classList.add('hidden');
+    book.style.display = 'none';
+    confirm.classList.remove('hidden');
+    confirm.style.display = 'flex';
+    confirm.style.opacity = '0';
+    void confirm.offsetWidth;
+    confirm.style.opacity = '1';
+    // Re-trigger success animation
+    const ring = document.getElementById('successRing');
+    ring.style.animation = 'none';
+    void ring.offsetWidth;
+    ring.querySelector('.success-ring').style.animation = 'none';
+    void ring.querySelector('.success-ring').offsetWidth;
+    ring.querySelector('.success-ring').style.animation = 'popIn 0.4s ease-out forwards';
+  }, 300);
+}
+
+/* ── TOASTS ── */
+let toastTimer = null;
+function showNavToast() {
+  const t = document.getElementById('mainToast');
+  t.textContent = 'Coming soon';
+  if (toastTimer) clearTimeout(toastTimer);
+  t.classList.add('show');
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+/* ── BROWSER BACK ── */
+history.pushState(null, null, window.location.href);
+window.addEventListener('popstate', function() { window.history.back(); });
+</script>
+
+</body>
+</html>
