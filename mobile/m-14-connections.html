@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ReNew Leaders Connect 2026 — Mobile App</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #F2F2F2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+    }
+
+    .page-title {
+      font-weight: 600;
+      font-size: 18px;
+      color: #1A1A1A;
+      margin-bottom: 32px;
+      text-align: center;
+    }
+
+    .directory-btn {
+      position: fixed;
+      top: 24px;
+      left: 24px;
+      z-index: 999;
+      background: #FFFFFF;
+      border: 1px solid #C8E6C9;
+      border-radius: 8px;
+      padding: 8px 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: #1B5E20;
+    }
+
+    .directory-btn:hover {
+      background: #F5F9F5;
+      border-color: #1B5E20;
+    }
+
+    .directory-btn svg {
+      width: 16px;
+      height: 16px;
+      stroke: #1B5E20;
+      stroke-width: 2.5;
+    }
+
+    .iphone-frame {
+      width: 320px;
+      height: 694px;
+      border-radius: 55px;
+      background: #000;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 12px 48px rgba(0,0,0,0.25), inset 0 0 0 2px #1c1c1c;
+    }
+
+    .notch {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 28px;
+      background: #000;
+      border-radius: 0 0 18px 18px;
+      z-index: 100;
+    }
+
+    .home-bar {
+      position: absolute;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 4px;
+      border-radius: 2px;
+      background: rgba(0,0,0,0.18);
+      z-index: 100;
+    }
+
+    .status-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 44px;
+      z-index: 90;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 22px 0;
+      font-size: 12px;
+      font-weight: 600;
+      color: #FFFFFF;
+      pointer-events: none;
+    }
+
+    .sb-right {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .sb-right svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .screen {
+      position: absolute;
+      inset: 0;
+      border-radius: 55px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      background: #F5F9F5;
+    }
+
+    .screen-scroll {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .screen-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
+    .top-nav {
+      background: #1B5E20;
+      padding: 14px 16px;
+      padding-top: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .back-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 8px;
+      padding: 4px 8px 4px 4px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .back-pill:hover {
+      background: rgba(255,255,255,0.25);
+    }
+
+    .back-pill svg {
+      width: 16px;
+      height: 16px;
+      stroke: #FFFFFF;
+      stroke-width: 2.5;
+      fill: none;
+    }
+
+    .back-pill-text {
+      font-size: 13px;
+      font-weight: 600;
+      color: #FFFFFF;
+    }
+
+    .nav-center {
+      flex: 1;
+      text-align: center;
+      font-size: 16px;
+      font-weight: 600;
+      color: #FFFFFF;
+    }
+
+    .badge {
+      background: #4CAF50;
+      border-radius: 20px;
+      padding: 3px 10px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #FFFFFF;
+      flex-shrink: 0;
+    }
+
+    .search-filter-section {
+      background: #F5F9F5;
+      padding: 12px 16px;
+    }
+
+    .search-bar {
+      background: #FFFFFF;
+      border: 1px solid #C8E6C9;
+      border-radius: 10px;
+      padding: 10px 14px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: border-color 0.2s;
+    }
+
+    .search-bar:focus-within {
+      border-color: #4CAF50;
+    }
+
+    .search-bar svg {
+      width: 16px;
+      height: 16px;
+      stroke: #9E9E9E;
+      stroke-width: 2;
+      flex-shrink: 0;
+    }
+
+    .search-input {
+      flex: 1;
+      border: none;
+      outline: none;
+      background: transparent;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      color: #1A1A1A;
+    }
+
+    .search-input::placeholder {
+      color: #9E9E9E;
+    }
+
+    .filter-chips {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .filter-chips::-webkit-scrollbar {
+      display: none;
+    }
+
+    .chip {
+      flex-shrink: 0;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s, color 0.2s;
+      border: 1px solid #C8E6C9;
+      background: #FFFFFF;
+      color: #1B5E20;
+    }
+
+    .chip.active {
+      background: #1B5E20;
+      border-color: #1B5E20;
+      color: #FFFFFF;
+    }
+
+    .chip:hover {
+      border-color: #1B5E20;
+    }
+
+    .stats-banner {
+      background: #FFFFFF;
+      border-radius: 12px;
+      padding: 12px 16px;
+      border: 1px solid #C8E6C9;
+      margin: 0 16px;
+      margin-top: 0;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+    }
+
+    .stat {
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 22px;
+      font-weight: 700;
+      color: #1B5E20;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      font-weight: 400;
+      color: #616161;
+      margin-top: 2px;
+    }
+
+    .stat-divider {
+      width: 1px;
+      height: 32px;
+      background: #E0E0E0;
+      align-self: center;
+    }
+
+    .connections-list {
+      padding: 12px 16px 80px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 500;
+      color: #9E9E9E;
+      margin-bottom: 4px;
+      margin-top: 8px;
+    }
+
+    .section-label:first-child {
+      margin-top: 0;
+    }
+
+    .connection-card {
+      background: #FFFFFF;
+      border-radius: 12px;
+      padding: 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-left: 3px solid #1B5E20;
+      cursor: pointer;
+      transition: box-shadow 0.2s, transform 0.15s;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    }
+
+    .connection-card:hover {
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      transform: translateY(-1px);
+    }
+
+    .avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-weight: 700;
+      font-size: 16px;
+      color: #FFFFFF;
+    }
+
+    .card-content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .card-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1A1A1A;
+    }
+
+    .card-role {
+      font-size: 11px;
+      font-weight: 400;
+      color: #616161;
+      margin-top: 2px;
+    }
+
+    .card-pills {
+      display: flex;
+      gap: 6px;
+      margin-top: 4px;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      font-size: 9px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+
+    .pill-ai {
+      background: #E8F5E9;
+      color: #1B5E20;
+    }
+
+    .pill-qr {
+      background: #FFF3E0;
+      color: #E65100;
+    }
+
+    .pill-time {
+      background: #F5F9F5;
+      color: #616161;
+      font-weight: 400;
+    }
+
+    .card-right {
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .card-match {
+      font-size: 12px;
+      font-weight: 700;
+      color: #4CAF50;
+    }
+
+    .card-match-label {
+      font-size: 10px;
+      font-weight: 400;
+      color: #9E9E9E;
+    }
+
+    .card-connected {
+      font-size: 10px;
+      font-weight: 500;
+      color: #4CAF50;
+    }
+
+    .empty-state {
+      display: none;
+      text-align: center;
+      padding: 40px 20px;
+      margin-top: 20px;
+    }
+
+    .empty-state.show {
+      display: block;
+    }
+
+    .empty-icon {
+      font-size: 40px;
+      margin-bottom: 12px;
+    }
+
+    .empty-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1A1A1A;
+    }
+
+    .empty-subtitle {
+      font-size: 12px;
+      font-weight: 400;
+      color: #9E9E9E;
+      margin-top: 6px;
+    }
+
+    .empty-btn {
+      background: #1B5E20;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 20px;
+      margin-top: 16px;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: #FFFFFF;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: background 0.2s;
+    }
+
+    .empty-btn:hover {
+      background: #0d4611;
+    }
+
+    .bottom-nav {
+      background: #FFFFFF;
+      border-top: 1px solid #E0E0E0;
+      padding: 8px 0 20px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-around;
+      flex-shrink: 0;
+    }
+
+    .nav-tab {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      cursor: pointer;
+      flex: 1;
+      text-decoration: none;
+      font-size: 11px;
+      font-weight: 500;
+      color: #616161;
+      transition: color 0.2s;
+    }
+
+    .nav-tab:hover {
+      color: #1B5E20;
+    }
+
+    .nav-tab.active {
+      color: #1B5E20;
+    }
+
+    .nav-icon {
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    /* Modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 1000;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-overlay.open {
+      display: block;
+      opacity: 1;
+    }
+
+    .modal-bottom-sheet {
+      position: fixed;
+      bottom: -500px;
+      left: 0;
+      right: 0;
+      background: #FFFFFF;
+      border-radius: 20px 20px 0 0;
+      padding: 20px;
+      z-index: 1001;
+      transition: bottom 0.3s ease;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+
+    .modal-bottom-sheet.open {
+      bottom: 0;
+    }
+
+    .modal-handle {
+      width: 40px;
+      height: 4px;
+      background: #E0E0E0;
+      border-radius: 2px;
+      margin: 0 auto 16px;
+    }
+
+    .modal-avatar {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 20px;
+      color: #FFFFFF;
+      margin: 0 auto 12px;
+    }
+
+    .modal-name {
+      font-size: 16px;
+      font-weight: 700;
+      color: #1A1A1A;
+      text-align: center;
+    }
+
+    .modal-role {
+      font-size: 12px;
+      font-weight: 400;
+      color: #616161;
+      text-align: center;
+      margin-top: 4px;
+    }
+
+    .modal-divider {
+      height: 1px;
+      background: #E0E0E0;
+      margin: 12px 0 16px;
+    }
+
+    .modal-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .modal-btn {
+      width: 100%;
+      height: 44px;
+      border: none;
+      border-radius: 10px;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-btn-primary {
+      background: #1B5E20;
+      color: #FFFFFF;
+    }
+
+    .modal-btn-primary:hover {
+      background: #0d4611;
+    }
+
+    .modal-btn-secondary {
+      background: #FFFFFF;
+      border: 1.5px solid #1B5E20;
+      color: #1B5E20;
+    }
+
+    .modal-btn-secondary:hover {
+      background: #F5F9F5;
+    }
+
+    .modal-btn-tertiary {
+      background: #F5F9F5;
+      color: #616161;
+    }
+
+    .modal-btn-tertiary:hover {
+      background: #E8F5E9;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: none;
+      border: none;
+      font-size: 20px;
+      color: #616161;
+      cursor: pointer;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #1A1A1A;
+      color: #FFFFFF;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      z-index: 2000;
+      animation: slideUp 0.3s ease-out;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+    }
+
+    .screen-label {
+      margin-top: 16px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #888888;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <a href="/" class="directory-btn" onclick="goDirectory(event)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+    Directory
+  </a>
+
+  <div class="page-title">ReNew Leaders Connect 2026 — Mobile App</div>
+
+  <div class="iphone-frame">
+    <div class="notch"></div>
+    <div class="home-bar"></div>
+
+    <div class="status-bar">
+      <span>9:41</span>
+      <div class="sb-right">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4c-1.48 0-2.85.43-4.01 1.17l1.46 1.46C10.21 5.23 11.08 5 12 5c3.04 0 5.5 2.46 5.5 5.5v.5H19c1.66 0 3 1.34 3 3 0 1.13-.64 2.11-1.56 2.62l1.45 1.45c.9-.86 1.48-2.05 1.48-3.36 0-2.64-2.05-4.78-4.63-4.97z"/></svg>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg>
+      </div>
+    </div>
+
+    <div class="screen">
+      <div class="screen-scroll">
+        <div class="top-nav">
+          <a href="/mobile/m-09-networking-v2.html" class="back-pill" onclick="goBack(event)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
+            <span class="back-pill-text">Networking</span>
+          </a>
+          <div class="nav-center">My Connections</div>
+          <div class="badge">8</div>
+        </div>
+
+        <div class="search-filter-section">
+          <div class="search-bar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path></svg>
+            <input type="text" class="search-input" id="searchInput" placeholder="Search connections..." onkeyup="filterConnections()">
+          </div>
+          <div class="filter-chips">
+            <div class="chip active" onclick="setFilter('all')">All</div>
+            <div class="chip" onclick="setFilter('ai')">🤝 AI Matches</div>
+            <div class="chip" onclick="setFilter('qr')">📷 QR Scanned</div>
+            <div class="chip" onclick="setFilter('today')">Met Today</div>
+          </div>
+        </div>
+
+        <div class="stats-banner">
+          <div class="stat">
+            <div class="stat-number">8</div>
+            <div class="stat-label">Connections</div>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat">
+            <div class="stat-number">3</div>
+            <div class="stat-label">Meetings</div>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat">
+            <div class="stat-number">120</div>
+            <div class="stat-label">pts earned</div>
+          </div>
+        </div>
+
+        <div class="connections-list" id="connectionsList">
+          <!-- Generated by JavaScript -->
+        </div>
+
+        <div class="empty-state" id="emptyState">
+          <div class="empty-icon">🔍</div>
+          <div class="empty-title">No connections found</div>
+          <div class="empty-subtitle">Try a different filter or scan a QR code</div>
+          <a href="/mobile/m-13-qr-scanner.html" class="empty-btn">Scan QR Code →</a>
+        </div>
+      </div>
+
+      <div class="bottom-nav">
+        <a href="/mobile/m-07-home-dashboard.html" class="nav-tab" onclick="navClick(event)">
+          <div class="nav-icon">🏠</div>
+          <div>Home</div>
+        </a>
+        <a href="/mobile/m-22-master-schedule.html" class="nav-tab" onclick="navClick(event)">
+          <div class="nav-icon">📅</div>
+          <div>Agenda</div>
+        </a>
+        <a href="/mobile/m-09-networking-v2.html" class="nav-tab" onclick="navClick(event)">
+          <div class="nav-icon">🤝</div>
+          <div>Network</div>
+        </a>
+        <a href="#" class="nav-tab" onclick="navClick(event)">
+          <div class="nav-icon">📸</div>
+          <div>Feed</div>
+        </a>
+        <a href="#" class="nav-tab" onclick="navClick(event)">
+          <div class="nav-icon">☰</div>
+          <div>More</div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modalOverlay" onclick="closeModal()"></div>
+  <div class="modal-bottom-sheet" id="modalSheet">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-handle"></div>
+    <div class="modal-avatar" id="modalAvatar"></div>
+    <div class="modal-name" id="modalName"></div>
+    <div class="modal-role" id="modalRole"></div>
+    <div class="modal-divider"></div>
+    <div class="modal-buttons" id="modalButtons"></div>
+  </div>
+
+  <div class="screen-label">My Connections</div>
+
+  <script>
+    const connections = [
+      {
+        id: 1,
+        name: 'Priya Sharma',
+        role: 'Senior Manager HR · Mumbai',
+        avatar: 'PS',
+        avatarBg: '#1B5E20',
+        type: 'ai',
+        match: '92%',
+        time: '11:00 AM',
+        date: 'today',
+        searchableText: 'Priya Sharma'
+      },
+      {
+        id: 2,
+        name: 'Rohan Kapoor',
+        role: 'Lead Engineer · Gurugram',
+        avatar: 'RK',
+        avatarBg: '#4CAF50',
+        type: 'ai',
+        match: '87%',
+        time: '2:30 PM',
+        date: 'today',
+        searchableText: 'Rohan Kapoor'
+      },
+      {
+        id: 3,
+        name: 'Amit Verma',
+        role: 'Director Operations · Pune',
+        avatar: 'AV',
+        avatarBg: '#E65100',
+        type: 'qr',
+        time: '10:45 AM',
+        date: 'today',
+        searchableText: 'Amit Verma'
+      },
+      {
+        id: 4,
+        name: 'Sunita Rao',
+        role: 'Product Manager · Bangalore',
+        avatar: 'SR',
+        avatarBg: '#9C27B0',
+        type: 'qr',
+        time: '12:15 PM',
+        date: 'today',
+        searchableText: 'Sunita Rao'
+      },
+      {
+        id: 5,
+        name: 'Vikram Singh',
+        role: 'Finance Controller · Delhi',
+        avatar: 'VK',
+        avatarBg: '#1976D2',
+        type: 'qr',
+        time: '3:30 PM',
+        date: 'yesterday',
+        searchableText: 'Vikram Singh'
+      },
+      {
+        id: 6,
+        name: 'Neha Joshi',
+        role: 'Business Analyst · Hyderabad',
+        avatar: 'NJ',
+        avatarBg: '#1B5E20',
+        type: 'ai',
+        match: '81%',
+        time: '2:00 PM',
+        date: 'yesterday',
+        searchableText: 'Neha Joshi'
+      }
+    ];
+
+    let currentFilter = 'all';
+    let currentSearch = '';
+    let selectedConnection = null;
+
+    function renderConnections() {
+      const list = document.getElementById('connectionsList');
+      list.innerHTML = '';
+
+      let filtered = connections.filter(conn => {
+        const matchesFilter = currentFilter === 'all' || conn.type === (currentFilter === 'ai' ? 'ai' : currentFilter === 'qr' ? 'qr' : null) || (currentFilter === 'today' && conn.date === 'today');
+        const matchesSearch = currentSearch === '' || conn.searchableText.toLowerCase().includes(currentSearch.toLowerCase());
+        return matchesFilter && matchesSearch;
+      });
+
+      if (filtered.length === 0) {
+        document.getElementById('emptyState').classList.add('show');
+        return;
+      }
+
+      document.getElementById('emptyState').classList.remove('show');
+
+      let currentDate = null;
+      filtered.forEach(conn => {
+        const dateLabel = conn.date === 'today' ? 'Today · May 15' : 'Yesterday · May 14';
+        if (dateLabel !== currentDate) {
+          const label = document.createElement('div');
+          label.className = 'section-label';
+          label.textContent = dateLabel;
+          list.appendChild(label);
+          currentDate = dateLabel;
+        }
+
+        const card = document.createElement('div');
+        card.className = 'connection-card';
+
+        const borderColor = conn.type === 'ai' && conn.match === '92%' ? '#1B5E20' :
+                           conn.type === 'ai' && conn.match === '87%' ? '#4CAF50' :
+                           conn.type === 'ai' && conn.match === '81%' ? '#1B5E20' :
+                           conn.type === 'qr' && conn.name === 'Amit Verma' ? '#FF6F00' :
+                           conn.type === 'qr' && conn.name === 'Sunita Rao' ? '#7B1FA2' :
+                           '#1565C0';
+
+        card.style.borderLeftColor = borderColor;
+
+        const avatar = document.createElement('div');
+        avatar.className = 'avatar';
+        avatar.style.background = conn.avatarBg;
+        avatar.textContent = conn.avatar;
+
+        const cardContent = document.createElement('div');
+        cardContent.className = 'card-content';
+
+        const name = document.createElement('div');
+        name.className = 'card-name';
+        name.textContent = conn.name;
+
+        const role = document.createElement('div');
+        role.className = 'card-role';
+        role.textContent = conn.role;
+
+        const pillsContainer = document.createElement('div');
+        pillsContainer.className = 'card-pills';
+
+        const typePill = document.createElement('div');
+        typePill.className = `pill ${conn.type === 'ai' ? 'pill-ai' : 'pill-qr'}`;
+        typePill.textContent = conn.type === 'ai' ? '🤝 AI Match' : '📷 QR Scan';
+
+        const timePill = document.createElement('div');
+        timePill.className = 'pill pill-time';
+        timePill.textContent = conn.type === 'ai' ? `Meeting at ${conn.time}` : `Scanned at ${conn.time}`;
+
+        pillsContainer.appendChild(typePill);
+        pillsContainer.appendChild(timePill);
+
+        cardContent.appendChild(name);
+        cardContent.appendChild(role);
+        cardContent.appendChild(pillsContainer);
+
+        const cardRight = document.createElement('div');
+        cardRight.className = 'card-right';
+
+        if (conn.type === 'ai') {
+          const match = document.createElement('div');
+          match.className = 'card-match';
+          match.textContent = conn.match;
+          const label = document.createElement('div');
+          label.className = 'card-match-label';
+          label.textContent = 'match';
+          cardRight.appendChild(match);
+          cardRight.appendChild(label);
+        } else {
+          const connected = document.createElement('div');
+          connected.className = 'card-connected';
+          connected.textContent = 'Connected';
+          cardRight.appendChild(connected);
+        }
+
+        card.appendChild(avatar);
+        card.appendChild(cardContent);
+        card.appendChild(cardRight);
+
+        card.onclick = () => openModal(conn);
+        list.appendChild(card);
+      });
+    }
+
+    function openModal(conn) {
+      selectedConnection = conn;
+      document.getElementById('modalAvatar').style.background = conn.avatarBg;
+      document.getElementById('modalAvatar').textContent = conn.avatar;
+      document.getElementById('modalName').textContent = conn.name;
+      document.getElementById('modalRole').textContent = conn.role;
+
+      const buttons = document.getElementById('modalButtons');
+      buttons.innerHTML = '';
+
+      const bookBtn = document.createElement('button');
+      bookBtn.className = 'modal-btn modal-btn-primary';
+      bookBtn.textContent = '📅 Book Meeting';
+      bookBtn.onclick = () => {
+        closeModal();
+        showToast('Meeting scheduler coming soon');
+      };
+      buttons.appendChild(bookBtn);
+
+      const msgBtn = document.createElement('button');
+      msgBtn.className = 'modal-btn modal-btn-secondary';
+      msgBtn.textContent = '💬 Send Message';
+      msgBtn.onclick = () => {
+        closeModal();
+        showToast('Messaging coming soon');
+      };
+      buttons.appendChild(msgBtn);
+
+      if (conn.type === 'ai') {
+        const profileBtn = document.createElement('a');
+        profileBtn.className = 'modal-btn modal-btn-tertiary';
+        profileBtn.textContent = '👤 View Profile';
+        const personMap = {
+          'Priya Sharma': 'priya',
+          'Rohan Kapoor': 'rohan',
+          'Neha Joshi': 'neha'
+        };
+        profileBtn.href = `/mobile/m-10-match-profile.html?person=${personMap[conn.name] || 'priya'}`;
+        profileBtn.onclick = (e) => {
+          e.preventDefault();
+          history.pushState({}, '', profileBtn.href);
+          window.location.href = profileBtn.href;
+        };
+        buttons.appendChild(profileBtn);
+      } else {
+        const profileBtn = document.createElement('button');
+        profileBtn.className = 'modal-btn modal-btn-tertiary';
+        profileBtn.textContent = '👤 View Profile';
+        profileBtn.onclick = () => {
+          closeModal();
+          showToast('Profile view not available for QR scans');
+        };
+        buttons.appendChild(profileBtn);
+      }
+
+      document.getElementById('modalOverlay').classList.add('open');
+      document.getElementById('modalSheet').classList.add('open');
+    }
+
+    function closeModal() {
+      document.getElementById('modalOverlay').classList.remove('open');
+      document.getElementById('modalSheet').classList.remove('open');
+    }
+
+    function setFilter(filter) {
+      currentFilter = filter;
+      document.querySelectorAll('.chip').forEach(chip => chip.classList.remove('active'));
+      event.target.classList.add('active');
+      renderConnections();
+    }
+
+    function filterConnections() {
+      currentSearch = document.getElementById('searchInput').value;
+      renderConnections();
+    }
+
+    function showToast(message) {
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.textContent = message;
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 3000);
+    }
+
+    function goDirectory(event) {
+      event.preventDefault();
+      window.location.href = '/';
+    }
+
+    function goBack(event) {
+      event.preventDefault();
+      window.history.back();
+    }
+
+    function navClick(event) {
+      const href = event.currentTarget.getAttribute('href');
+      if (href === '#') {
+        event.preventDefault();
+        showToast('Coming soon');
+      } else {
+        event.preventDefault();
+        history.pushState({}, '', href);
+        window.location.href = href;
+      }
+    }
+
+    window.addEventListener('popstate', () => {
+      renderConnections();
+    });
+
+    renderConnections();
+  </script>
+</body>
+</html>
