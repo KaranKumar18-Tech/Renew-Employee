@@ -3,124 +3,372 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ReNew Leaders Connect 2026 — Mobile App</title>
+<title>ReNew Leaders Connect 2026 — Onboarding Flow</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
-body{background:#F2F2F2;font-family:'Inter',sans-serif;display:flex;flex-direction:column;align-items:center;padding-top:48px;padding-bottom:48px;min-height:100vh;}
+body{background:#F2F2F2;font-family:'Inter',sans-serif;padding:48px 24px;min-height:100vh;}
 .page-title{font-size:18px;font-weight:600;color:#1A1A1A;text-align:center;margin-bottom:32px;}
-.frames-row{display:flex;gap:40px;align-items:flex-start;}
+
+.frames-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:32px;}
 .frame-wrapper{display:flex;flex-direction:column;align-items:center;}
-.iphone-frame{width:320px;height:640px;border-radius:55px;background:#000;position:relative;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,0.18),inset 0 0 0 2px #1a1a1a;}
-.notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:120px;height:28px;background:#000;border-radius:0 0 18px 18px;z-index:50;}
-.notch::before{content:'';position:absolute;top:8px;left:50%;transform:translateX(-50%);width:8px;height:8px;background:#1a1a1a;border-radius:50%;}
-.home-indicator{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:100px;height:4px;background:rgba(255,255,255,0.3);border-radius:2px;z-index:50;}
-.screen{position:absolute;top:0;left:0;right:0;bottom:0;border-radius:55px;overflow:hidden;}
-.status-bar{position:absolute;top:0;left:0;right:0;height:44px;z-index:40;display:flex;align-items:center;justify-content:space-between;padding:12px 24px 0;font-size:12px;font-weight:600;color:#FFFFFF;}
-.status-bar .right-icons{display:flex;align-items:center;gap:5px;}
-.status-bar .right-icons svg{width:16px;height:16px;}
-.frame-label{margin-top:16px;font-size:13px;font-weight:500;color:#888888;text-align:center;}
+.frame-label{margin-top:14px;font-size:13px;font-weight:500;color:#888888;text-align:center;}
 
-@keyframes fadeIn{0%{opacity:0;}100%{opacity:1;}}
-.fade-in{animation:fadeIn 0.8s ease-in forwards;}
+.iphone{width:320px;height:694px;border-radius:55px;background:#000;position:relative;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,0.22),inset 0 0 0 2px #1a1a1a;flex-shrink:0;}
+.notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:120px;height:28px;background:#000;border-radius:0 0 18px 18px;z-index:60;}
+.home-bar{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:100px;height:4px;border-radius:2px;z-index:60;}
+.home-bar.light{background:rgba(255,255,255,0.3);}
+.home-bar.dark{background:rgba(0,0,0,0.18);}
+.screen{position:absolute;inset:0;border-radius:55px;overflow:hidden;display:flex;flex-direction:column;}
 
-.splash-content{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;}
-.splash-content.animate{animation:fadeIn 0.8s ease-in forwards;}
-.splash-bottom{position:absolute;bottom:28px;left:0;right:0;text-align:center;opacity:0;}
-.splash-bottom.animate{animation:fadeIn 0.8s ease-in 0.2s forwards;}
+.sb{position:absolute;top:0;left:0;right:0;height:44px;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:12px 22px 0;font-size:12px;font-weight:600;pointer-events:none;}
+.sb-icons{display:flex;align-items:center;gap:5px;}
+.sb-icons svg{width:16px;height:16px;}
 
-.login-card{background:#F5F9F5;border-radius:16px;padding:20px;border:1px solid #C8E6C9;text-align:center;}
-.sso-btn{width:100%;height:50px;background:#1B5E20;border:none;border-radius:10px;color:#FFFFFF;font-family:'Inter',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:background 0.2s;}
-.sso-btn:hover{background:#2E7D32;}
+/* Splash */
+.splash-screen{background:#1B5E20;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;position:relative;}
+.splash-center{display:flex;flex-direction:column;align-items:center;text-align:center;padding:0 24px;}
+.splash-footer{position:absolute;bottom:28px;left:0;right:0;text-align:center;}
+
+/* Login */
+.login-screen{background:#FFFFFF;display:flex;flex-direction:column;height:100%;}
+.login-top{padding:80px 24px 0;text-align:center;}
+.login-card{background:#F5F9F5;border-radius:16px;padding:20px;border:1px solid #C8E6C9;text-align:center;margin:32px 20px 0;}
+.login-bottom{margin-top:auto;padding:20px 24px 40px;}
+
+/* Buttons */
+.btn-primary{width:100%;height:50px;background:#1B5E20;border:none;border-radius:10px;color:#FFFFFF;font-family:'Inter',sans-serif;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.btn-primary-light{width:100%;height:50px;background:#FFFFFF;border:none;border-radius:10px;color:#1B5E20;font-family:'Inter',sans-serif;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;margin-bottom:12px;}
+.btn-48{width:100%;height:48px;background:#1B5E20;border:none;border-radius:10px;color:#FFFFFF;font-family:'Inter',sans-serif;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+
+/* Setup wizard */
+.setup-screen{background:#FFFFFF;display:flex;flex-direction:column;height:100%;}
+.setup-progress{padding:52px 20px 14px;flex-shrink:0;}
+.progress-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+.progress-track{width:100%;height:4px;background:#E0E0E0;border-radius:4px;overflow:hidden;}
+.progress-fill{height:100%;border-radius:4px;background:#4CAF50;}
+.setup-scroll{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:0 20px;}
+.setup-scroll::-webkit-scrollbar{display:none;}
+.setup-footer{padding:14px 20px 28px;flex-shrink:0;}
+
+.field-label{font-size:11px;font-weight:500;color:#616161;margin-bottom:4px;}
+.field-input{background:#F5F9F5;border:1px solid #C8E6C9;border-radius:8px;padding:10px 14px;font-size:13px;font-weight:500;color:#1A1A1A;width:100%;}
+
+.tags-wrap{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;}
+.tag{border-radius:20px;padding:7px 12px;font-size:12px;cursor:pointer;}
+.tag.selected{background:#1B5E20;color:#FFFFFF;font-weight:600;}
+.tag.unselected{background:#FFFFFF;border:1px solid #C8E6C9;color:#1B5E20;font-weight:500;}
+
+.goal-card{border-radius:10px;padding:11px 14px;border:1px solid #E0E0E0;background:#FFFFFF;display:flex;align-items:flex-start;gap:10px;cursor:pointer;}
+.goal-card.chosen{border:1.5px solid #1B5E20;background:#F5F9F5;}
+.radio{width:16px;height:16px;border-radius:50%;border:2px solid #9E9E9E;flex-shrink:0;margin-top:1px;}
+.radio.on{border-color:#1B5E20;background:#1B5E20;box-shadow:inset 0 0 0 3px #F5F9F5;}
+.textarea-field{background:#F5F9F5;border:1px solid #C8E6C9;border-radius:8px;padding:10px 14px;height:60px;width:100%;font-size:12px;font-family:'Inter',sans-serif;color:#9E9E9E;resize:none;}
+
+/* Complete screen */
+.done-screen{background:#1B5E20;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;position:relative;padding:0 20px;}
+.check-circle{width:72px;height:72px;border-radius:50%;background:rgba(255,255,255,0.15);border:2px solid rgba(255,255,255,0.4);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.done-summary{background:rgba(255,255,255,0.12);border-radius:12px;padding:16px;border:1px solid rgba(255,255,255,0.2);width:100%;}
+.done-footer{position:absolute;bottom:28px;left:20px;right:20px;text-align:center;}
+
+/* Gap helpers */
+.g4{height:4px;} .g6{height:6px;} .g8{height:8px;} .g10{height:10px;} .g12{height:12px;} .g14{height:14px;} .g16{height:16px;} .g20{height:20px;} .g24{height:24px;} .g28{height:28px;} .g32{height:32px;}
 </style>
 </head>
 <body>
 
-<div class="page-title">ReNew Leaders Connect 2026 — Mobile App</div>
+<div class="page-title">ReNew Leaders Connect 2026 — Onboarding Flow</div>
 
-<div class="frames-row">
+<div class="frames-grid">
 
-  <div class="frame-wrapper">
-    <div class="iphone-frame">
-      <div class="notch"></div>
-      <div class="home-indicator"></div>
-      <div class="screen" style="background:#1B5E20;">
-        <div class="status-bar">
-          <span>9:41</span>
-          <div class="right-icons">
-            <svg viewBox="0 0 16 16" fill="white"><rect x="0" y="9" width="3" height="7" rx="0.5"/><rect x="4" y="6" width="3" height="10" rx="0.5"/><rect x="8" y="3" width="3" height="13" rx="0.5"/><rect x="12" y="0" width="3" height="16" rx="0.5" opacity="0.35"/></svg>
-            <svg viewBox="0 0 16 16" fill="white"><path d="M1 12.5C3.5 8.5 12.5 8.5 15 12.5" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/><path d="M3.5 10C5.5 7.5 10.5 7.5 12.5 10" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/><circle cx="8" cy="14" r="1.2" fill="white"/></svg>
-            <svg viewBox="0 0 24 12" fill="white"><rect x="0" y="1" width="20" height="10" rx="2" stroke="white" stroke-width="1" fill="none"/><rect x="21" y="3.5" width="2" height="5" rx="1" opacity="0.4"/><rect x="2" y="3" width="13" height="6" rx="1" fill="white"/></svg>
-          </div>
-        </div>
-        <div class="splash-content" id="splashContent">
+<!-- ══════ FRAME 1: SPLASH ══════ -->
+<div class="frame-wrapper">
+  <div class="iphone">
+    <div class="notch"></div>
+    <div class="home-bar light"></div>
+    <div class="sb" style="color:#fff;">
+      <span>9:41</span>
+      <div class="sb-icons">
+        <svg viewBox="0 0 16 16"><rect x="0" y="9" width="3" height="7" rx="0.5" fill="white"/><rect x="4" y="6" width="3" height="10" rx="0.5" fill="white"/><rect x="8" y="3" width="3" height="13" rx="0.5" fill="white"/><rect x="12" y="0" width="3" height="16" rx="0.5" fill="white" opacity="0.35"/></svg>
+        <svg viewBox="0 0 16 16" fill="none"><path d="M1 12.5C3.5 8.5 12.5 8.5 15 12.5" stroke="white" stroke-width="1.5" stroke-linecap="round"/><path d="M3.5 10C5.5 7.5 10.5 7.5 12.5 10" stroke="white" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="14" r="1.2" fill="white"/></svg>
+        <svg viewBox="0 0 24 12" fill="none"><rect x="0" y="1" width="20" height="10" rx="2" stroke="white" stroke-width="1"/><rect x="21" y="3.5" width="2" height="5" rx="1" fill="white" opacity="0.4"/><rect x="2" y="3" width="13" height="6" rx="1" fill="white"/></svg>
+      </div>
+    </div>
+    <div class="screen">
+      <div class="splash-screen">
+        <div class="splash-center">
           <img src="https://dg4e57nn4fnta.cloudfront.net/logos/ReNew.svg" style="height:52px;filter:brightness(0) invert(1);">
-          <div style="height:16px;"></div>
-          <div style="font-size:20px;font-weight:700;color:#FFFFFF;text-align:center;">Leaders Connect 2026</div>
-          <div style="height:8px;"></div>
-          <div style="font-size:12px;font-weight:400;color:rgba(255,255,255,0.65);text-align:center;">May 15–16, 2026 · The Leela Ambience, Gurugram</div>
+          <div class="g16"></div>
+          <div style="font-size:20px;font-weight:700;color:#FFFFFF;">Leaders Connect 2026</div>
+          <div class="g8"></div>
+          <div style="font-size:12px;font-weight:400;color:rgba(255,255,255,0.65);">May 15–16, 2026 · The Leela Ambience, Gurugram</div>
         </div>
-        <div class="splash-bottom" id="splashBottom">
+        <div class="splash-footer">
           <div style="font-size:10px;font-weight:400;color:rgba(255,255,255,0.35);">Powered by EMB OS</div>
         </div>
       </div>
     </div>
-    <div class="frame-label">Splash Screen</div>
   </div>
+  <div class="frame-label">1 · Splash</div>
+</div>
 
-  <div class="frame-wrapper">
-    <div class="iphone-frame">
-      <div class="notch"></div>
-      <div class="home-indicator" style="background:rgba(0,0,0,0.2);"></div>
-      <div class="screen" style="background:#FFFFFF;display:flex;flex-direction:column;">
-        <div class="status-bar" style="color:#1A1A1A;">
-          <span style="color:#1A1A1A;">9:41</span>
-          <div class="right-icons">
-            <svg viewBox="0 0 16 16" fill="#1A1A1A"><rect x="0" y="9" width="3" height="7" rx="0.5"/><rect x="4" y="6" width="3" height="10" rx="0.5"/><rect x="8" y="3" width="3" height="13" rx="0.5"/><rect x="12" y="0" width="3" height="16" rx="0.5" opacity="0.35"/></svg>
-            <svg viewBox="0 0 16 16" fill="#1A1A1A"><path d="M1 12.5C3.5 8.5 12.5 8.5 15 12.5" stroke="#1A1A1A" stroke-width="1.5" fill="none" stroke-linecap="round"/><path d="M3.5 10C5.5 7.5 10.5 7.5 12.5 10" stroke="#1A1A1A" stroke-width="1.5" fill="none" stroke-linecap="round"/><circle cx="8" cy="14" r="1.2" fill="#1A1A1A"/></svg>
-            <svg viewBox="0 0 24 12" fill="#1A1A1A"><rect x="0" y="1" width="20" height="10" rx="2" stroke="#1A1A1A" stroke-width="1" fill="none"/><rect x="21" y="3.5" width="2" height="5" rx="1" opacity="0.4"/><rect x="2" y="3" width="13" height="6" rx="1" fill="#1A1A1A"/></svg>
-          </div>
-        </div>
-        <div style="padding-top:32px;padding-left:24px;padding-right:24px;text-align:center;">
+<!-- ══════ FRAME 2: SSO LOGIN ══════ -->
+<div class="frame-wrapper">
+  <div class="iphone">
+    <div class="notch"></div>
+    <div class="home-bar dark"></div>
+    <div class="sb" style="color:#1A1A1A;">
+      <span>9:41</span>
+      <div class="sb-icons">
+        <svg viewBox="0 0 16 16"><rect x="0" y="9" width="3" height="7" rx="0.5" fill="#1A1A1A"/><rect x="4" y="6" width="3" height="10" rx="0.5" fill="#1A1A1A"/><rect x="8" y="3" width="3" height="13" rx="0.5" fill="#1A1A1A"/><rect x="12" y="0" width="3" height="16" rx="0.5" fill="#1A1A1A" opacity="0.35"/></svg>
+        <svg viewBox="0 0 16 16" fill="none"><path d="M1 12.5C3.5 8.5 12.5 8.5 15 12.5" stroke="#1A1A1A" stroke-width="1.5" stroke-linecap="round"/><path d="M3.5 10C5.5 7.5 10.5 7.5 12.5 10" stroke="#1A1A1A" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="14" r="1.2" fill="#1A1A1A"/></svg>
+        <svg viewBox="0 0 24 12" fill="none"><rect x="0" y="1" width="20" height="10" rx="2" stroke="#1A1A1A" stroke-width="1"/><rect x="21" y="3.5" width="2" height="5" rx="1" fill="#1A1A1A" opacity="0.4"/><rect x="2" y="3" width="13" height="6" rx="1" fill="#1A1A1A"/></svg>
+      </div>
+    </div>
+    <div class="screen">
+      <div class="login-screen">
+        <div class="login-top">
           <img src="https://dg4e57nn4fnta.cloudfront.net/logos/ReNew.svg" style="height:36px;">
-          <div style="height:14px;"></div>
+          <div class="g12"></div>
           <div style="font-size:20px;font-weight:700;color:#1B5E20;">Leaders Connect 2026</div>
-          <div style="height:6px;"></div>
+          <div class="g6"></div>
           <div style="font-size:13px;font-weight:400;color:#9E9E9E;">May 15–16, 2026 · Gurugram</div>
         </div>
-        <div style="margin-top:24px;padding-left:20px;padding-right:20px;">
-          <div class="login-card">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" style="display:block;margin:0 auto;">
-              <path d="M12 2C9.24 2 7 4.24 7 7v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7c0-2.76-2.24-5-5-5zm0 2c1.66 0 3 1.34 3 3v3H9V7c0-1.66 1.34-3 3-3zm0 10c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2z" fill="#4CAF50"/>
-            </svg>
-            <div style="height:12px;"></div>
-            <div style="font-size:15px;font-weight:600;color:#1A1A1A;">Secure Employee Login</div>
-            <div style="height:6px;"></div>
-            <div style="font-size:12px;font-weight:400;color:#616161;line-height:1.5;">Sign in using your ReNew corporate account. No separate password needed.</div>
-          </div>
+        <div class="login-card">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" style="display:block;margin:0 auto;">
+            <path d="M12 2C9.24 2 7 4.24 7 7v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7c0-2.76-2.24-5-5-5zm0 2c1.66 0 3 1.34 3 3v3H9V7c0-1.66 1.34-3 3-3zm0 10c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2z" fill="#4CAF50"/>
+          </svg>
+          <div class="g10"></div>
+          <div style="font-size:15px;font-weight:600;color:#1A1A1A;">Secure Employee Login</div>
+          <div class="g6"></div>
+          <div style="font-size:12px;font-weight:400;color:#616161;line-height:1.5;">Sign in using your ReNew corporate account. No separate password needed.</div>
         </div>
-        <div style="margin-top:auto;margin-bottom:48px;padding-left:24px;padding-right:24px;">
-          <button class="sso-btn">Sign in with ReNew Account</button>
-          <div style="height:10px;"></div>
+        <div class="login-bottom">
+          <button class="btn-primary">Sign in with ReNew Account</button>
+          <div class="g10"></div>
           <div style="font-size:11px;font-weight:400;color:#9E9E9E;text-align:center;">🔒 Secured by ReNew IT · SSO Enabled</div>
         </div>
       </div>
     </div>
-    <div class="frame-label">Login Screen</div>
   </div>
-
+  <div class="frame-label">2 · Login</div>
 </div>
 
-<script>
-  window.addEventListener('DOMContentLoaded', function() {
-    setTimeout(function() {
-      document.getElementById('splashContent').classList.add('animate');
-      document.getElementById('splashBottom').classList.add('animate');
-    }, 100);
-  });
-</script>
+<!-- ══════ FRAME 3: STEP 1 — YOUR PROFILE ══════ -->
+<div class="frame-wrapper">
+  <div class="iphone">
+    <div class="notch"></div>
+    <div class="home-bar dark"></div>
+    <div class="sb" style="color:#1A1A1A;">
+      <span>9:41</span>
+      <div class="sb-icons">
+        <svg viewBox="0 0 16 16"><rect x="0" y="9" width="3" height="7" rx="0.5" fill="#1A1A1A"/><rect x="4" y="6" width="3" height="10" rx="0.5" fill="#1A1A1A"/><rect x="8" y="3" width="3" height="13" rx="0.5" fill="#1A1A1A"/><rect x="12" y="0" width="3" height="16" rx="0.5" fill="#1A1A1A" opacity="0.35"/></svg>
+        <svg viewBox="0 0 16 16" fill="none"><path d="M1 12.5C3.5 8.5 12.5 8.5 15 12.5" stroke="#1A1A1A" stroke-width="1.5" stroke-linecap="round"/><path d="M3.5 10C5.5 7.5 10.5 7.5 12.5 10" stroke="#1A1A1A" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="14" r="1.2" fill="#1A1A1A"/></svg>
+        <svg viewBox="0 0 24 12" fill="none"><rect x="0" y="1" width="20" height="10" rx="2" stroke="#1A1A1A" stroke-width="1"/><rect x="21" y="3.5" width="2" height="5" rx="1" fill="#1A1A1A" opacity="0.4"/><rect x="2" y="3" width="13" height="6" rx="1" fill="#1A1A1A"/></svg>
+      </div>
+    </div>
+    <div class="screen">
+      <div class="setup-screen">
+        <div class="setup-progress">
+          <div class="progress-row">
+            <span style="font-size:14px;font-weight:600;color:#1A1A1A;">Complete your profile</span>
+            <span style="font-size:12px;font-weight:400;color:#9E9E9E;">Step 1 of 3</span>
+          </div>
+          <div class="progress-track"><div class="progress-fill" style="width:33%"></div></div>
+        </div>
+        <div class="setup-scroll">
+          <div style="font-size:18px;font-weight:700;color:#1A1A1A;">Your Profile</div>
+          <div class="g4"></div>
+          <div style="font-size:12px;font-weight:400;color:#616161;">Review your pre-filled details and confirm.</div>
+          <div style="display:flex;flex-direction:column;align-items:center;margin:16px 0 4px;">
+            <div style="width:64px;height:64px;border-radius:50%;background:#1B5E20;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;color:#FFFFFF;">AM</div>
+            <div class="g6"></div>
+            <div style="font-size:11px;font-weight:400;color:#4CAF50;">Tap to change photo</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px;margin-top:14px;">
+            <div><div class="field-label">Full Name</div><div class="field-input">Arjun Mehta</div></div>
+            <div><div class="field-label">Role</div><div class="field-input">VP Strategy</div></div>
+            <div><div class="field-label">Department</div><div class="field-input">Strategy &amp; Planning</div></div>
+            <div><div class="field-label">Location</div><div class="field-input">Delhi</div></div>
+            <div><div class="field-label">Employee ID</div><div class="field-input">RNW-2847</div></div>
+          </div>
+          <div class="g10"></div>
+          <div style="font-size:10px;font-weight:400;color:#9E9E9E;line-height:1.5;">ℹ️ Details synced from ReNew HRMS. Contact HR to update.</div>
+          <div class="g16"></div>
+        </div>
+        <div class="setup-footer"><button class="btn-48">Looks Good, Continue →</button></div>
+      </div>
+    </div>
+  </div>
+  <div class="frame-label">3 · Profile Setup (1/3)</div>
+</div>
 
+<!-- ══════ FRAME 4: STEP 2 — INTERESTS ══════ -->
+<div class="frame-wrapper">
+  <div class="iphone">
+    <div class="notch"></div>
+    <div class="home-bar dark"></div>
+    <div class="sb" style="color:#1A1A1A;">
+      <span>9:41</span>
+      <div class="sb-icons">
+        <svg viewBox="0 0 16 16"><rect x="0" y="9" width="3" height="7" rx="0.5" fill="#1A1A1A"/><rect x="4" y="6" width="3" height="10" rx="0.5" fill="#1A1A1A"/><rect x="8" y="3" width="3" height="13" rx="0.5" fill="#1A1A1A"/><rect x="12" y="0" width="3" height="16" rx="0.5" fill="#1A1A1A" opacity="0.35"/></svg>
+        <svg viewBox="0 0 16 16" fill="none"><path d="M1 12.5C3.5 8.5 12.5 8.5 15 12.5" stroke="#1A1A1A" stroke-width="1.5" stroke-linecap="round"/><path d="M3.5 10C5.5 7.5 10.5 7.5 12.5 10" stroke="#1A1A1A" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="14" r="1.2" fill="#1A1A1A"/></svg>
+        <svg viewBox="0 0 24 12" fill="none"><rect x="0" y="1" width="20" height="10" rx="2" stroke="#1A1A1A" stroke-width="1"/><rect x="21" y="3.5" width="2" height="5" rx="1" fill="#1A1A1A" opacity="0.4"/><rect x="2" y="3" width="13" height="6" rx="1" fill="#1A1A1A"/></svg>
+      </div>
+    </div>
+    <div class="screen">
+      <div class="setup-screen">
+        <div class="setup-progress">
+          <div class="progress-row">
+            <span style="font-size:14px;font-weight:600;color:#1A1A1A;">Choose your interests</span>
+            <span style="font-size:12px;font-weight:400;color:#9E9E9E;">Step 2 of 3</span>
+          </div>
+          <div class="progress-track"><div class="progress-fill" style="width:66%"></div></div>
+        </div>
+        <div class="setup-scroll">
+          <div style="font-size:16px;font-weight:700;color:#1A1A1A;">What are you interested in?</div>
+          <div class="g6"></div>
+          <div style="font-size:12px;font-weight:400;color:#616161;line-height:1.5;">Select up to 3 topics. This helps us match you with the right people.</div>
+          <div class="tags-wrap">
+            <span class="tag selected">✓ Energy Transition</span>
+            <span class="tag selected">✓ AI &amp; Technology</span>
+            <span class="tag unselected">People Strategy</span>
+            <span class="tag unselected">Finance &amp; Risk</span>
+            <span class="tag unselected">Operations</span>
+            <span class="tag unselected">CSR &amp; Sustainability</span>
+            <span class="tag selected">✓ Innovation</span>
+            <span class="tag unselected">Policy &amp; Regulation</span>
+            <span class="tag unselected">Leadership</span>
+            <span class="tag unselected">Project Management</span>
+            <span class="tag unselected">Green Hydrogen</span>
+            <span class="tag unselected">Storage Solutions</span>
+          </div>
+          <div class="g10"></div>
+          <div style="font-size:12px;font-weight:500;color:#4CAF50;">3/3 selected</div>
+          <div class="g16"></div>
+        </div>
+        <div class="setup-footer"><button class="btn-48">Continue →</button></div>
+      </div>
+    </div>
+  </div>
+  <div class="frame-label">4 · Interests (2/3)</div>
+</div>
+
+<!-- ══════ FRAME 5: STEP 3 — NETWORKING GOAL ══════ -->
+<div class="frame-wrapper">
+  <div class="iphone">
+    <div class="notch"></div>
+    <div class="home-bar dark"></div>
+    <div class="sb" style="color:#1A1A1A;">
+      <span>9:41</span>
+      <div class="sb-icons">
+        <svg viewBox="0 0 16 16"><rect x="0" y="9" width="3" height="7" rx="0.5" fill="#1A1A1A"/><rect x="4" y="6" width="3" height="10" rx="0.5" fill="#1A1A1A"/><rect x="8" y="3" width="3" height="13" rx="0.5" fill="#1A1A1A"/><rect x="12" y="0" width="3" height="16" rx="0.5" fill="#1A1A1A" opacity="0.35"/></svg>
+        <svg viewBox="0 0 16 16" fill="none"><path d="M1 12.5C3.5 8.5 12.5 8.5 15 12.5" stroke="#1A1A1A" stroke-width="1.5" stroke-linecap="round"/><path d="M3.5 10C5.5 7.5 10.5 7.5 12.5 10" stroke="#1A1A1A" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="14" r="1.2" fill="#1A1A1A"/></svg>
+        <svg viewBox="0 0 24 12" fill="none"><rect x="0" y="1" width="20" height="10" rx="2" stroke="#1A1A1A" stroke-width="1"/><rect x="21" y="3.5" width="2" height="5" rx="1" fill="#1A1A1A" opacity="0.4"/><rect x="2" y="3" width="13" height="6" rx="1" fill="#1A1A1A"/></svg>
+      </div>
+    </div>
+    <div class="screen">
+      <div class="setup-screen">
+        <div class="setup-progress">
+          <div class="progress-row">
+            <span style="font-size:14px;font-weight:600;color:#1A1A1A;">Set your networking goal</span>
+            <span style="font-size:12px;font-weight:400;color:#9E9E9E;">Step 3 of 3</span>
+          </div>
+          <div class="progress-track"><div class="progress-fill" style="width:100%"></div></div>
+        </div>
+        <div class="setup-scroll">
+          <div style="font-size:16px;font-weight:700;color:#1A1A1A;">What's your goal for this event?</div>
+          <div class="g6"></div>
+          <div style="font-size:12px;font-weight:400;color:#616161;line-height:1.5;">This helps our AI suggest the most relevant connections for you.</div>
+          <div style="display:flex;flex-direction:column;gap:8px;margin-top:14px;">
+            <div class="goal-card chosen">
+              <div class="radio on"></div>
+              <div>
+                <div style="font-size:13px;font-weight:600;color:#1A1A1A;">Meet peers from other departments</div>
+                <div style="font-size:11px;font-weight:400;color:#616161;margin-top:2px;">Connect with people outside my immediate team</div>
+              </div>
+            </div>
+            <div class="goal-card">
+              <div class="radio"></div>
+              <div>
+                <div style="font-size:13px;font-weight:600;color:#1A1A1A;">Learn from leadership</div>
+                <div style="font-size:11px;font-weight:400;color:#616161;margin-top:2px;">Have meaningful conversations with senior leaders</div>
+              </div>
+            </div>
+            <div class="goal-card">
+              <div class="radio"></div>
+              <div>
+                <div style="font-size:13px;font-weight:600;color:#1A1A1A;">Find collaboration opportunities</div>
+                <div style="font-size:11px;font-weight:400;color:#616161;margin-top:2px;">Identify potential cross-team projects</div>
+              </div>
+            </div>
+            <div class="goal-card">
+              <div class="radio"></div>
+              <div>
+                <div style="font-size:13px;font-weight:600;color:#1A1A1A;">Expand my knowledge</div>
+                <div style="font-size:11px;font-weight:400;color:#616161;margin-top:2px;">Attend sessions relevant to my growth areas</div>
+              </div>
+            </div>
+          </div>
+          <div class="g12"></div>
+          <div class="field-label">Or describe your own goal (optional)</div>
+          <div class="g4"></div>
+          <textarea class="textarea-field" placeholder="e.g. Connect with the Green Hydrogen team"></textarea>
+          <div class="g16"></div>
+        </div>
+        <div class="setup-footer"><button class="btn-48">Complete Setup 🎉</button></div>
+      </div>
+    </div>
+  </div>
+  <div class="frame-label">5 · Networking Goal (3/3)</div>
+</div>
+
+<!-- ══════ FRAME 6: SETUP COMPLETE ══════ -->
+<div class="frame-wrapper">
+  <div class="iphone">
+    <div class="notch"></div>
+    <div class="home-bar light"></div>
+    <div class="sb" style="color:#fff;">
+      <span>9:41</span>
+      <div class="sb-icons">
+        <svg viewBox="0 0 16 16"><rect x="0" y="9" width="3" height="7" rx="0.5" fill="white"/><rect x="4" y="6" width="3" height="10" rx="0.5" fill="white"/><rect x="8" y="3" width="3" height="13" rx="0.5" fill="white"/><rect x="12" y="0" width="3" height="16" rx="0.5" fill="white" opacity="0.35"/></svg>
+        <svg viewBox="0 0 16 16" fill="none"><path d="M1 12.5C3.5 8.5 12.5 8.5 15 12.5" stroke="white" stroke-width="1.5" stroke-linecap="round"/><path d="M3.5 10C5.5 7.5 10.5 7.5 12.5 10" stroke="white" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="14" r="1.2" fill="white"/></svg>
+        <svg viewBox="0 0 24 12" fill="none"><rect x="0" y="1" width="20" height="10" rx="2" stroke="white" stroke-width="1"/><rect x="21" y="3.5" width="2" height="5" rx="1" fill="white" opacity="0.4"/><rect x="2" y="3" width="13" height="6" rx="1" fill="white"/></svg>
+      </div>
+    </div>
+    <div class="screen">
+      <div class="done-screen">
+        <div class="check-circle">
+          <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+            <path d="M9 18.5L15 24.5L27 12" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="g20"></div>
+        <div style="font-size:20px;font-weight:700;color:#FFFFFF;text-align:center;">You're all set, Arjun! 🎉</div>
+        <div class="g8"></div>
+        <div style="font-size:13px;font-weight:400;color:rgba(255,255,255,0.75);text-align:center;line-height:1.6;padding:0 4px;">Your profile is ready. Our AI is finding your best matches for Leaders Connect 2026.</div>
+        <div class="g28"></div>
+        <div class="done-summary">
+          <div style="font-size:13px;font-weight:600;color:#FFFFFF;">Arjun Mehta · VP Strategy</div>
+          <div class="g8"></div>
+          <div style="font-size:10px;font-weight:500;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.5px;">Interests</div>
+          <div style="font-size:11px;font-weight:400;color:rgba(255,255,255,0.7);margin-top:3px;line-height:1.5;">Energy Transition · AI &amp; Technology · Innovation</div>
+          <div class="g8"></div>
+          <div style="font-size:10px;font-weight:500;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.5px;">Goal</div>
+          <div style="font-size:11px;font-weight:400;color:rgba(255,255,255,0.7);margin-top:3px;">Meet peers from other departments</div>
+        </div>
+        <div class="done-footer">
+          <button class="btn-primary-light">Enter Leaders Connect →</button>
+          <div style="font-size:12px;font-weight:500;color:rgba(255,255,255,0.8);">3 AI matches found for you already!</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="frame-label">6 · Ready!</div>
+</div>
+
+</div><!-- /frames-grid -->
 </body>
 </html>
