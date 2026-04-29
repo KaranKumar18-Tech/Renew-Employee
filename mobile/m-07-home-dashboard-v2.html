@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ReNew Leaders Connect 2026 — Mobile App</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:#F2F2F2;font-family:'Inter',sans-serif;display:flex;flex-direction:column;align-items:center;padding-top:48px;padding-bottom:48px;min-height:100vh;}
+.page-title{font-size:18px;font-weight:600;color:#1A1A1A;text-align:center;margin-bottom:32px;}
+.frame-wrapper{display:flex;flex-direction:column;align-items:center;}
+.iphone-frame{width:320px;height:694px;border-radius:55px;background:#000;position:relative;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,0.22),inset 0 0 0 2px #1a1a1a;}
+.notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:120px;height:28px;background:#000;border-radius:0 0 18px 18px;z-index:50;}
+.home-indicator{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:100px;height:4px;background:rgba(0,0,0,0.2);border-radius:2px;z-index:50;}
+.screen{position:absolute;top:0;left:0;right:0;bottom:0;border-radius:55px;overflow:hidden;display:flex;flex-direction:column;background:#F5F9F5;}
+.status-bar{position:absolute;top:0;left:0;right:0;height:44px;z-index:40;display:flex;align-items:center;justify-content:space-between;padding:12px 24px 0;font-size:12px;font-weight:600;color:#FFFFFF;pointer-events:none;}
+.status-bar .right-icons{display:flex;align-items:center;gap:5px;}
+.status-bar .right-icons svg{width:16px;height:16px;}
+.frame-label{margin-top:16px;font-size:13px;font-weight:500;color:#888888;text-align:center;}
+
+/* Scrollable inner content */
+.scroll-body{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+.scroll-body::-webkit-scrollbar{display:none;}
+
+/* Top dark green header zone */
+.header-zone{background:#1B5E20;padding-top:44px;/* account for status bar */}
+
+/* Nav bar */
+.top-nav{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;}
+.nav-right{display:flex;align-items:center;gap:10px;}
+.bell-icon{width:22px;height:22px;fill:none;stroke:rgba(255,255,255,0.9);stroke-width:1.8;cursor:pointer;}
+.avatar{width:30px;height:30px;border-radius:50%;background:#4CAF50;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:#FFFFFF;flex-shrink:0;}
+
+/* Greeting */
+.greeting{padding:2px 16px 18px;}
+.greeting-sub{font-size:13px;font-weight:400;color:rgba(255,255,255,0.75);line-height:1.4;}
+.greeting-name{font-size:20px;font-weight:700;color:#FFFFFF;line-height:1.3;}
+.greeting-role{font-size:12px;font-weight:400;color:rgba(255,255,255,0.65);margin-top:1px;}
+
+/* Event banner */
+.event-banner{padding:0 16px 28px;}
+.event-card{background:rgba(255,255,255,0.12);border-radius:12px;padding:14px;border:1px solid rgba(255,255,255,0.2);}
+.event-title{font-size:13px;font-weight:600;color:#FFFFFF;}
+.event-meta{font-size:11px;font-weight:400;color:rgba(255,255,255,0.7);margin-top:3px;}
+.live-badge{display:inline-block;background:#4CAF50;border-radius:20px;padding:3px 10px;font-size:10px;font-weight:600;color:#FFFFFF;margin-top:8px;}
+
+/* Main content */
+.main-content{background:#F5F9F5;border-radius:20px 20px 0 0;margin-top:-12px;padding:20px 16px;display:flex;flex-direction:column;gap:16px;flex:1;}
+
+/* Section header row */
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.section-label{font-size:14px;font-weight:600;color:#1A1A1A;}
+.section-link{font-size:12px;font-weight:500;color:#4CAF50;cursor:pointer;}
+
+/* Session cards */
+.session-card{background:#FFFFFF;border-radius:10px;padding:12px;border-left:3px solid #1B5E20;display:flex;align-items:flex-start;justify-content:space-between;gap:8px;box-shadow:0 1px 4px rgba(0,0,0,0.05);margin-bottom:8px;}
+.session-card:last-child{margin-bottom:0;}
+.session-card.tech{border-left-color:#4CAF50;}
+.session-left{flex:1;min-width:0;}
+.session-time{font-size:11px;font-weight:500;color:#4CAF50;margin-bottom:3px;}
+.session-title{font-size:13px;font-weight:600;color:#1A1A1A;line-height:1.35;margin-bottom:4px;}
+.session-meta{font-size:11px;font-weight:400;color:#616161;}
+.track-pill{background:#E8F5E9;color:#1B5E20;font-size:10px;font-weight:600;border-radius:20px;padding:3px 8px;white-space:nowrap;flex-shrink:0;align-self:flex-start;margin-top:2px;}
+
+/* Leaderboard */
+.lb-card{background:#FFFFFF;border-radius:10px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,0.05);}
+.lb-row{display:flex;align-items:center;padding:10px 12px;gap:8px;border-bottom:1px solid #F5F5F5;}
+.lb-row:last-child{border-bottom:none;}
+.lb-medal{font-size:16px;flex-shrink:0;width:22px;}
+.lb-info{flex:1;min-width:0;}
+.lb-name{font-size:13px;font-weight:500;color:#1A1A1A;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.lb-role{font-size:11px;font-weight:400;color:#616161;}
+.lb-right{display:flex;align-items:center;gap:6px;flex-shrink:0;}
+.lb-pts{font-size:12px;font-weight:600;color:#1B5E20;}
+.you-badge{background:#E8F5E9;color:#1B5E20;font-size:9px;font-weight:600;border-radius:10px;padding:2px 6px;}
+
+/* Quick actions grid */
+.quick-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.quick-tile{background:#FFFFFF;border-radius:12px;padding:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,0.05);transition:transform 0.15s;}
+.quick-tile:hover{transform:translateY(-1px);box-shadow:0 3px 10px rgba(0,0,0,0.09);}
+.quick-icon{font-size:24px;line-height:1;}
+.quick-label{font-size:12px;font-weight:500;color:#1A1A1A;}
+
+/* Bottom nav */
+.bottom-nav{background:#FFFFFF;border-top:1px solid #E0E0E0;padding:8px 0 20px;display:flex;align-items:flex-start;justify-content:space-around;flex-shrink:0;}
+.nav-tab{display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;flex:1;text-decoration:none;}
+.nav-icon{font-size:18px;line-height:1;}
+.nav-label{font-size:10px;font-weight:400;color:#9E9E9E;}
+.nav-tab.active .nav-label{font-weight:600;color:#1B5E20;}
+
+/* Linked cards */
+.session-card-link{display:block;text-decoration:none;margin-bottom:8px;border-radius:10px;}
+.session-card-link:last-child{margin-bottom:0;}
+.session-card-link .session-card{margin-bottom:0;transition:background 0.2s;}
+.session-card-link:hover .session-card{background:#F9FBF9;}
+.lb-row-link{display:flex;align-items:center;padding:10px 12px;gap:8px;border-bottom:1px solid #F5F5F5;text-decoration:none;transition:background 0.2s;}
+.lb-row-link:last-child{border-bottom:none;}
+.lb-row-link:hover{background:#F9FBF9;}
+.quick-tile-link{display:block;text-decoration:none;}
+.quick-tile-link .quick-tile{transition:transform 0.15s,box-shadow 0.15s;}
+.quick-tile-link:hover .quick-tile{transform:translateY(-1px);box-shadow:0 3px 10px rgba(0,0,0,0.09);}
+
+/* Toast */
+.toast{
+  position:absolute;bottom:80px;left:50%;transform:translateX(-50%);
+  background:#1A1A1A;color:#FFFFFF;font-size:12px;font-weight:500;
+  font-family:'Inter',sans-serif;border-radius:8px;padding:8px 16px;
+  white-space:nowrap;z-index:200;pointer-events:none;
+  opacity:0;transition:opacity 0.2s;
+}
+.toast.show{opacity:1;}
+</style>
+</head>
+<body>
+
+<a href="/" style="position:fixed;top:24px;left:24px;z-index:999;background:#FFFFFF;border:1px solid #C8E6C9;border-radius:8px;padding:8px 14px;display:inline-flex;align-items:center;gap:6px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.08);text-decoration:none;transition:all 0.2s;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:#1B5E20;" onmouseover="this.style.background='#F5F9F5';this.style.borderColor='#1B5E20';" onmouseout="this.style.background='#FFFFFF';this.style.borderColor='#C8E6C9';">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1B5E20" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  Directory
+</a>
+
+<div class="page-title">ReNew Leaders Connect 2026 — Mobile App</div>
+
+<div class="frame-wrapper">
+  <div class="iphone-frame">
+    <div class="notch"></div>
+    <div class="home-indicator"></div>
+
+    <!-- Status bar -->
+    <div class="status-bar">
+      <span>9:41</span>
+      <div class="right-icons">
+        <svg viewBox="0 0 16 16" fill="#FFFFFF"><rect x="0" y="9" width="3" height="7" rx="0.5"/><rect x="4" y="6" width="3" height="10" rx="0.5"/><rect x="8" y="3" width="3" height="13" rx="0.5"/><rect x="12" y="0" width="3" height="16" rx="0.5" opacity="0.35"/></svg>
+        <svg viewBox="0 0 16 16" fill="none"><path d="M1 12.5C3.5 8.5 12.5 8.5 15 12.5" stroke="white" stroke-width="1.5" stroke-linecap="round"/><path d="M3.5 10C5.5 7.5 10.5 7.5 12.5 10" stroke="white" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="14" r="1.2" fill="white"/></svg>
+        <svg viewBox="0 0 24 12" fill="none"><rect x="0" y="1" width="20" height="10" rx="2" stroke="white" stroke-width="1"/><rect x="21" y="3.5" width="2" height="5" rx="1" fill="white" opacity="0.4"/><rect x="2" y="3" width="13" height="6" rx="1" fill="white"/></svg>
+      </div>
+    </div>
+
+    <div class="screen">
+      <div class="scroll-body">
+
+        <!-- Header zone: nav + greeting + banner all dark green -->
+        <div class="header-zone">
+
+          <!-- Top nav bar -->
+          <div class="top-nav">
+            <img src="https://dg4e57nn4fnta.cloudfront.net/logos/ReNew.svg" style="height:22px;filter:brightness(0) invert(1);">
+            <div class="nav-right">
+              <svg class="bell-icon" viewBox="0 0 24 24">
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+              </svg>
+              <div class="avatar">AM</div>
+            </div>
+          </div>
+
+          <!-- Greeting -->
+          <div class="greeting">
+            <div class="greeting-sub">Good Morning,</div>
+            <div class="greeting-name">Arjun Mehta 👋</div>
+            <div class="greeting-role">VP Strategy · Delhi</div>
+          </div>
+
+          <!-- Event banner card -->
+          <div class="event-banner">
+            <div class="event-card">
+              <div class="event-title">🗓 Leaders Connect 2026</div>
+              <div class="event-meta">Day 1 of 2 · The Leela Ambience, Gurugram</div>
+              <a href="/mobile/m-22-master-schedule.html" style="text-decoration:none;display:inline-block;">
+                <div class="live-badge">● LIVE NOW</div>
+              </a>
+            </div>
+          </div>
+
+        </div><!-- /header-zone -->
+
+        <!-- Main content -->
+        <div class="main-content">
+
+          <!-- Section 1: Today's Schedule -->
+          <div>
+            <div class="section-header">
+              <div class="section-label">Today's Schedule</div>
+              <a href="/mobile/m-22-master-schedule.html" class="section-link" style="text-decoration:none;">View All →</a>
+            </div>
+
+            <a href="/mobile/m-22-master-schedule.html" class="session-card-link">
+              <div class="session-card">
+                <div class="session-left">
+                  <div class="session-time">09:00 – 10:00 AM</div>
+                  <div class="session-title">ReNew 2030: Our Path to 50GW</div>
+                  <div class="session-meta">🎤 Keynote &nbsp; 📍 Main Auditorium</div>
+                </div>
+                <div class="track-pill">Strategy</div>
+              </div>
+            </a>
+
+            <a href="/mobile/m-22-master-schedule.html" class="session-card-link">
+              <div class="session-card tech">
+                <div class="session-left">
+                  <div class="session-time">10:30 – 11:30 AM</div>
+                  <div class="session-title">AI in Renewable Operations</div>
+                  <div class="session-meta">🎤 Workshop &nbsp; 📍 Hall B</div>
+                </div>
+                <div class="track-pill">Technology</div>
+              </div>
+            </a>
+          </div>
+
+          <!-- Section 2: Leaderboard -->
+          <div>
+            <div class="section-header">
+              <div class="section-label">🏆 Leaderboard</div>
+              <a href="/mobile/m-20-leaderboard.html" class="section-link" style="text-decoration:none;">Full Board →</a>
+            </div>
+            <div class="lb-card">
+              <a href="/mobile/m-20-leaderboard.html" class="lb-row-link">
+                <div class="lb-medal">🥇</div>
+                <div class="lb-info">
+                  <div class="lb-name">Arjun Mehta</div>
+                  <div class="lb-role">VP Strategy</div>
+                </div>
+                <div class="lb-right">
+                  <div class="lb-pts">1,240 pts</div>
+                  <div class="you-badge">YOU</div>
+                </div>
+              </a>
+              <a href="/mobile/m-20-leaderboard.html" class="lb-row-link">
+                <div class="lb-medal">🥈</div>
+                <div class="lb-info">
+                  <div class="lb-name">Priya Sharma</div>
+                  <div class="lb-role">HR</div>
+                </div>
+                <div class="lb-right">
+                  <div class="lb-pts">1,105 pts</div>
+                </div>
+              </a>
+              <a href="/mobile/m-20-leaderboard.html" class="lb-row-link">
+                <div class="lb-medal">🥉</div>
+                <div class="lb-info">
+                  <div class="lb-name">Rohan Kapoor</div>
+                  <div class="lb-role">Engineering</div>
+                </div>
+                <div class="lb-right">
+                  <div class="lb-pts">980 pts</div>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          <!-- Section 3: Quick Actions -->
+          <div>
+            <div class="section-header">
+              <div class="section-label">Quick Actions</div>
+            </div>
+            <div class="quick-grid">
+              <a href="/mobile/m-09-networking-v2.html" class="quick-tile-link">
+                <div class="quick-tile">
+                  <div class="quick-icon">🤝</div>
+                  <div class="quick-label">Networking</div>
+                </div>
+              </a>
+              <a href="/mobile/m-22-master-schedule.html" class="quick-tile-link">
+                <div class="quick-tile">
+                  <div class="quick-icon">📋</div>
+                  <div class="quick-label">My Agenda</div>
+                </div>
+              </a>
+              <a href="#" class="quick-tile-link" onclick="showToast(event)">
+                <div class="quick-tile">
+                  <div class="quick-icon">🗺</div>
+                  <div class="quick-label">Floor Plan</div>
+                </div>
+              </a>
+              <a href="/mobile/m-27-social-feed.html" class="quick-tile-link">
+                <div class="quick-tile">
+                  <div class="quick-icon">📸</div>
+                  <div class="quick-label">Event Feed</div>
+                </div>
+              </a>
+              <a href="/mobile/m-13-qr-scanner.html" class="quick-tile-link">
+                <div class="quick-tile">
+                  <div class="quick-icon">📷</div>
+                  <div class="quick-label">Scan QR</div>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          <!-- spacer so content clears bottom nav -->
+          <div style="height:8px;"></div>
+
+        </div><!-- /main-content -->
+
+      </div><!-- /scroll-body -->
+
+      <!-- Toast -->
+      <div class="toast" id="toast">Coming soon — screen under construction</div>
+
+      <!-- Bottom nav — outside scroll, sticky -->
+      <div class="bottom-nav">
+        <div class="nav-tab active">
+          <div class="nav-icon">🏠</div>
+          <div class="nav-label" style="color:#1B5E20;font-weight:600;">Home</div>
+        </div>
+        <a href="/mobile/m-22-master-schedule.html" class="nav-tab" style="text-decoration:none;">
+          <div class="nav-icon">📅</div>
+          <div class="nav-label">Agenda</div>
+        </a>
+        <a href="/mobile/m-09-networking-v2.html" class="nav-tab" style="text-decoration:none;">
+          <div class="nav-icon">🤝</div>
+          <div class="nav-label">Network</div>
+        </a>
+        <a href="/mobile/m-27-social-feed.html" class="nav-tab" style="text-decoration:none;">
+          <div class="nav-icon">📸</div>
+          <div class="nav-label">Feed</div>
+        </a>
+        <div class="nav-tab" onclick="showToast(event)">
+          <div class="nav-icon">☰</div>
+          <div class="nav-label">More</div>
+        </div>
+      </div>
+
+    </div><!-- /screen -->
+  </div><!-- /iphone-frame -->
+  <div class="frame-label">Home Dashboard</div>
+</div>
+
+<script>
+let toastTimer = null;
+function showToast(e) {
+  e.preventDefault();
+  const toast = document.getElementById('toast');
+  if (toastTimer) clearTimeout(toastTimer);
+  toast.classList.add('show');
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 2000);
+}
+// Browser back gesture support
+history.pushState(null, null, window.location.href);
+window.addEventListener('popstate', function() { window.history.back(); });
+</script>
+</body>
+</html>
