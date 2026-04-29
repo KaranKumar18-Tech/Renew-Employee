@@ -58,8 +58,8 @@ body {
 .back-pill:hover { background: rgba(255,255,255,0.25); }
 .back-pill-text { font-size: 13px; font-weight: 600; color: #FFFFFF; }
 .nav-center { font-size: 16px; font-weight: 600; color: #FFFFFF; }
-.qr-btn { cursor: pointer; opacity: 0.9; display: flex; align-items: center; }
-.qr-btn:hover { opacity: 1; }
+.qr-btn { cursor: pointer; display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25); border-radius: 8px; padding: 4px 10px; text-decoration: none; transition: background 0.2s, border-color 0.2s; }
+.qr-btn:hover { background: rgba(255,255,255,0.25); border-color: rgba(255,255,255,0.35); }
 
 /* ── Tab Row ── */
 .tab-row {
@@ -166,12 +166,13 @@ body {
       </a>
       <span class="nav-center">Networking</span>
       <a href="/mobile/m-13-qr-scanner.html" class="qr-btn">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
           <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
           <rect x="3" y="14" width="7" height="7" rx="1"/>
           <rect x="14" y="14" width="3" height="3" rx="0.5"/><rect x="18" y="14" width="3" height="3" rx="0.5"/>
           <rect x="14" y="18" width="3" height="3" rx="0.5"/><rect x="18" y="18" width="3" height="3" rx="0.5"/>
         </svg>
+        <span style="font-size:12px;font-weight:600;color:#FFFFFF;">Scan</span>
       </a>
     </div>
 
@@ -271,6 +272,23 @@ body {
             <div style="font-size:11px;font-weight:400;color:#9E9E9E;">Showing 3 of 12 suggested matches</div>
             <div style="font-size:12px;font-weight:600;color:#4CAF50;margin-top:6px;cursor:pointer;" onclick="showToast()">View All Matches →</div>
           </div>
+
+          <!-- Scan Prompt Banner -->
+          <div style="border-top:1px solid #E0E0E0;margin:12px 0;"></div>
+
+          <a href="/mobile/m-13-qr-scanner.html" style="background:#F5F9F5;border-radius:12px;padding:12px 14px;border:1px solid #C8E6C9;display:flex;align-items:center;gap:12px;text-decoration:none;transition:background 0.2s,border-color 0.2s;" onmouseover="this.style.background='#E8F5E9';this.style.borderColor='#A5D6A7';" onmouseout="this.style.background='#F5F9F5';this.style.borderColor='#C8E6C9';">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#1B5E20" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
+              <rect x="3" y="14" width="7" height="7" rx="1"/>
+              <rect x="14" y="14" width="3" height="3" rx="0.5"/><rect x="18" y="14" width="3" height="3" rx="0.5"/>
+              <rect x="14" y="18" width="3" height="3" rx="0.5"/><rect x="18" y="18" width="3" height="3" rx="0.5"/>
+            </svg>
+            <div style="flex:1;min-width:0;">
+              <div style="font-size:13px;font-weight:600;color:#1A1A1A;">Meet someone in person?</div>
+              <div style="font-size:11px;font-weight:400;color:#616161;margin-top:2px;">Scan their QR code to connect instantly</div>
+            </div>
+            <div style="font-size:12px;font-weight:600;color:#4CAF50;white-space:nowrap;">Scan →</div>
+          </a>
 
         </div><!-- /content-matches -->
 
