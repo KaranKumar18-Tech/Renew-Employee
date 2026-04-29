@@ -172,6 +172,23 @@ body {
 
 /* ── Hidden ── */
 .hidden { display: none !important; }
+
+/* ── Card click wrappers ── */
+.card-link { display: block; text-decoration: none; margin-bottom: 10px; border-radius: 12px; }
+.card-link .session-card { margin-bottom: 0; transition: background 0.18s; }
+.card-link:hover .session-card { background: #F5F9F5; }
+.card-link.live-link:hover .session-card { background: #F5F9F5; }
+.tap-to-join { font-size: 11px; font-weight: 500; color: #4CAF50; margin-top: 6px; }
+
+/* ── Toast ── */
+.toast {
+  position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%);
+  background: #1A1A1A; color: #FFFFFF; font-size: 12px; font-weight: 500;
+  font-family: 'Inter', sans-serif; border-radius: 8px; padding: 8px 16px;
+  white-space: nowrap; z-index: 200; pointer-events: none;
+  opacity: 0; transition: opacity 0.2s;
+}
+.toast.show { opacity: 1; }
 </style>
 </head>
 <body>
@@ -197,10 +214,10 @@ body {
 
     <!-- Top Nav -->
     <div class="top-nav">
-      <div class="nav-left" onclick="window.location.href='/mobile/m-07-home-dashboard.html'">
+      <a href="/mobile/m-07-home-dashboard.html" class="nav-left" style="text-decoration:none;">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
         <span class="nav-title">Schedule</span>
-      </div>
+      </a>
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="cursor:pointer;">
         <line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="20" y2="12"/><line x1="12" y1="18" x2="20" y2="18"/>
       </svg>
@@ -229,82 +246,91 @@ body {
 
         <div class="time-label">Morning</div>
 
-        <!-- Card 1: Strategy / not bookmarked -->
-        <div class="session-card" data-track="strategy" style="border-left-color:#1B5E20;">
-          <div class="session-time">09:00 – 10:00 AM</div>
-          <div class="session-title">ReNew 2030: Our Path to 50GW</div>
-          <div class="session-speaker">🎤 Sumant Sinha, CEO ReNew</div>
-          <div class="session-room">📍 Main Auditorium</div>
-          <div class="session-footer">
-            <span class="track-pill pill-strategy">Strategy</span>
-            <button class="bookmark-btn" onclick="toggleBookmark(this)" aria-label="Bookmark">
-              <!-- outline bookmark -->
-              <svg viewBox="0 0 24 24" fill="none" stroke="#9E9E9E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
-            </button>
+        <!-- Card 1: Strategy / toast -->
+        <a href="#" class="card-link" onclick="showToast(event)">
+          <div class="session-card" data-track="strategy" style="border-left-color:#1B5E20;">
+            <div class="session-time">09:00 – 10:00 AM</div>
+            <div class="session-title">ReNew 2030: Our Path to 50GW</div>
+            <div class="session-speaker">🎤 Sumant Sinha, CEO ReNew</div>
+            <div class="session-room">📍 Main Auditorium</div>
+            <div class="session-footer">
+              <span class="track-pill pill-strategy">Strategy</span>
+              <button class="bookmark-btn" onclick="toggleBookmark(this);event.preventDefault();event.stopPropagation();" aria-label="Bookmark">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#9E9E9E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+              </button>
+            </div>
           </div>
-        </div>
+        </a>
 
-        <!-- Card 2: Technology / bookmarked -->
-        <div class="session-card" data-track="technology" style="border-left-color:#4CAF50;">
-          <div class="session-time">10:30 – 11:30 AM</div>
-          <div class="session-title">AI in Renewable Operations</div>
-          <div class="session-speaker">🎤 Rohan Kapoor, Lead Engineer</div>
-          <div class="session-room">📍 Hall B</div>
-          <div class="session-footer">
-            <span class="track-pill pill-tech">Technology</span>
-            <button class="bookmark-btn bookmarked" onclick="toggleBookmark(this)" aria-label="Bookmark">
-              <!-- filled bookmark -->
-              <svg viewBox="0 0 24 24" fill="#1B5E20" stroke="#1B5E20" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
-            </button>
+        <!-- Card 2: Technology / bookmarked / toast -->
+        <a href="#" class="card-link" onclick="showToast(event)">
+          <div class="session-card" data-track="technology" style="border-left-color:#4CAF50;">
+            <div class="session-time">10:30 – 11:30 AM</div>
+            <div class="session-title">AI in Renewable Operations</div>
+            <div class="session-speaker">🎤 Rohan Kapoor, Lead Engineer</div>
+            <div class="session-room">📍 Hall B</div>
+            <div class="session-footer">
+              <span class="track-pill pill-tech">Technology</span>
+              <button class="bookmark-btn bookmarked" onclick="toggleBookmark(this);event.preventDefault();event.stopPropagation();" aria-label="Bookmark">
+                <svg viewBox="0 0 24 24" fill="#1B5E20" stroke="#1B5E20" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+              </button>
+            </div>
           </div>
-        </div>
+        </a>
 
         <div class="time-label">Afternoon</div>
 
-        <!-- Card 3: People -->
-        <div class="session-card" data-track="people" style="border-left-color:#9C27B0;">
-          <div class="session-time">11:30 AM – 12:30 PM</div>
-          <div class="session-title">Building High-Performance Teams</div>
-          <div class="session-speaker">🎤 Priya Sharma, Senior Manager HR</div>
-          <div class="session-room">📍 Hall C</div>
-          <div class="session-footer">
-            <span class="track-pill pill-people">People</span>
-            <button class="bookmark-btn" onclick="toggleBookmark(this)" aria-label="Bookmark">
-              <svg viewBox="0 0 24 24" fill="none" stroke="#9E9E9E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
-            </button>
-          </div>
-        </div>
-
-        <!-- Card 4: All Tracks + LIVE -->
-        <div class="session-card" data-track="all" style="border-left-color:#1B5E20;">
-          <div class="session-time">02:00 – 03:30 PM</div>
-          <div class="session-title">Townhall: Q&amp;A with Leadership</div>
-          <div class="session-speaker">🎤 Leadership Panel</div>
-          <div class="session-room">📍 Main Auditorium</div>
-          <div class="session-footer">
-            <div style="display:flex;align-items:center;gap:6px;">
-              <span class="track-pill pill-all">All Tracks</span>
-              <span class="live-badge"><span class="live-dot"></span>LIVE</span>
+        <!-- Card 3: People / toast -->
+        <a href="#" class="card-link" onclick="showToast(event)">
+          <div class="session-card" data-track="people" style="border-left-color:#9C27B0;">
+            <div class="session-time">11:30 AM – 12:30 PM</div>
+            <div class="session-title">Building High-Performance Teams</div>
+            <div class="session-speaker">🎤 Priya Sharma, Senior Manager HR</div>
+            <div class="session-room">📍 Hall C</div>
+            <div class="session-footer">
+              <span class="track-pill pill-people">People</span>
+              <button class="bookmark-btn" onclick="toggleBookmark(this);event.preventDefault();event.stopPropagation();" aria-label="Bookmark">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#9E9E9E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+              </button>
             </div>
-            <button class="bookmark-btn" onclick="toggleBookmark(this)" aria-label="Bookmark">
-              <svg viewBox="0 0 24 24" fill="none" stroke="#9E9E9E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
-            </button>
           </div>
-        </div>
+        </a>
 
-        <!-- Card 5: Operations -->
-        <div class="session-card" data-track="operations" style="border-left-color:#FF6F00;">
-          <div class="session-time">04:00 – 05:00 PM</div>
-          <div class="session-title">Project Delivery Excellence Workshop</div>
-          <div class="session-speaker">🎤 Amit Verma, Director Operations</div>
-          <div class="session-room">📍 Breakout Room 1</div>
-          <div class="session-footer">
-            <span class="track-pill pill-ops">Operations</span>
-            <button class="bookmark-btn" onclick="toggleBookmark(this)" aria-label="Bookmark">
-              <svg viewBox="0 0 24 24" fill="none" stroke="#9E9E9E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
-            </button>
+        <!-- Card 4: All Tracks + LIVE → /mobile/m-15-live-poll.html -->
+        <a href="/mobile/m-15-live-poll.html" class="card-link live-link">
+          <div class="session-card" data-track="all" style="border-left-color:#1B5E20;">
+            <div class="session-time">02:00 – 03:30 PM</div>
+            <div class="session-title">Townhall: Q&amp;A with Leadership</div>
+            <div class="session-speaker">🎤 Leadership Panel</div>
+            <div class="session-room">📍 Main Auditorium</div>
+            <div class="session-footer">
+              <div style="display:flex;align-items:center;gap:6px;">
+                <span class="track-pill pill-all">All Tracks</span>
+                <span class="live-badge"><span class="live-dot"></span>LIVE</span>
+              </div>
+              <button class="bookmark-btn" onclick="toggleBookmark(this);event.preventDefault();event.stopPropagation();" aria-label="Bookmark">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#9E9E9E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+              </button>
+            </div>
+            <div class="tap-to-join">Tap to join →</div>
           </div>
-        </div>
+        </a>
+
+        <!-- Card 5: Operations / toast -->
+        <a href="#" class="card-link" onclick="showToast(event)">
+          <div class="session-card" data-track="operations" style="border-left-color:#FF6F00;">
+            <div class="session-time">04:00 – 05:00 PM</div>
+            <div class="session-title">Project Delivery Excellence Workshop</div>
+            <div class="session-speaker">🎤 Amit Verma, Director Operations</div>
+            <div class="session-room">📍 Breakout Room 1</div>
+            <div class="session-footer">
+              <span class="track-pill pill-ops">Operations</span>
+              <button class="bookmark-btn" onclick="toggleBookmark(this);event.preventDefault();event.stopPropagation();" aria-label="Bookmark">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#9E9E9E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+              </button>
+            </div>
+          </div>
+        </a>
 
       </div><!-- /day1-content -->
 
@@ -313,76 +339,86 @@ body {
 
         <div class="time-label">Morning</div>
 
-        <!-- D2 Card 1: Strategy -->
-        <div class="session-card" data-track="strategy" style="border-left-color:#1B5E20;">
-          <div class="session-time">09:30 – 10:30 AM</div>
-          <div class="session-title">Renewable Energy Policy: 2030 Outlook</div>
-          <div class="session-speaker">🎤 Neha Joshi, Business Analyst</div>
-          <div class="session-room">📍 Main Auditorium</div>
-          <div class="session-footer">
-            <span class="track-pill pill-strategy">Strategy</span>
-            <button class="bookmark-btn" onclick="toggleBookmark(this)" aria-label="Bookmark">
-              <svg viewBox="0 0 24 24" fill="none" stroke="#9E9E9E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
-            </button>
+        <!-- D2 Card 1: Strategy / toast -->
+        <a href="#" class="card-link" onclick="showToast(event)">
+          <div class="session-card" data-track="strategy" style="border-left-color:#1B5E20;">
+            <div class="session-time">09:30 – 10:30 AM</div>
+            <div class="session-title">Renewable Energy Policy: 2030 Outlook</div>
+            <div class="session-speaker">🎤 Neha Joshi, Business Analyst</div>
+            <div class="session-room">📍 Main Auditorium</div>
+            <div class="session-footer">
+              <span class="track-pill pill-strategy">Strategy</span>
+              <button class="bookmark-btn" onclick="toggleBookmark(this);event.preventDefault();event.stopPropagation();" aria-label="Bookmark">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#9E9E9E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+              </button>
+            </div>
           </div>
-        </div>
+        </a>
 
-        <!-- D2 Card 2: Operations -->
-        <div class="session-card" data-track="operations" style="border-left-color:#FF6F00;">
-          <div class="session-time">11:00 AM – 12:00 PM</div>
-          <div class="session-title">Operational Excellence in Wind Projects</div>
-          <div class="session-speaker">🎤 Amit Verma, Director Operations</div>
-          <div class="session-room">📍 Hall B</div>
-          <div class="session-footer">
-            <span class="track-pill pill-ops">Operations</span>
-            <button class="bookmark-btn" onclick="toggleBookmark(this)" aria-label="Bookmark">
-              <svg viewBox="0 0 24 24" fill="none" stroke="#9E9E9E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
-            </button>
+        <!-- D2 Card 2: Operations / toast -->
+        <a href="#" class="card-link" onclick="showToast(event)">
+          <div class="session-card" data-track="operations" style="border-left-color:#FF6F00;">
+            <div class="session-time">11:00 AM – 12:00 PM</div>
+            <div class="session-title">Operational Excellence in Wind Projects</div>
+            <div class="session-speaker">🎤 Amit Verma, Director Operations</div>
+            <div class="session-room">📍 Hall B</div>
+            <div class="session-footer">
+              <span class="track-pill pill-ops">Operations</span>
+              <button class="bookmark-btn" onclick="toggleBookmark(this);event.preventDefault();event.stopPropagation();" aria-label="Bookmark">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#9E9E9E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+              </button>
+            </div>
           </div>
-        </div>
+        </a>
 
         <div class="time-label">Afternoon</div>
 
-        <!-- D2 Card 3: All Tracks + LIVE -->
-        <div class="session-card" data-track="all" style="border-left-color:#4CAF50;">
-          <div class="session-time">02:00 – 03:00 PM</div>
-          <div class="session-title">Closing Keynote: The Next Decade of ReNew</div>
-          <div class="session-speaker">🎤 Sumant Sinha, CEO ReNew</div>
-          <div class="session-room">📍 Main Auditorium</div>
-          <div class="session-footer">
-            <div style="display:flex;align-items:center;gap:6px;">
-              <span class="track-pill pill-all">All Tracks</span>
-              <span class="live-badge"><span class="live-dot"></span>LIVE</span>
+        <!-- D2 Card 3: All Tracks + LIVE → /mobile/m-15-live-poll.html -->
+        <a href="/mobile/m-15-live-poll.html" class="card-link live-link">
+          <div class="session-card" data-track="all" style="border-left-color:#4CAF50;">
+            <div class="session-time">02:00 – 03:00 PM</div>
+            <div class="session-title">Closing Keynote: The Next Decade of ReNew</div>
+            <div class="session-speaker">🎤 Sumant Sinha, CEO ReNew</div>
+            <div class="session-room">📍 Main Auditorium</div>
+            <div class="session-footer">
+              <div style="display:flex;align-items:center;gap:6px;">
+                <span class="track-pill pill-all">All Tracks</span>
+                <span class="live-badge"><span class="live-dot"></span>LIVE</span>
+              </div>
+              <button class="bookmark-btn" onclick="toggleBookmark(this);event.preventDefault();event.stopPropagation();" aria-label="Bookmark">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#9E9E9E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+              </button>
             </div>
-            <button class="bookmark-btn" onclick="toggleBookmark(this)" aria-label="Bookmark">
-              <svg viewBox="0 0 24 24" fill="none" stroke="#9E9E9E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
-            </button>
+            <div class="tap-to-join">Tap to join →</div>
           </div>
-        </div>
+        </a>
 
       </div><!-- /day2-content -->
 
     </div><!-- /schedule-scroll -->
 
+    <!-- Toast -->
+    <div class="toast" id="toast">Session detail coming soon</div>
+
     <!-- Bottom Nav -->
     <div class="bottom-nav">
-      <div class="nav-tab" onclick="window.location.href='/mobile/m-07-home-dashboard.html'">
+      <a href="/mobile/m-07-home-dashboard.html" class="nav-tab" style="text-decoration:none;">
         <div class="nav-icon">🏠</div>
         <div class="nav-lbl">Home</div>
-      </div>
+      </a>
       <div class="nav-tab active">
         <div class="nav-icon">📅</div>
         <div class="nav-lbl">Agenda</div>
       </div>
-      <div class="nav-tab">
+      <div class="nav-tab" onclick="showToast(event)">
         <div class="nav-icon">🤝</div>
         <div class="nav-lbl">Network</div>
       </div>
-      <div class="nav-tab">
+      <div class="nav-tab" onclick="showToast(event)">
         <div class="nav-icon">📸</div>
         <div class="nav-lbl">Feed</div>
       </div>
-      <div class="nav-tab">
+      <div class="nav-tab" onclick="showToast(event)">
         <div class="nav-icon">☰</div>
         <div class="nav-lbl">More</div>
       </div>
@@ -440,6 +476,16 @@ function setFilter(track) {
     }
     label.style.display = hasVisible ? 'block' : 'none';
   });
+}
+
+/* ── TOAST ── */
+let toastTimer = null;
+function showToast(e) {
+  e.preventDefault();
+  const toast = document.getElementById('toast');
+  if (toastTimer) clearTimeout(toastTimer);
+  toast.classList.add('show');
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 2000);
 }
 
 /* ── BOOKMARK TOGGLE ── */
