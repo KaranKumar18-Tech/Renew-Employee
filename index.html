@@ -10,18 +10,19 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:#F2F2F2;font-family:'Inter',sans-serif;min-height:100vh;padding:48px 24px;}
-.container{max-width:720px;margin:0 auto;}
+.container{max-width:900px;margin:0 auto;}
 .logo{text-align:center;margin-bottom:8px;}
 .logo img{height:40px;}
 .title{text-align:center;font-size:24px;font-weight:700;color:#1B5E20;margin-bottom:6px;}
 .subtitle{text-align:center;font-size:14px;font-weight:400;color:#616161;margin-bottom:48px;}
-.section{margin-bottom:40px;}
+.section{margin-bottom:48px;}
 .section-heading{font-size:16px;font-weight:600;color:#1A1A1A;margin-bottom:16px;padding-left:4px;}
-.card{background:#FFFFFF;border-radius:12px;border-left:4px solid #1B5E20;padding:16px;margin-bottom:10px;text-decoration:none;display:block;transition:box-shadow 0.2s,transform 0.15s;}
-.card:hover{box-shadow:0 4px 16px rgba(0,0,0,0.1);transform:translateY(-1px);}
-.card-name{font-size:14px;font-weight:600;color:#1A1A1A;margin-bottom:2px;}
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;}
+.card{background:#FFFFFF;border-radius:12px;border-left:4px solid #1B5E20;padding:16px;text-decoration:none;display:flex;flex-direction:column;transition:background 0.2s,border-left-color 0.2s,box-shadow 0.2s;box-shadow:0 2px 8px rgba(0,0,0,0.06);}
+.card:hover{background:#F5F9F5;border-left-color:#4CAF50;box-shadow:0 4px 16px rgba(0,0,0,0.1);}
+.card-name{font-size:14px;font-weight:600;color:#1A1A1A;margin-bottom:4px;}
 .card-id{font-size:12px;font-weight:400;color:#9E9E9E;}
-.empty-state{background:#FFFFFF;border-radius:12px;padding:24px;text-align:center;font-size:13px;color:#9E9E9E;border:1px dashed #C8E6C9;}
+.empty-state{font-size:13px;font-weight:400;color:#9E9E9E;font-style:italic;}
 </style>
 </head>
 <body>
@@ -35,57 +36,62 @@ body{background:#F2F2F2;font-family:'Inter',sans-serif;min-height:100vh;padding:
 
   <div class="section">
     <div class="section-heading">📱 Mobile App Screens</div>
+    <div class="cards-grid">
+      <a href="/mobile/m-01-onboarding.html" target="_blank" class="card">
+        <div class="card-name">Onboarding Flow</div>
+        <div class="card-id">M-01</div>
+      </a>
 
-    <a href="mobile/m-01-onboarding.html" target="_blank" class="card">
-      <div class="card-name">Onboarding Flow — Splash, Login, Profile Setup</div>
-      <div class="card-id">M-01 · M-02 · M-03 · M-04 · M-05 · M-06 · Clickable Prototype</div>
-    </a>
+      <a href="/mobile/m-07-home-dashboard.html" target="_blank" class="card">
+        <div class="card-name">Home Dashboard</div>
+        <div class="card-id">M-07</div>
+      </a>
 
-    <a href="mobile/m-07-home-dashboard.html" target="_blank" class="card">
-      <div class="card-name">Home Dashboard</div>
-      <div class="card-id">M-07</div>
-    </a>
+      <a href="/mobile/m-22-master-schedule.html" target="_blank" class="card">
+        <div class="card-name">Master Schedule</div>
+        <div class="card-id">M-22</div>
+      </a>
 
-    <a href="mobile/m-22-master-schedule.html" target="_blank" class="card">
-      <div class="card-name">Master Schedule</div>
-      <div class="card-id">M-22 · Day tabs · Track filters · Bookmark toggle · LIVE badge</div>
-    </a>
+      <a href="/mobile/m-15-live-poll.html" target="_blank" class="card">
+        <div class="card-name">Live Poll</div>
+        <div class="card-id">M-15</div>
+      </a>
 
-    <a href="mobile/m-15-live-poll.html" target="_blank" class="card">
-      <div class="card-name">Live Poll</div>
-      <div class="card-id">M-15 · Voting state · Results state · Animated bars · Points toast</div>
-    </a>
+      <a href="/mobile/m-20-leaderboard.html" target="_blank" class="card">
+        <div class="card-name">Leaderboard</div>
+        <div class="card-id">M-20</div>
+      </a>
 
-    <a href="mobile/m-20-leaderboard.html" target="_blank" class="card">
-      <div class="card-name">Leaderboard</div>
-      <div class="card-id">M-20 · Podium · Department filter · Entry animations · Points guide</div>
-    </a>
+      <a href="/mobile/m-09-networking-v2.html" target="_blank" class="card">
+        <div class="card-name">AI Networking</div>
+        <div class="card-id">M-09</div>
+      </a>
 
-    <a href="mobile/m-09-networking-v2.html" target="_blank" class="card">
-      <div class="card-name">AI Networking</div>
-      <div class="card-id">M-09 · AI match cards · My Meetings tab · Book Meeting · View Profile</div>
-    </a>
+      <a href="/mobile/m-10-match-profile.html?person=priya" target="_blank" class="card">
+        <div class="card-name">Match Profile</div>
+        <div class="card-id">M-10</div>
+      </a>
 
-    <a href="mobile/m-10-match-profile.html" target="_blank" class="card">
-      <div class="card-name">Match Profile Detail</div>
-      <div class="card-id">M-10 · Hero section · Match reason · Interests · Availability · Book Meeting CTA</div>
-    </a>
+      <a href="/mobile/m-11-meeting-scheduler.html?person=priya" target="_blank" class="card">
+        <div class="card-name">Meeting Scheduler</div>
+        <div class="card-id">M-11</div>
+      </a>
 
-    <a href="mobile/m-11-meeting-scheduler.html" target="_blank" class="card">
-      <div class="card-name">Meeting Scheduler</div>
-      <div class="card-id">M-11 · Date · Time slot · Hub selection · Note · Confirmation state with animation</div>
-    </a>
-
+      <a href="/mobile/m-13-qr-scanner.html" target="_blank" class="card">
+        <div class="card-name">QR Scanner</div>
+        <div class="card-id">M-13</div>
+      </a>
+    </div>
   </div>
 
   <div class="section">
     <div class="section-heading">💻 Web App Screens</div>
-    <div class="empty-state">Web screens coming soon</div>
+    <div class="empty-state">Screens in progress — coming soon</div>
   </div>
 
   <div class="section">
     <div class="section-heading">⚙️ Admin Dashboard</div>
-    <div class="empty-state">Admin screens coming soon</div>
+    <div class="empty-state">Screens in progress — coming soon</div>
   </div>
 </div>
 

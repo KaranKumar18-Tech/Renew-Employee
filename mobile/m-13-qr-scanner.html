@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ReNew Leaders Connect 2026 — Mobile App</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #F2F2F2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+    }
+
+    .page-title {
+      font-weight: 600;
+      font-size: 18px;
+      color: #1A1A1A;
+      margin-bottom: 32px;
+      text-align: center;
+    }
+
+    .phone-frame {
+      width: 290px;
+      height: 640px;
+      border-radius: 40px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      background: #1A1A1A;
+    }
+
+    .status-bar {
+      height: 44px;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 13px;
+      font-weight: 600;
+      color: #FFFFFF;
+      background: #000;
+    }
+
+    .status-bar-time {
+      flex: 1;
+      text-align: center;
+    }
+
+    .nav-top {
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: transparent;
+      z-index: 10;
+    }
+
+    .back-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 8px;
+      padding: 4px 8px 4px 4px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .back-pill:hover {
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    .back-pill svg {
+      width: 16px;
+      height: 16px;
+      stroke: #FFFFFF;
+      stroke-width: 2;
+      fill: none;
+    }
+
+    .back-pill-text {
+      font-weight: 600;
+      font-size: 13px;
+      color: #FFFFFF;
+    }
+
+    .nav-center {
+      flex: 1;
+      text-align: center;
+      font-weight: 600;
+      font-size: 16px;
+      color: #FFFFFF;
+    }
+
+    .flashlight-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      display: flex;
+      align-items: center;
+    }
+
+    .flashlight-btn svg {
+      width: 22px;
+      height: 22px;
+      stroke: #FFFFFF;
+      fill: none;
+      stroke-width: 2;
+      transition: opacity 0.3s;
+    }
+
+    .camera-view {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: #1A1A1A;
+    }
+
+    .scan-frame {
+      width: 180px;
+      height: 180px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .corner {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border-color: #4CAF50;
+      border-style: solid;
+      border-radius: 3px;
+      opacity: 1;
+      transition: border-color 0.3s;
+    }
+
+    .corner-top-left {
+      top: 0;
+      left: 0;
+      border-width: 3px 0 0 3px;
+    }
+
+    .corner-top-right {
+      top: 0;
+      right: 0;
+      border-width: 3px 3px 0 0;
+    }
+
+    .corner-bottom-left {
+      bottom: 0;
+      left: 0;
+      border-width: 0 0 3px 3px;
+    }
+
+    .corner-bottom-right {
+      bottom: 0;
+      right: 0;
+      border-width: 0 3px 3px 0;
+    }
+
+    .scan-line {
+      position: absolute;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent 0%, #4CAF50 50%, transparent 100%);
+      top: 0;
+      left: 0;
+      animation: scanLine 1.8s linear infinite;
+    }
+
+    @keyframes scanLine {
+      0% { top: 0px; opacity: 1; }
+      95% { opacity: 1; }
+      100% { top: 176px; opacity: 0; }
+    }
+
+    .qr-placeholder {
+      display: grid;
+      grid-template-columns: repeat(4, 8px);
+      gap: 4px;
+    }
+
+    .qr-placeholder-square {
+      width: 8px;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 1px;
+    }
+
+    .instruction {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .instruction-main {
+      font-weight: 500;
+      font-size: 14px;
+      color: #FFFFFF;
+    }
+
+    .instruction-sub {
+      font-weight: 400;
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.55);
+      margin-top: 6px;
+    }
+
+    .bottom-section {
+      padding: 20px 20px 36px;
+      background: #1A1A1A;
+    }
+
+    .divider {
+      height: 1px;
+      background: rgba(255, 255, 255, 0.12);
+      margin-bottom: 16px;
+    }
+
+    .or-text {
+      font-weight: 400;
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.4);
+      text-align: center;
+      margin-bottom: 14px;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 11px 16px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 10px;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      color: #FFFFFF;
+      transition: border-color 0.3s;
+    }
+
+    .search-input::placeholder {
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: #4CAF50;
+    }
+
+    .simulate-btn {
+      width: 100%;
+      height: 46px;
+      margin-top: 10px;
+      background: #4CAF50;
+      border: none;
+      border-radius: 10px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 13px;
+      color: #FFFFFF;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .simulate-btn:hover {
+      background: #45a049;
+    }
+
+    .scanning-text {
+      font-weight: 500;
+      font-size: 13px;
+      color: #4CAF50;
+      margin-top: 8px;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .state1 .scanning-text.show {
+      opacity: 1;
+    }
+
+    /* STATE 2: CONTACT FOUND */
+    .contact-found-header {
+      color: #FFFFFF;
+    }
+
+    .success-circle {
+      width: 60px;
+      height: 60px;
+      background: #4CAF50;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: popIn 300ms ease-out;
+    }
+
+    @keyframes popIn {
+      0% { transform: scale(0); opacity: 0; }
+      70% { transform: scale(1.15); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .success-checkmark {
+      width: 28px;
+      height: 28px;
+      stroke: #FFFFFF;
+      stroke-width: 3;
+      fill: none;
+    }
+
+    .found-title {
+      font-weight: 700;
+      font-size: 18px;
+      color: #FFFFFF;
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .contact-card {
+      background: #FFFFFF;
+      border-radius: 16px;
+      padding: 16px;
+      margin: 16px 20px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .contact-card-top {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .avatar {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: #E65100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-weight: 700;
+      font-size: 20px;
+      color: #FFFFFF;
+    }
+
+    .contact-info-col {
+      flex: 1;
+    }
+
+    .contact-name {
+      font-weight: 700;
+      font-size: 15px;
+      color: #1A1A1A;
+    }
+
+    .contact-title {
+      font-weight: 400;
+      font-size: 12px;
+      color: #616161;
+      margin-top: 2px;
+    }
+
+    .contact-location {
+      font-weight: 400;
+      font-size: 11px;
+      color: #9E9E9E;
+      margin-top: 2px;
+    }
+
+    .card-divider {
+      height: 1px;
+      background: #F0F0F0;
+      margin: 12px 0;
+    }
+
+    .contact-details {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .contact-detail {
+      font-weight: 400;
+      font-size: 12px;
+      color: #616161;
+    }
+
+    .interest-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .interest-pill {
+      background: #E8F5E9;
+      color: #1B5E20;
+      font-weight: 500;
+      font-size: 10px;
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+
+    .action-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 0 20px;
+      margin-top: 16px;
+    }
+
+    .btn-primary {
+      width: 100%;
+      height: 48px;
+      background: #1B5E20;
+      border: none;
+      border-radius: 10px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      color: #FFFFFF;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .btn-primary:hover {
+      background: #0d4611;
+    }
+
+    .btn-secondary {
+      width: 100%;
+      height: 44px;
+      background: transparent;
+      border: 1.5px solid rgba(255, 255, 255, 0.35);
+      border-radius: 10px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 13px;
+      color: #FFFFFF;
+      cursor: pointer;
+      transition: border-color 0.3s;
+    }
+
+    .btn-secondary:hover {
+      border-color: rgba(255, 255, 255, 0.5);
+    }
+
+    /* STATE 3: CONTACT SAVED */
+    .state3 {
+      background: #FFFFFF !important;
+    }
+
+    .state3 .status-bar {
+      color: #1A1A1A;
+      background: #F5F5F5;
+    }
+
+    .state3 .nav-top {
+      background: #1B5E20;
+    }
+
+    .state3 .back-pill {
+      background: rgba(255, 255, 255, 0.25);
+      border-color: rgba(255, 255, 255, 0.35);
+    }
+
+    .state3 .nav-center {
+      color: #FFFFFF;
+    }
+
+    .state3 .camera-view {
+      background: #FFFFFF;
+      padding: 24px 20px;
+      padding-top: 0;
+    }
+
+    .state3 .action-buttons {
+      margin: 20px 0;
+    }
+
+    .saved-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+
+    .success-icon {
+      width: 90px;
+      height: 90px;
+      background: #E8F5E9;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 16px;
+      animation: popIn 400ms ease-out;
+    }
+
+    .success-icon-inner {
+      width: 68px;
+      height: 68px;
+      background: #1B5E20;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .saved-title {
+      font-weight: 700;
+      font-size: 18px;
+      color: #1A1A1A;
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .saved-subtitle {
+      font-weight: 400;
+      font-size: 13px;
+      color: #616161;
+      text-align: center;
+      margin-top: 6px;
+    }
+
+    .saved-card {
+      background: #F5F9F5;
+      border-radius: 14px;
+      border: 1px solid #C8E6C9;
+      padding: 14px;
+      margin-top: 20px;
+      width: 100%;
+    }
+
+    .saved-card-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .saved-card-top {
+      margin-bottom: 8px;
+    }
+
+    .saved-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #E65100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-weight: 600;
+      font-size: 13px;
+      color: #FFFFFF;
+    }
+
+    .saved-contact-info {
+      flex: 1;
+    }
+
+    .saved-contact-name {
+      font-weight: 600;
+      font-size: 13px;
+      color: #1A1A1A;
+    }
+
+    .saved-contact-title {
+      font-weight: 400;
+      font-size: 11px;
+      color: #616161;
+      margin-top: 2px;
+    }
+
+    .saved-card-divider {
+      height: 1px;
+      background: #E8F5E9;
+      margin: 8px 0;
+    }
+
+    .saved-card-detail {
+      font-weight: 400;
+      font-size: 12px;
+      color: #616161;
+      padding: 8px 0;
+    }
+
+    .saved-card-detail-green {
+      font-weight: 500;
+      font-size: 11px;
+      color: #4CAF50;
+      padding-bottom: 4px;
+    }
+
+    .points-badge {
+      background: #1B5E20;
+      border-radius: 12px;
+      padding: 10px 20px;
+      display: inline-block;
+      margin-top: 14px;
+      font-weight: 600;
+      font-size: 13px;
+      color: #FFFFFF;
+      text-align: center;
+    }
+
+    .stats-row {
+      margin-top: 14px;
+      width: 100%;
+      background: #F5F9F5;
+      border-radius: 12px;
+      padding: 14px;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+    }
+
+    .stat {
+      text-align: center;
+    }
+
+    .stat-number {
+      font-weight: 700;
+      font-size: 22px;
+      color: #1B5E20;
+    }
+
+    .stat-label {
+      font-weight: 400;
+      font-size: 11px;
+      color: #616161;
+      margin-top: 4px;
+    }
+
+    .stat-divider {
+      width: 1px;
+      height: 36px;
+      background: #E0E0E0;
+      align-self: center;
+    }
+
+    .btn-dark {
+      background: #1B5E20;
+      color: #FFFFFF;
+      border: none;
+    }
+
+    .btn-dark:hover {
+      background: #0d4611;
+    }
+
+    .btn-outline {
+      background: #FFFFFF;
+      color: #1B5E20;
+      border: 1.5px solid #1B5E20;
+    }
+
+    .btn-outline:hover {
+      background: #F5F5F5;
+    }
+
+    .back-link {
+      font-weight: 500;
+      font-size: 12px;
+      color: #9E9E9E;
+      text-decoration: none;
+      display: block;
+      margin-top: 4px;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .back-link:hover {
+      color: #616161;
+    }
+
+    .bottom-nav {
+      border-top: 1px solid #E0E0E0;
+      background: #FFFFFF;
+      padding: 8px 0;
+      display: flex;
+      justify-content: space-around;
+      flex-shrink: 0;
+    }
+
+    .nav-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 8px;
+      font-size: 12px;
+      text-decoration: none;
+      color: #616161;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    .nav-item:hover {
+      color: #1B5E20;
+    }
+
+    .nav-item.active {
+      color: #1B5E20;
+    }
+
+    .nav-item-icon {
+      font-size: 18px;
+      margin-bottom: 2px;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #1A1A1A;
+      color: #FFFFFF;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      z-index: 100;
+      animation: slideUp 0.3s ease-out;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+    }
+
+    .flash {
+      animation: cornersFlash 0.45s ease-out;
+    }
+
+    @keyframes cornersFlash {
+      0% { filter: brightness(0.5); }
+      33% { filter: brightness(2); }
+      66% { filter: brightness(0.5); }
+      100% { filter: brightness(2); }
+    }
+
+    .scan-line.fast {
+      animation: scanLine 0.3s linear infinite;
+    }
+
+    /* Fade transitions */
+    .state {
+      opacity: 1;
+      transition: opacity 0.3s ease-out;
+    }
+
+    .state.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="page-title">ReNew Leaders Connect 2026 — Mobile App</div>
+
+  <div class="phone-frame">
+    <!-- STATE 1: SCANNING -->
+    <div id="state1" class="state state1">
+      <div class="status-bar">
+        <span class="status-bar-time">9:41</span>
+      </div>
+
+      <div class="nav-top">
+        <a href="/" class="back-pill" onclick="goDirectory(event)">
+          <svg viewBox="0 0 24 24">
+            <path d="M19 12H5M12 19l-7-7 7-7" />
+          </svg>
+          <span class="back-pill-text">Directory</span>
+        </a>
+        <div class="nav-center">Scan QR Code</div>
+        <button class="flashlight-btn" onclick="toggleFlashlight()">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 2L12 22M7 7L17 17M17 7L7 17" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="camera-view">
+        <div class="scan-frame">
+          <div class="corner corner-top-left"></div>
+          <div class="corner corner-top-right"></div>
+          <div class="corner corner-bottom-left"></div>
+          <div class="corner corner-bottom-right"></div>
+          <div class="scan-line"></div>
+          <div class="qr-placeholder">
+            <div class="qr-placeholder-square"></div>
+            <div class="qr-placeholder-square"></div>
+            <div class="qr-placeholder-square"></div>
+            <div class="qr-placeholder-square"></div>
+            <div class="qr-placeholder-square"></div>
+            <div class="qr-placeholder-square"></div>
+            <div class="qr-placeholder-square"></div>
+            <div class="qr-placeholder-square"></div>
+            <div class="qr-placeholder-square"></div>
+            <div class="qr-placeholder-square"></div>
+            <div class="qr-placeholder-square"></div>
+            <div class="qr-placeholder-square"></div>
+            <div class="qr-placeholder-square"></div>
+            <div class="qr-placeholder-square"></div>
+            <div class="qr-placeholder-square"></div>
+            <div class="qr-placeholder-square"></div>
+          </div>
+        </div>
+
+        <div class="instruction">
+          <div class="instruction-main">Point at a colleague's QR code</div>
+          <div class="instruction-sub">Make sure the QR is within the green frame</div>
+        </div>
+
+        <div class="scanning-text"></div>
+      </div>
+
+      <div class="bottom-section">
+        <div class="divider"></div>
+        <div class="or-text">— or —</div>
+        <input type="text" class="search-input" placeholder="Search by name or employee ID...">
+        <button class="simulate-btn" onclick="simulateScan()">Simulate Scan ↗</button>
+      </div>
+    </div>
+
+    <!-- STATE 2: CONTACT FOUND -->
+    <div id="state2" class="state state2 hidden">
+      <div class="status-bar">
+        <span class="status-bar-time">9:41</span>
+      </div>
+
+      <div class="nav-top">
+        <a href="/mobile/m-09-networking-v2.html" class="back-pill" onclick="goBack(event)">
+          <svg viewBox="0 0 24 24">
+            <path d="M19 12H5M12 19l-7-7 7-7" />
+          </svg>
+          <span class="back-pill-text">Back</span>
+        </a>
+        <div class="nav-center contact-found-header">Contact Found!</div>
+        <div style="width: 22px;"></div>
+      </div>
+
+      <div class="camera-view">
+        <div class="scan-frame">
+          <div class="corner corner-top-left"></div>
+          <div class="corner corner-top-right"></div>
+          <div class="corner corner-bottom-left"></div>
+          <div class="corner corner-bottom-right"></div>
+          <div class="success-circle">
+            <svg class="success-checkmark" viewBox="0 0 24 24">
+              <path d="M5 12l5 5L19 7" />
+            </svg>
+          </div>
+        </div>
+
+        <div class="found-title">Contact Found! 🎉</div>
+
+        <div class="contact-card">
+          <div class="contact-card-top">
+            <div class="avatar">AV</div>
+            <div class="contact-info-col">
+              <div class="contact-name">Amit Verma</div>
+              <div class="contact-title">Director Operations</div>
+              <div class="contact-location">ReNew Power · Pune</div>
+            </div>
+          </div>
+          <div class="card-divider"></div>
+          <div class="contact-details">
+            <div class="contact-detail">📧 amit.verma@renew.com</div>
+            <div class="contact-detail">👥 Operations & Delivery · 15 yrs</div>
+          </div>
+          <div class="interest-pills">
+            <div class="interest-pill">Operations</div>
+            <div class="interest-pill">Strategy</div>
+            <div class="interest-pill">Leadership</div>
+          </div>
+        </div>
+
+        <div class="action-buttons">
+          <button class="btn-primary" onclick="saveContact()">✓ Save Contact</button>
+          <button class="btn-secondary" onclick="scanAnother()">Scan Another</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STATE 3: CONTACT SAVED -->
+    <div id="state3" class="state state3 hidden">
+      <div class="status-bar">
+        <span class="status-bar-time">9:41</span>
+      </div>
+
+      <div class="nav-top">
+        <a href="/mobile/m-09-networking-v2.html" class="back-pill" onclick="goBack(event)">
+          <svg viewBox="0 0 24 24">
+            <path d="M19 12H5M12 19l-7-7 7-7" />
+          </svg>
+          <span class="back-pill-text">Networking</span>
+        </a>
+        <div class="nav-center">Saved! ✅</div>
+        <div style="width: 22px;"></div>
+      </div>
+
+      <div class="camera-view">
+        <div class="saved-content">
+          <div class="success-icon">
+            <div class="success-icon-inner">
+              <svg class="success-checkmark" viewBox="0 0 24 24">
+                <path d="M5 12l5 5L19 7" />
+              </svg>
+            </div>
+          </div>
+
+          <div class="saved-title">Added to Connections! 🤝</div>
+          <div class="saved-subtitle">Amit Verma is now in your network.</div>
+
+          <div class="saved-card">
+            <div class="saved-card-row saved-card-top">
+              <div class="saved-avatar">AV</div>
+              <div class="saved-contact-info">
+                <div class="saved-contact-name">Amit Verma</div>
+                <div class="saved-contact-title">Director Operations</div>
+              </div>
+            </div>
+            <div class="saved-card-divider"></div>
+            <div class="saved-card-detail">📍 Pune · Operations & Delivery</div>
+            <div class="saved-card-detail-green">🔗 Connected · May 15, 2026</div>
+          </div>
+
+          <div class="points-badge">🏆 +15 pts earned for connecting!</div>
+
+          <div class="stats-row">
+            <div class="stat">
+              <div class="stat-number">8</div>
+              <div class="stat-label">Connections</div>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat">
+              <div class="stat-number">4</div>
+              <div class="stat-label">Meetings</div>
+            </div>
+          </div>
+
+          <div class="action-buttons">
+            <a href="/mobile/m-14-connections.html" class="btn-primary btn-dark" style="display: flex; align-items: center; justify-content: center; text-decoration: none;">View All Connections →</a>
+            <button class="btn-primary btn-outline" onclick="scanAnother()">Scan Another Contact</button>
+            <a href="/mobile/m-09-networking-v2.html" class="back-link" onclick="goBack(event)">Back to Networking</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="bottom-nav">
+        <a href="/mobile/m-07-home-dashboard.html" class="nav-item" onclick="handleNavClick(event)">
+          <div class="nav-item-icon">🏠</div>
+          <div>Home</div>
+        </a>
+        <a href="/mobile/m-22-master-schedule.html" class="nav-item" onclick="handleNavClick(event)">
+          <div class="nav-item-icon">📅</div>
+          <div>Agenda</div>
+        </a>
+        <a href="/mobile/m-09-networking-v2.html" class="nav-item active" onclick="handleNavClick(event)">
+          <div class="nav-item-icon">🤝</div>
+          <div>Network</div>
+        </a>
+        <a href="#" class="nav-item" onclick="handleNavClick(event)">
+          <div class="nav-item-icon">📸</div>
+          <div>Feed</div>
+        </a>
+        <a href="#" class="nav-item" onclick="handleNavClick(event)">
+          <div class="nav-item-icon">☰</div>
+          <div>More</div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="screen-label" style="margin-top: 16px; font-family: 'Inter', sans-serif; font-weight: 500; font-size: 13px; color: #888888; text-align: center;">QR Scanner</div>
+
+  <script>
+    let currentState = 1;
+    let flashlightOn = false;
+
+    function setState(newState) {
+      const state1 = document.getElementById('state1');
+      const state2 = document.getElementById('state2');
+      const state3 = document.getElementById('state3');
+
+      if (newState === 1) {
+        state1.classList.remove('hidden');
+        state2.classList.add('hidden');
+        state3.classList.add('hidden');
+        resetScanLine();
+      } else if (newState === 2) {
+        state1.classList.add('hidden');
+        state2.classList.remove('hidden');
+        state3.classList.add('hidden');
+      } else if (newState === 3) {
+        state1.classList.add('hidden');
+        state2.classList.add('hidden');
+        state3.classList.remove('hidden');
+      }
+
+      currentState = newState;
+      history.pushState({ state: newState }, '', window.location.pathname);
+    }
+
+    function toggleFlashlight() {
+      const btn = event.target.closest('.flashlight-btn');
+      const svg = btn.querySelector('svg');
+      flashlightOn = !flashlightOn;
+      svg.style.opacity = flashlightOn ? '1' : '0.5';
+    }
+
+    function simulateScan() {
+      const frame = document.querySelector('.scan-frame');
+      const scanLine = document.querySelector('.scan-line');
+      const scanningText = document.querySelector('.scanning-text');
+
+      // Flash corners
+      frame.classList.add('flash');
+      setTimeout(() => frame.classList.remove('flash'), 450);
+
+      // Speed up scan line
+      scanLine.classList.add('fast');
+
+      // Show scanning text
+      scanningText.textContent = 'Scanning...';
+      scanningText.classList.add('show');
+
+      // Transition to state 2
+      setTimeout(() => {
+        scanLine.classList.remove('fast');
+        scanningText.classList.remove('show');
+        setState(2);
+      }, 1000);
+    }
+
+    function saveContact() {
+      setState(3);
+    }
+
+    function scanAnother() {
+      setState(1);
+    }
+
+    function resetScanLine() {
+      const scanLine = document.querySelector('.scan-line');
+      scanLine.style.animation = 'none';
+      setTimeout(() => {
+        scanLine.style.animation = 'scanLine 1.8s linear infinite';
+      }, 10);
+    }
+
+    function goDirectory(event) {
+      event.preventDefault();
+      window.location.href = '/';
+    }
+
+    function goBack(event) {
+      event.preventDefault();
+      window.history.back();
+    }
+
+    function handleNavClick(event) {
+      const href = event.currentTarget.getAttribute('href');
+      if (href === '#') {
+        event.preventDefault();
+        showToast('Coming soon');
+      } else {
+        event.preventDefault();
+        history.pushState({}, '', href);
+        window.location.href = href;
+      }
+    }
+
+    function showToast(message) {
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.textContent = message;
+      document.body.appendChild(toast);
+
+      setTimeout(() => {
+        toast.remove();
+      }, 3000);
+    }
+
+    // Restore state from history
+    window.addEventListener('popstate', (event) => {
+      if (event.state && event.state.state) {
+        setState(event.state.state);
+      }
+    });
+  </script>
+</body>
+</html>
