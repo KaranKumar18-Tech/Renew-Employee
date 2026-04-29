@@ -367,6 +367,12 @@ function fireToast(msg) {
 function showToast()    { fireToast('Full matches list coming soon'); }
 function showNavToast() { fireToast('Coming soon'); }
 
+/* ── TAB DEEP LINK ── */
+(function() {
+  const tab = new URLSearchParams(window.location.search).get('tab');
+  if (tab === 'meetings') switchTab('meetings');
+})();
+
 /* ── BROWSER BACK SUPPORT ── */
 history.pushState(null, null, window.location.href);
 window.addEventListener('popstate', function() { window.history.back(); });
