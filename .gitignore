@@ -1,0 +1,37 @@
+# Dependencies
+node_modules/
+vendor/
+bower_components/
+.pnpm-store/
+
+# Build outputs
+dist/
+build/
+out/
+target/
+bin/
+obj/
+.next/
+.output/
+
+# IDE/Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Caches
+__pycache__/
+.pytest_cache/
+.cache/
+.turbo/
+
+# Logs
+*.log
+logs/
+tmp/
+temp/
