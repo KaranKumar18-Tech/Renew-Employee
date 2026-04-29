@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<!-- ReNew Event App · m-09 · v4 · cache-bust -->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>ReNew Leaders Connect 2026 — Mobile App</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: #F2F2F2; font-family: 'Inter', sans-serif;
+  min-height: 100vh; display: flex; flex-direction: column;
+  align-items: center; padding: 48px 24px;
+}
+.page-title { font-size: 18px; font-weight: 600; color: #1A1A1A; text-align: center; margin-bottom: 32px; }
+
+/* ── iPhone Shell ── */
+.iphone {
+  width: 320px; height: 694px; border-radius: 55px;
+  background: #000; position: relative; overflow: hidden;
+  box-shadow: 0 12px 48px rgba(0,0,0,0.25), inset 0 0 0 2px #1c1c1c;
+}
+.notch { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 120px; height: 28px; background: #000; border-radius: 0 0 18px 18px; z-index: 100; }
+.home-bar { position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); width: 100px; height: 4px; border-radius: 2px; background: rgba(0,0,0,0.18); z-index: 100; }
+
+/* ── Status Bar ── */
+.status-bar {
+  position: absolute; top: 0; left: 0; right: 0; height: 44px; z-index: 90;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 22px 0; font-size: 12px; font-weight: 600; color: #FFFFFF;
+  pointer-events: none;
+}
+.sb-right { display: flex; align-items: center; gap: 5px; }
+.sb-right svg { width: 16px; height: 16px; }
+
+/* ── Screen ── */
+.screen { position: absolute; inset: 0; border-radius: 55px; overflow: hidden; display: flex; flex-direction: column; background: #F5F9F5; }
+.screen-scroll { flex: 1; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+.screen-scroll::-webkit-scrollbar { display: none; }
+
+/* ── Top Nav ── */
+.top-nav {
+  background: #1B5E20; padding: 56px 16px 0;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.back-pill {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 8px; padding: 4px 8px 4px 4px;
+  text-decoration: none; cursor: pointer;
+}
+.back-pill:hover { background: rgba(255,255,255,0.25); }
+.back-pill-text { font-size: 13px; font-weight: 600; color: #FFFFFF; }
+.nav-center { font-size: 16px; font-weight: 600; color: #FFFFFF; }
+.qr-btn { cursor: pointer; opacity: 0.9; display: flex; align-items: center; }
+.qr-btn:hover { opacity: 1; }
+
+/* ── Tab Row ── */
+.tab-row {
+  background: #1B5E20; padding: 10px 16px 16px;
+  display: flex; gap: 8px;
+}
+.tab-btn {
+  flex: 1; border: none; border-radius: 10px; padding: 8px 0;
+  font-family: 'Inter', sans-serif; font-size: 12px; cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  display: flex; align-items: center; justify-content: center; gap: 4px;
+}
+.tab-btn.active { background: #FFFFFF; color: #1B5E20; font-weight: 600; }
+.tab-btn.inactive { background: rgba(255,255,255,0.15); color: #FFFFFF; font-weight: 500; }
+
+/* ── Main Content Area ── */
+.main-content { background: #F5F9F5; border-radius: 20px 20px 0 0; margin-top: -8px; padding: 16px 16px 80px; }
+
+/* ── AI Insight Banner ── */
+.insight-banner { background: #E8F5E9; border-radius: 12px; padding: 12px 14px; border: 1px solid #C8E6C9; margin-bottom: 14px; }
+
+/* ── Match Cards ── */
+.match-card { background: #FFFFFF; border-radius: 16px; padding: 16px; box-shadow: 0 2px 12px rgba(0,0,0,0.07); margin-bottom: 12px; }
+.card-top { display: flex; align-items: flex-start; gap: 12px; }
+.av { border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.card-info { flex: 1; min-width: 0; }
+.match-badge { background: #E8F5E9; border-radius: 20px; padding: 4px 10px; white-space: nowrap; flex-shrink: 0; }
+.interest-pills { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 4px; }
+.ipill { background: #F5F9F5; border: 1px solid #C8E6C9; border-radius: 20px; padding: 3px 10px; font-size: 10px; font-weight: 500; color: #1B5E20; white-space: nowrap; }
+.match-reason { background: #F5F9F5; border-radius: 8px; padding: 8px 10px; margin-top: 8px; font-size: 11px; font-weight: 400; color: #616161; line-height: 1.4; }
+.action-row { display: flex; gap: 8px; margin-top: 12px; }
+.btn-primary-sm { flex: 1; background: #1B5E20; border: none; border-radius: 8px; padding: 9px 0; font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600; color: #FFFFFF; cursor: pointer; text-align: center; text-decoration: none; display: flex; align-items: center; justify-content: center; transition: background 0.15s; }
+.btn-primary-sm:hover { background: #2E7D32; }
+.btn-outline-sm { flex: 1; background: #FFFFFF; border: 1.5px solid #1B5E20; border-radius: 8px; padding: 9px 0; font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600; color: #1B5E20; cursor: pointer; text-align: center; text-decoration: none; display: flex; align-items: center; justify-content: center; transition: background 0.15s; }
+.btn-outline-sm:hover { background: #E8F5E9; }
+
+/* ── Meeting Cards ── */
+.meeting-card { background: #FFFFFF; border-radius: 12px; padding: 14px; border-left: 3px solid #1B5E20; margin-bottom: 10px; }
+.meeting-status { display: inline-flex; border-radius: 20px; padding: 3px 10px; font-size: 10px; font-weight: 600; margin-top: 6px; }
+.status-confirmed { background: #E8F5E9; color: #4CAF50; }
+.status-pending { background: #FFF3E0; color: #E65100; }
+.status-done { background: #F5F5F5; color: #9E9E9E; }
+
+/* ── Toast ── */
+.toast {
+  position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%);
+  background: #1A1A1A; color: #FFFFFF; font-size: 12px; font-weight: 500;
+  font-family: 'Inter', sans-serif; border-radius: 8px; padding: 8px 16px;
+  white-space: nowrap; z-index: 200; pointer-events: none;
+  opacity: 0; transition: opacity 0.2s;
+}
+.toast.show { opacity: 1; }
+
+/* ── Bottom Nav ── */
+.bottom-nav { background: #FFFFFF; border-top: 1px solid #E0E0E0; padding: 8px 0 20px; display: flex; justify-content: space-around; flex-shrink: 0; }
+.nav-tab { display: flex; flex-direction: column; align-items: center; gap: 3px; cursor: pointer; flex: 1; text-decoration: none; }
+.nav-icon { font-size: 18px; line-height: 1; }
+.nav-lbl { font-size: 10px; font-weight: 400; color: #9E9E9E; }
+.nav-tab.active .nav-lbl { font-weight: 600; color: #1B5E20; }
+
+/* ── Sections ── */
+.section-lbl-dark { font-size: 14px; font-weight: 600; color: #1A1A1A; margin-bottom: 10px; }
+.section-lbl-muted { font-size: 13px; font-weight: 600; color: #9E9E9E; margin-bottom: 8px; }
+
+/* ── Frame label ── */
+.frame-label { margin-top: 16px; font-size: 13px; font-weight: 500; color: #888888; text-align: center; }
+
+/* ── Hidden ── */
+.hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<!-- ← Directory button -->
+<a href="/" style="position:fixed;top:24px;left:24px;z-index:999;background:#FFFFFF;border:1px solid #C8E6C9;border-radius:8px;padding:8px 14px;display:inline-flex;align-items:center;gap:6px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.08);text-decoration:none;transition:all 0.2s;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:#1B5E20;" onmouseover="this.style.background='#F5F9F5';this.style.borderColor='#1B5E20';" onmouseout="this.style.background='#FFFFFF';this.style.borderColor='#C8E6C9';">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1B5E20" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  Directory
+</a>
+
+<div class="page-title">ReNew Leaders Connect 2026 — Mobile App</div>
+
+<div style="display:flex;flex-direction:column;align-items:center;">
+<div class="iphone">
+  <div class="notch"></div>
+  <div class="home-bar"></div>
+
+  <!-- Status Bar -->
+  <div class="status-bar">
+    <span>9:41</span>
+    <div class="sb-right">
+      <svg viewBox="0 0 16 16"><rect x="0" y="9" width="3" height="7" rx="0.5" fill="white"/><rect x="4" y="6" width="3" height="10" rx="0.5" fill="white"/><rect x="8" y="3" width="3" height="13" rx="0.5" fill="white"/><rect x="12" y="0" width="3" height="16" rx="0.5" fill="white" opacity="0.35"/></svg>
+      <svg viewBox="0 0 16 16" fill="none"><path d="M1 12.5C3.5 8.5 12.5 8.5 15 12.5" stroke="white" stroke-width="1.5" stroke-linecap="round"/><path d="M3.5 10C5.5 7.5 10.5 7.5 12.5 10" stroke="white" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="14" r="1.2" fill="white"/></svg>
+      <svg viewBox="0 0 24 12" fill="none"><rect x="0" y="1" width="20" height="10" rx="2" stroke="white" stroke-width="1"/><rect x="21" y="3.5" width="2" height="5" rx="1" fill="white" opacity="0.4"/><rect x="2" y="3" width="13" height="6" rx="1" fill="white"/></svg>
+    </div>
+  </div>
+
+  <div class="screen">
+
+    <!-- ── Top Nav ── -->
+    <div class="top-nav">
+      <a href="/mobile/m-07-home-dashboard.html" class="back-pill">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        <span class="back-pill-text">Home</span>
+      </a>
+      <span class="nav-center">Networking</span>
+      <a href="/mobile/m-13-qr-scanner.html" class="qr-btn">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
+          <rect x="3" y="14" width="7" height="7" rx="1"/>
+          <rect x="14" y="14" width="3" height="3" rx="0.5"/><rect x="18" y="14" width="3" height="3" rx="0.5"/>
+          <rect x="14" y="18" width="3" height="3" rx="0.5"/><rect x="18" y="18" width="3" height="3" rx="0.5"/>
+        </svg>
+      </a>
+    </div>
+
+    <!-- ── Tab Row ── -->
+    <div class="tab-row">
+      <button class="tab-btn active" id="tab-matches" onclick="switchTab('matches')">🤝 AI Matches</button>
+      <button class="tab-btn inactive" id="tab-meetings" onclick="switchTab('meetings')">📅 My Meetings</button>
+    </div>
+
+    <!-- ── Scrollable Content ── -->
+    <div class="screen-scroll">
+      <div class="main-content">
+
+        <!-- ══ TAB 1: AI MATCHES ══ -->
+        <div id="content-matches">
+
+          <!-- AI Insight Banner -->
+          <div class="insight-banner">
+            <div style="font-size:12px;font-weight:600;color:#1B5E20;">✨ AI Matchmaking Active</div>
+            <div style="font-size:11px;font-weight:400;color:#616161;margin-top:4px;">Based on your interests: Energy Transition · AI & Technology · Innovation</div>
+            <div style="font-size:11px;font-weight:500;color:#4CAF50;margin-top:4px;">3 high-confidence matches found for you</div>
+          </div>
+
+          <div class="section-lbl-dark">Suggested for You</div>
+
+          <!-- Match Card 1 — Priya Sharma -->
+          <div class="match-card">
+            <div class="card-top">
+              <div class="av" style="width:48px;height:48px;background:#1B5E20;font-size:18px;font-weight:700;color:#FFFFFF;">PS</div>
+              <div class="card-info">
+                <div style="font-size:14px;font-weight:700;color:#1A1A1A;">Priya Sharma</div>
+                <div style="font-size:12px;font-weight:400;color:#616161;margin-top:2px;">Senior Manager HR · Mumbai</div>
+                <div class="interest-pills">
+                  <span class="ipill">People Strategy</span>
+                  <span class="ipill">Innovation</span>
+                </div>
+              </div>
+              <div class="match-badge">
+                <span style="font-size:11px;font-weight:700;color:#1B5E20;">92% Match</span>
+              </div>
+            </div>
+            <div class="match-reason">💡 Both focused on cross-functional leadership and team building at ReNew</div>
+            <div class="action-row">
+              <a href="/mobile/m-11-meeting-scheduler.html?person=priya" class="btn-primary-sm">Book Meeting</a>
+              <a href="/mobile/m-10-match-profile.html?person=priya" class="btn-outline-sm">View Profile</a>
+            </div>
+          </div>
+
+          <!-- Match Card 2 — Rohan Kapoor -->
+          <div class="match-card">
+            <div class="card-top">
+              <div class="av" style="width:48px;height:48px;background:#4CAF50;font-size:18px;font-weight:700;color:#FFFFFF;">RK</div>
+              <div class="card-info">
+                <div style="font-size:14px;font-weight:700;color:#1A1A1A;">Rohan Kapoor</div>
+                <div style="font-size:12px;font-weight:400;color:#616161;margin-top:2px;">Lead Engineer · Gurugram</div>
+                <div class="interest-pills">
+                  <span class="ipill">AI &amp; Technology</span>
+                  <span class="ipill">Innovation</span>
+                </div>
+              </div>
+              <div class="match-badge">
+                <span style="font-size:11px;font-weight:700;color:#1B5E20;">87% Match</span>
+              </div>
+            </div>
+            <div class="match-reason">💡 Both exploring AI applications in renewable energy operations and project delivery</div>
+            <div class="action-row">
+              <a href="/mobile/m-11-meeting-scheduler.html?person=rohan" class="btn-primary-sm">Book Meeting</a>
+              <a href="/mobile/m-10-match-profile.html?person=rohan" class="btn-outline-sm">View Profile</a>
+            </div>
+          </div>
+
+          <!-- Match Card 3 — Neha Joshi -->
+          <div class="match-card">
+            <div class="card-top">
+              <div class="av" style="width:48px;height:48px;background:#FF6F00;font-size:18px;font-weight:700;color:#FFFFFF;">NJ</div>
+              <div class="card-info">
+                <div style="font-size:14px;font-weight:700;color:#1A1A1A;">Neha Joshi</div>
+                <div style="font-size:12px;font-weight:400;color:#616161;margin-top:2px;">Business Analyst · Hyderabad</div>
+                <div class="interest-pills">
+                  <span class="ipill">Energy Transition</span>
+                  <span class="ipill">AI &amp; Technology</span>
+                </div>
+              </div>
+              <div class="match-badge">
+                <span style="font-size:11px;font-weight:700;color:#1B5E20;">81% Match</span>
+              </div>
+            </div>
+            <div class="match-reason">💡 Both working on data-driven strategy and digital transformation at ReNew</div>
+            <div class="action-row">
+              <a href="/mobile/m-11-meeting-scheduler.html?person=neha" class="btn-primary-sm">Book Meeting</a>
+              <a href="/mobile/m-10-match-profile.html?person=neha" class="btn-outline-sm">View Profile</a>
+            </div>
+          </div>
+
+          <!-- Footer -->
+          <div style="text-align:center;margin-top:4px;">
+            <div style="font-size:11px;font-weight:400;color:#9E9E9E;">Showing 3 of 12 suggested matches</div>
+            <div style="font-size:12px;font-weight:600;color:#4CAF50;margin-top:6px;cursor:pointer;" onclick="showToast()">View All Matches →</div>
+          </div>
+
+        </div><!-- /content-matches -->
+
+        <!-- ══ TAB 2: MY MEETINGS ══ -->
+        <div id="content-meetings" class="hidden">
+
+          <div class="section-lbl-dark">Upcoming</div>
+
+          <!-- Meeting 1 -->
+          <div class="meeting-card">
+            <div style="font-size:11px;font-weight:500;color:#4CAF50;">Today · 11:00 AM</div>
+            <div style="font-size:14px;font-weight:600;color:#1A1A1A;margin-top:4px;">Priya Sharma</div>
+            <div style="font-size:11px;font-weight:400;color:#616161;">Senior Manager HR</div>
+            <div style="font-size:11px;font-weight:400;color:#616161;margin-top:3px;">📍 Networking Hub 1 · Room A</div>
+            <span class="meeting-status status-confirmed">✅ Confirmed</span>
+            <div style="font-size:11px;font-weight:500;color:#1B5E20;text-decoration:underline;margin-top:6px;cursor:pointer;">Add to calendar</div>
+          </div>
+
+          <!-- Meeting 2 -->
+          <div class="meeting-card" style="border-left-color:#FF6F00;">
+            <div style="font-size:11px;font-weight:500;color:#4CAF50;">Today · 2:30 PM</div>
+            <div style="font-size:14px;font-weight:600;color:#1A1A1A;margin-top:4px;">Rohan Kapoor</div>
+            <div style="font-size:11px;font-weight:400;color:#616161;">Lead Engineer</div>
+            <div style="font-size:11px;font-weight:400;color:#616161;margin-top:3px;">📍 Networking Hub 2 · Room C</div>
+            <span class="meeting-status status-pending">⏳ Pending</span>
+          </div>
+
+          <!-- Past section -->
+          <div class="section-lbl-muted" style="margin-top:16px;">Past</div>
+
+          <!-- Meeting 3 -->
+          <div class="meeting-card" style="opacity:0.6;border-left-color:#E0E0E0;">
+            <div style="font-size:11px;font-weight:500;color:#9E9E9E;">Yesterday · 10:00 AM</div>
+            <div style="font-size:14px;font-weight:600;color:#1A1A1A;margin-top:4px;">Amit Verma</div>
+            <div style="font-size:11px;font-weight:400;color:#616161;">Director Operations</div>
+            <div style="font-size:11px;font-weight:400;color:#616161;margin-top:3px;">📍 Networking Hub 1 · Room B</div>
+            <span class="meeting-status status-done">✓ Completed</span>
+          </div>
+
+        </div><!-- /content-meetings -->
+
+      </div><!-- /main-content -->
+    </div><!-- /screen-scroll -->
+
+    <!-- Toast -->
+    <div class="toast" id="mainToast">Full matches list coming soon</div>
+
+    <!-- ── Bottom Nav ── -->
+    <div class="bottom-nav">
+      <a href="/mobile/m-07-home-dashboard.html" class="nav-tab" style="text-decoration:none;">
+        <div class="nav-icon">🏠</div>
+        <div class="nav-lbl">Home</div>
+      </a>
+      <a href="/mobile/m-22-master-schedule.html" class="nav-tab" style="text-decoration:none;">
+        <div class="nav-icon">📅</div>
+        <div class="nav-lbl">Agenda</div>
+      </a>
+      <div class="nav-tab active">
+        <div class="nav-icon">🤝</div>
+        <div class="nav-lbl" style="color:#1B5E20;font-weight:600;">Network</div>
+      </div>
+      <div class="nav-tab" onclick="showNavToast()">
+        <div class="nav-icon">📸</div>
+        <div class="nav-lbl">Feed</div>
+      </div>
+      <div class="nav-tab" onclick="showNavToast()">
+        <div class="nav-icon">☰</div>
+        <div class="nav-lbl">More</div>
+      </div>
+    </div>
+
+  </div><!-- /screen -->
+</div><!-- /iphone -->
+<div class="frame-label">AI Networking</div>
+</div>
+
+<script>
+/* ── TAB SWITCHER ── */
+function switchTab(tab) {
+  document.getElementById('tab-matches').className  = 'tab-btn ' + (tab === 'matches'  ? 'active' : 'inactive');
+  document.getElementById('tab-meetings').className = 'tab-btn ' + (tab === 'meetings' ? 'active' : 'inactive');
+  document.getElementById('content-matches').classList.toggle('hidden',  tab !== 'matches');
+  document.getElementById('content-meetings').classList.toggle('hidden', tab !== 'meetings');
+  // Reset scroll when switching tabs
+  document.querySelector('.screen-scroll').scrollTop = 0;
+}
+
+/* ── TOASTS ── */
+let toastTimer = null;
+function fireToast(msg) {
+  const t = document.getElementById('mainToast');
+  t.textContent = msg;
+  if (toastTimer) clearTimeout(toastTimer);
+  t.classList.add('show');
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2000);
+}
+function showToast()    { fireToast('Full matches list coming soon'); }
+function showNavToast() { fireToast('Coming soon'); }
+
+/* ── TAB DEEP LINK ── */
+(function() {
+  const tab = new URLSearchParams(window.location.search).get('tab');
+  if (tab === 'meetings') switchTab('meetings');
+})();
+
+/* ── BROWSER BACK SUPPORT ── */
+history.pushState(null, null, window.location.href);
+window.addEventListener('popstate', function() { window.history.back(); });
+</script>
+
+</body>
+</html>
