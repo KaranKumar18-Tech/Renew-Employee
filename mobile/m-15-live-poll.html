@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ReNew Leaders Connect 2026 — Mobile App</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: #F2F2F2; font-family: 'Inter', sans-serif;
+  min-height: 100vh; display: flex; flex-direction: column;
+  align-items: center; padding: 48px 24px;
+}
+.page-title { font-size: 18px; font-weight: 600; color: #1A1A1A; text-align: center; margin-bottom: 32px; }
+
+/* ── iPhone Shell ── */
+.iphone {
+  width: 320px; height: 694px; border-radius: 55px;
+  background: #000; position: relative; overflow: hidden;
+  box-shadow: 0 12px 48px rgba(0,0,0,0.25), inset 0 0 0 2px #1c1c1c;
+}
+.notch { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 120px; height: 28px; background: #000; border-radius: 0 0 18px 18px; z-index: 100; }
+.home-bar { position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); width: 100px; height: 4px; border-radius: 2px; background: rgba(0,0,0,0.18); z-index: 100; }
+
+/* ── Status Bar ── */
+.status-bar {
+  position: absolute; top: 0; left: 0; right: 0; height: 44px; z-index: 90;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 22px 0; font-size: 12px; font-weight: 600; color: #FFFFFF;
+  pointer-events: none;
+}
+.sb-right { display: flex; align-items: center; gap: 5px; }
+.sb-right svg { width: 16px; height: 16px; }
+
+/* ── Screen ── */
+.screen {
+  position: absolute; inset: 0; border-radius: 55px; overflow: hidden;
+  display: flex; flex-direction: column; background: #F5F9F5;
+}
+.screen-scroll { flex: 1; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+.screen-scroll::-webkit-scrollbar { display: none; }
+
+/* ── Top Nav ── */
+.top-nav {
+  background: #1B5E20; padding: 56px 16px 0;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.nav-back { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+.nav-back:hover { opacity: 0.7; }
+.nav-back svg { flex-shrink: 0; }
+.nav-title-text { font-size: 15px; font-weight: 600; color: #FFFFFF; }
+
+/* ── LIVE pill ── */
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+.live-pill {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: #D32F2F; color: #FFFFFF; border-radius: 20px;
+  padding: 3px 10px; font-size: 10px; font-weight: 700;
+}
+.live-dot { width: 6px; height: 6px; border-radius: 50%; background: #FFFFFF; animation: pulse 1.2s ease-in-out infinite; flex-shrink: 0; }
+
+/* ── Session strip ── */
+.session-strip { background: #1B5E20; padding: 8px 16px 18px; }
+
+/* ── Main content area ── */
+.main-content {
+  background: #F5F9F5; border-radius: 20px 20px 0 0;
+  margin-top: -8px; padding: 16px; flex: 1;
+}
+
+/* ── Poll / Results card ── */
+.poll-card {
+  background: #FFFFFF; border-radius: 16px; padding: 20px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+.card-top-row { display: flex; align-items: center; justify-content: space-between; }
+.poll-pill { background: #E8F5E9; color: #1B5E20; font-size: 11px; font-weight: 600; border-radius: 20px; padding: 4px 12px; }
+.voted-pill { background: #E8F5E9; color: #4CAF50; font-size: 11px; font-weight: 600; border-radius: 20px; padding: 4px 12px; }
+.pts-earned { font-size: 11px; font-weight: 600; color: #1B5E20; }
+.q-count { font-size: 11px; font-weight: 400; color: #9E9E9E; }
+.question-text { font-size: 15px; font-weight: 700; color: #1A1A1A; line-height: 1.5; margin-top: 12px; }
+.question-text-sm { font-size: 14px; font-weight: 600; color: #1A1A1A; line-height: 1.45; margin-top: 12px; }
+.divider { border: none; border-top: 1px solid #F0F0F0; margin: 14px 0; }
+
+/* ── Option buttons ── */
+.options-wrap { display: flex; flex-direction: column; gap: 8px; }
+.option-btn {
+  width: 100%; background: #F5F9F5; border: 1.5px solid #E0E0E0;
+  border-radius: 10px; padding: 12px 14px;
+  display: flex; align-items: center; gap: 10px;
+  cursor: pointer; font-family: 'Inter', sans-serif;
+  transition: border-color 0.15s, background 0.15s, opacity 0.3s;
+  position: relative;
+}
+.option-btn.selected {
+  background: #E8F5E9; border-color: #1B5E20;
+}
+.option-btn.dimmed { opacity: 0.45; }
+.opt-letter {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: #E8F5E9; color: #1B5E20;
+  font-size: 12px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  transition: background 0.15s, color 0.15s;
+}
+.option-btn.selected .opt-letter { background: #1B5E20; color: #FFFFFF; }
+.opt-text { font-size: 13px; font-weight: 500; color: #1A1A1A; flex: 1; text-align: left; transition: color 0.15s, font-weight 0.15s; }
+.option-btn.selected .opt-text { color: #1B5E20; font-weight: 600; }
+.opt-check { font-size: 16px; color: #4CAF50; margin-left: auto; opacity: 0; transition: opacity 0.2s; }
+.option-btn.selected .opt-check { opacity: 1; }
+
+/* ── Timer ── */
+.timer-row { display: flex; align-items: center; justify-content: space-between; margin-top: 14px; }
+.timer-label { font-size: 11px; font-weight: 500; color: #616161; }
+.timer-value { font-size: 11px; font-weight: 600; color: #1B5E20; }
+.timer-bar-wrap { width: 100%; height: 6px; background: #E0E0E0; border-radius: 4px; overflow: hidden; margin-top: 6px; }
+@keyframes timerDrain { from { width: 70%; } to { width: 0%; } }
+.timer-bar-fill { height: 100%; border-radius: 4px; background: #4CAF50; width: 70%; animation: timerDrain 42s linear forwards; }
+.voter-count { font-size: 11px; font-weight: 400; color: #9E9E9E; text-align: center; margin-top: 10px; }
+
+/* ── Result bars ── */
+.result-bars { display: flex; flex-direction: column; gap: 10px; }
+.result-row { }
+.result-label-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
+.result-opt-label { font-size: 12px; font-weight: 500; color: #1A1A1A; display: flex; align-items: center; gap: 6px; }
+.result-pct { font-size: 12px; font-weight: 600; color: #1B5E20; }
+.bar-container { width: 100%; height: 32px; background: #F5F9F5; border-radius: 8px; overflow: hidden; position: relative; }
+.bar-fill {
+  height: 100%; border-radius: 8px;
+  display: flex; align-items: center; justify-content: flex-end;
+  padding-right: 10px;
+  width: 0%; transition: width 0.9s ease-out;
+}
+.bar-fill.winner { background: #1B5E20; }
+.bar-fill.other  { background: #C8E6C9; }
+.bar-pct-text { font-size: 12px; font-weight: 700; white-space: nowrap; }
+.bar-fill.winner .bar-pct-text { color: #FFFFFF; }
+.bar-fill.other  .bar-pct-text { color: #1B5E20; }
+.your-vote-tag { font-size: 10px; font-weight: 600; color: #4CAF50; white-space: nowrap; }
+
+/* ── Next poll card ── */
+.next-poll-card {
+  background: #FFFFFF; border-radius: 12px; padding: 14px;
+  border: 1px solid #C8E6C9; margin-top: 14px;
+}
+
+/* ── Leaderboard nudge ── */
+.lb-nudge { margin-top: 10px; text-align: center; }
+
+/* ── Points toast ── */
+.pts-toast {
+  position: absolute; bottom: 90px; left: 50%; transform: translateX(-50%);
+  background: #1B5E20; color: #FFFFFF; font-size: 13px; font-weight: 600;
+  font-family: 'Inter', sans-serif; border-radius: 10px; padding: 10px 20px;
+  white-space: nowrap; z-index: 200; pointer-events: none;
+  opacity: 0; transition: opacity 0.3s;
+}
+.pts-toast.show { opacity: 1; }
+
+/* ── Generic toast ── */
+.toast {
+  position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%);
+  background: #1A1A1A; color: #FFFFFF; font-size: 12px; font-weight: 500;
+  font-family: 'Inter', sans-serif; border-radius: 8px; padding: 8px 16px;
+  white-space: nowrap; z-index: 200; pointer-events: none;
+  opacity: 0; transition: opacity 0.2s;
+}
+.toast.show { opacity: 1; }
+
+/* ── Bottom Nav ── */
+.bottom-nav {
+  background: #FFFFFF; border-top: 1px solid #E0E0E0;
+  padding: 8px 0 20px; display: flex; justify-content: space-around;
+  flex-shrink: 0;
+}
+.nav-tab { display: flex; flex-direction: column; align-items: center; gap: 3px; cursor: pointer; flex: 1; text-decoration: none; }
+.nav-icon { font-size: 18px; line-height: 1; }
+.nav-lbl { font-size: 10px; font-weight: 400; color: #9E9E9E; }
+.nav-tab.active .nav-lbl { font-weight: 600; color: #1B5E20; }
+
+/* ── State containers ── */
+.state { transition: opacity 0.25s ease; }
+.state.hidden { display: none; opacity: 0; }
+
+/* ── Frame label ── */
+.frame-label { margin-top: 16px; font-size: 13px; font-weight: 500; color: #888888; text-align: center; }
+</style>
+</head>
+<body>
+
+<div class="page-title">ReNew Leaders Connect 2026 — Mobile App</div>
+
+<div style="display:flex;flex-direction:column;align-items:center;">
+<div class="iphone">
+  <div class="notch"></div>
+  <div class="home-bar"></div>
+
+  <!-- Status Bar -->
+  <div class="status-bar">
+    <span>9:41</span>
+    <div class="sb-right">
+      <svg viewBox="0 0 16 16"><rect x="0" y="9" width="3" height="7" rx="0.5" fill="white"/><rect x="4" y="6" width="3" height="10" rx="0.5" fill="white"/><rect x="8" y="3" width="3" height="13" rx="0.5" fill="white"/><rect x="12" y="0" width="3" height="16" rx="0.5" fill="white" opacity="0.35"/></svg>
+      <svg viewBox="0 0 16 16" fill="none"><path d="M1 12.5C3.5 8.5 12.5 8.5 15 12.5" stroke="white" stroke-width="1.5" stroke-linecap="round"/><path d="M3.5 10C5.5 7.5 10.5 7.5 12.5 10" stroke="white" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="14" r="1.2" fill="white"/></svg>
+      <svg viewBox="0 0 24 12" fill="none"><rect x="0" y="1" width="20" height="10" rx="2" stroke="white" stroke-width="1"/><rect x="21" y="3.5" width="2" height="5" rx="1" fill="white" opacity="0.4"/><rect x="2" y="3" width="13" height="6" rx="1" fill="white"/></svg>
+    </div>
+  </div>
+
+  <div class="screen">
+
+    <!-- ══ TOP NAV (shared) ══ -->
+    <div class="top-nav">
+      <a href="/mobile/m-22-master-schedule.html" class="nav-back">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        <span class="nav-title-text">Townhall: Q&amp;A</span>
+      </a>
+      <span class="live-pill"><span class="live-dot"></span>LIVE</span>
+    </div>
+
+    <!-- ══ SESSION STRIP (shared) ══ -->
+    <div class="session-strip">
+      <div style="font-size:11px;font-weight:400;color:rgba(255,255,255,0.7);">📍 Main Auditorium · Day 1</div>
+      <div style="font-size:12px;font-weight:500;color:#FFFFFF;margin-top:3px;">🎤 Leadership Panel</div>
+    </div>
+
+    <!-- ══ SCROLLABLE BODY ══ -->
+    <div class="screen-scroll">
+      <div class="main-content">
+
+        <!-- ─────── STATE 1: VOTING ─────── -->
+        <div class="state" id="state-vote">
+          <div class="poll-card">
+            <div class="card-top-row">
+              <span class="poll-pill">📊 Live Poll</span>
+              <span class="q-count">Q 1 of 2</span>
+            </div>
+            <div class="question-text">What do you think is ReNew's biggest opportunity in the next 3 years?</div>
+            <hr class="divider">
+            <div class="options-wrap" id="optionsWrap">
+              <button class="option-btn" data-opt="A" onclick="selectOption(this)">
+                <div class="opt-letter">A</div>
+                <span class="opt-text">🌿 Green Hydrogen</span>
+                <span class="opt-check">✓</span>
+              </button>
+              <button class="option-btn" data-opt="B" onclick="selectOption(this)">
+                <div class="opt-letter">B</div>
+                <span class="opt-text">💨 Offshore Wind</span>
+                <span class="opt-check">✓</span>
+              </button>
+              <button class="option-btn" data-opt="C" onclick="selectOption(this)">
+                <div class="opt-letter">C</div>
+                <span class="opt-text">🔋 Energy Storage</span>
+                <span class="opt-check">✓</span>
+              </button>
+              <button class="option-btn" data-opt="D" onclick="selectOption(this)">
+                <div class="opt-letter">D</div>
+                <span class="opt-text">🤝 Corporate PPAs</span>
+                <span class="opt-check">✓</span>
+              </button>
+            </div>
+            <!-- Timer -->
+            <div class="timer-row">
+              <span class="timer-label">⏱ Time remaining</span>
+              <span class="timer-value" id="timerDisplay">00:42</span>
+            </div>
+            <div class="timer-bar-wrap"><div class="timer-bar-fill" id="timerBar"></div></div>
+            <div class="voter-count">187 employees have voted</div>
+          </div>
+        </div>
+
+        <!-- ─────── STATE 2: RESULTS ─────── -->
+        <div class="state hidden" id="state-results">
+          <div class="poll-card">
+            <div class="card-top-row">
+              <span class="voted-pill">✅ Vote submitted!</span>
+              <span class="pts-earned">+50 pts earned</span>
+            </div>
+            <div class="question-text-sm">What do you think is ReNew's biggest opportunity in the next 3 years?</div>
+            <hr class="divider">
+
+            <div class="result-bars" id="resultBars">
+              <!-- Injected by JS with "Your vote" tag on chosen option -->
+            </div>
+
+            <div style="font-size:11px;font-weight:400;color:#9E9E9E;text-align:center;margin-top:10px;">
+              188 total responses · Poll closed by host
+            </div>
+          </div>
+
+          <!-- Next poll card -->
+          <div class="next-poll-card">
+            <div style="font-size:11px;font-weight:500;color:#9E9E9E;">Coming up · Poll 2 of 2</div>
+            <div style="font-size:13px;font-weight:600;color:#1A1A1A;margin-top:4px;">How would you rate today's keynote session?</div>
+            <div style="font-size:11px;font-weight:500;color:#4CAF50;margin-top:4px;">Starts in 00:08:24</div>
+          </div>
+
+          <!-- Leaderboard nudge -->
+          <div class="lb-nudge">
+            <div style="font-size:12px;font-weight:500;color:#1B5E20;">You're now #4 on the leaderboard 🏆</div>
+            <div style="margin-top:4px;">
+              <a href="/mobile/m-20-leaderboard.html" style="font-size:12px;font-weight:600;color:#4CAF50;text-decoration:underline;">View Leaderboard →</a>
+            </div>
+          </div>
+
+          <div style="height:16px;"></div>
+        </div>
+
+      </div><!-- /main-content -->
+    </div><!-- /screen-scroll -->
+
+    <!-- Toasts (inside phone frame, above nav) -->
+    <div class="pts-toast" id="ptsToast">🏆 +50 pts added to your score!</div>
+    <div class="toast" id="navToast">Coming soon</div>
+
+    <!-- ══ BOTTOM NAV ══ -->
+    <div class="bottom-nav">
+      <a href="/mobile/m-07-home-dashboard.html" class="nav-tab" style="text-decoration:none;">
+        <div class="nav-icon">🏠</div>
+        <div class="nav-lbl">Home</div>
+      </a>
+      <a href="/mobile/m-22-master-schedule.html" class="nav-tab" style="text-decoration:none;">
+        <div class="nav-icon">📅</div>
+        <div class="nav-lbl">Agenda</div>
+      </a>
+      <div class="nav-tab" onclick="showNavToast()">
+        <div class="nav-icon">🤝</div>
+        <div class="nav-lbl">Network</div>
+      </div>
+      <div class="nav-tab" onclick="showNavToast()">
+        <div class="nav-icon">📸</div>
+        <div class="nav-lbl">Feed</div>
+      </div>
+      <div class="nav-tab" onclick="showNavToast()">
+        <div class="nav-icon">☰</div>
+        <div class="nav-lbl">More</div>
+      </div>
+    </div>
+
+  </div><!-- /screen -->
+</div><!-- /iphone -->
+<div class="frame-label">Live Poll</div>
+</div>
+
+<script>
+/* ── RESULTS DATA ── */
+const RESULTS = [
+  { opt: 'A', label: '🌿 Green Hydrogen', pct: 34, winner: true },
+  { opt: 'B', label: '💨 Offshore Wind',  pct: 28, winner: false },
+  { opt: 'C', label: '🔋 Energy Storage', pct: 24, winner: false },
+  { opt: 'D', label: '🤝 Corporate PPAs', pct: 14, winner: false }
+];
+
+let votedOption = null;
+let transitionLocked = false;
+
+/* ── OPTION SELECTION ── */
+function selectOption(btn) {
+  if (transitionLocked) return;
+  transitionLocked = true;
+
+  votedOption = btn.getAttribute('data-opt');
+
+  // Apply selected / dimmed states
+  document.querySelectorAll('.option-btn').forEach(b => {
+    if (b === btn) {
+      b.classList.add('selected');
+      b.classList.remove('dimmed');
+    } else {
+      b.classList.add('dimmed');
+      b.classList.remove('selected');
+    }
+    b.style.pointerEvents = 'none';
+  });
+
+  // After 800ms transition to results
+  setTimeout(() => {
+    showResults();
+  }, 800);
+}
+
+/* ── BUILD RESULT BARS ── */
+function buildResultBars() {
+  const wrap = document.getElementById('resultBars');
+  wrap.innerHTML = '';
+  RESULTS.forEach(r => {
+    const isVoted = r.opt === votedOption;
+    const div = document.createElement('div');
+    div.className = 'result-row';
+    div.innerHTML = `
+      <div class="result-label-row">
+        <span class="result-opt-label">
+          ${r.opt}. ${r.label}
+          ${isVoted ? '<span class="your-vote-tag">Your vote ✓</span>' : ''}
+        </span>
+        <span class="result-pct">${r.pct}%</span>
+      </div>
+      <div class="bar-container">
+        <div class="bar-fill ${r.winner ? 'winner' : 'other'}" id="bar-${r.opt}">
+          <span class="bar-pct-text">${r.pct}%</span>
+        </div>
+      </div>`;
+    wrap.appendChild(div);
+  });
+}
+
+/* ── SHOW RESULTS STATE ── */
+function showResults() {
+  const voteEl    = document.getElementById('state-vote');
+  const resultsEl = document.getElementById('state-results');
+
+  // Fade out vote state
+  voteEl.style.opacity = '0';
+  setTimeout(() => {
+    voteEl.classList.add('hidden');
+
+    // Build and show results
+    buildResultBars();
+    resultsEl.classList.remove('hidden');
+    resultsEl.style.opacity = '0';
+    void resultsEl.offsetWidth;
+    resultsEl.style.opacity = '1';
+
+    // Animate bars after next frame
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        RESULTS.forEach(r => {
+          const bar = document.getElementById('bar-' + r.opt);
+          if (bar) bar.style.width = r.pct + '%';
+        });
+      });
+    });
+
+    // Show points toast after 400ms
+    setTimeout(() => {
+      const toast = document.getElementById('ptsToast');
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2500);
+    }, 400);
+
+  }, 250);
+}
+
+/* ── NAV TOAST ── */
+let navToastTimer = null;
+function showNavToast() {
+  const t = document.getElementById('navToast');
+  if (navToastTimer) clearTimeout(navToastTimer);
+  t.classList.add('show');
+  navToastTimer = setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+/* ── LIVE TIMER COUNTDOWN ── */
+let seconds = 42;
+function pad(n) { return String(n).padStart(2, '0'); }
+function tick() {
+  if (seconds <= 0) return;
+  seconds--;
+  const el = document.getElementById('timerDisplay');
+  if (el) el.textContent = '00:' + pad(seconds);
+}
+const timerInterval = setInterval(tick, 1000);
+
+/* ── BROWSER BACK SUPPORT ── */
+history.pushState(null, null, window.location.href);
+window.addEventListener('popstate', function() { window.history.back(); });
+</script>
+
+</body>
+</html>
