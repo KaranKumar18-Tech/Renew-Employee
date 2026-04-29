@@ -204,25 +204,25 @@ body {
         <span class="back-pill-text">Matches</span>
       </a>
       <span class="nav-center-text">Profile</span>
-      <span class="match-badge-nav">92% Match</span>
+      <span class="match-badge-nav" id="d-match-badge">—</span>
     </div>
 
     <!-- ── Hero ── -->
     <div class="hero">
-      <div class="hero-avatar">PS</div>
+      <div class="hero-avatar" id="d-avatar">—</div>
       <div style="height:10px;"></div>
-      <div style="font-size:18px;font-weight:700;color:#FFFFFF;">Priya Sharma</div>
-      <div style="font-size:13px;font-weight:400;color:rgba(255,255,255,0.8);margin-top:3px;">Senior Manager — People &amp; Culture</div>
+      <div style="font-size:18px;font-weight:700;color:#FFFFFF;" id="d-name">—</div>
+      <div style="font-size:13px;font-weight:400;color:rgba(255,255,255,0.8);margin-top:3px;" id="d-role">—</div>
       <div style="height:6px;"></div>
       <div class="hero-meta-row">
-        <span style="font-size:12px;font-weight:400;color:rgba(255,255,255,0.7);">🏢 ReNew Power</span>
-        <span style="font-size:12px;font-weight:400;color:rgba(255,255,255,0.7);">📍 Mumbai</span>
+        <span style="font-size:12px;font-weight:400;color:rgba(255,255,255,0.7);" id="d-company">—</span>
+        <span style="font-size:12px;font-weight:400;color:rgba(255,255,255,0.7);" id="d-city">—</span>
       </div>
       <div style="height:10px;"></div>
       <div class="hero-focus-row">
-        <span style="font-size:11px;font-weight:400;color:rgba(255,255,255,0.65);">👥 12 yrs experience</span>
+        <span style="font-size:11px;font-weight:400;color:rgba(255,255,255,0.65);" id="d-exp">—</span>
         <span style="font-size:11px;color:rgba(255,255,255,0.4);">·</span>
-        <span style="font-size:11px;font-weight:400;color:rgba(255,255,255,0.65);">🎯 People Strategy</span>
+        <span style="font-size:11px;font-weight:400;color:rgba(255,255,255,0.65);" id="d-focus">—</span>
       </div>
     </div>
 
@@ -234,45 +234,35 @@ body {
         <div class="match-reason-card">
           <div style="font-size:13px;font-weight:600;color:#1B5E20;">✨ Why you're matched</div>
           <div style="height:8px;"></div>
-          <div style="font-size:12px;font-weight:400;color:#616161;line-height:1.6;">Priya and you both share a focus on cross-functional leadership, team-building, and innovation at ReNew. She's also exploring AI applications in HR — aligning with your Technology interest.</div>
+          <div style="font-size:12px;font-weight:400;color:#616161;line-height:1.6;" id="d-reason">—</div>
         </div>
 
         <!-- Shared Interests -->
         <div class="sec-label">Shared Interests</div>
-        <div class="pill-row">
-          <span class="interest-pill">People Strategy</span>
-          <span class="interest-pill">Innovation</span>
-          <span class="interest-pill">Leadership</span>
-          <span class="interest-pill">AI &amp; Technology</span>
-        </div>
+        <div class="pill-row" id="d-interests"></div>
 
         <!-- About -->
         <div class="sec">
           <div class="sec-label">About</div>
-          <div style="font-size:12px;font-weight:400;color:#616161;line-height:1.6;">Priya leads the People &amp; Culture vertical at ReNew, focusing on high-performance team design, leadership development, and HR digital transformation. She is currently piloting an AI-driven performance management system across 3 business units.</div>
+          <div style="font-size:12px;font-weight:400;color:#616161;line-height:1.6;" id="d-about">—</div>
         </div>
 
         <!-- Currently working on -->
         <div class="sec">
           <div class="sec-label">Currently working on</div>
-          <div class="focus-pill">🤖 AI in HR Processes</div>
-          <div class="focus-pill">📊 Performance Analytics</div>
-          <div class="focus-pill">🌱 Leadership Pipeline</div>
+          <div id="d-working"></div>
         </div>
 
         <!-- Event Goal -->
         <div class="sec">
-          <div class="sec-label">Her goal at Leaders Connect</div>
-          <div class="goal-card">"Looking to connect with peers from Technology and Strategy teams to explore how AI can accelerate people decisions at ReNew."</div>
+          <div class="sec-label" id="d-goal-label">Their goal at Leaders Connect</div>
+          <div class="goal-card" id="d-goal">—</div>
         </div>
 
         <!-- Availability -->
         <div class="sec">
           <div class="sec-label">Available to meet</div>
-          <div class="slot-row">
-            <span class="slot-pill">🕙 Today · 11:00 AM · Hub 1</span>
-            <span class="slot-pill">🕑 Today · 2:30 PM · Hub 2</span>
-          </div>
+          <div class="slot-row" id="d-slots"></div>
         </div>
 
       </div><!-- /main-content -->
@@ -284,7 +274,7 @@ body {
     <!-- ── CTA Bar ── -->
     <div class="cta-bar">
       <button class="btn-outline-cta" onclick="showToast()">💬 Send Message</button>
-      <a href="/mobile/m-11-meeting-scheduler.html" class="btn-primary-cta">📅 Book Meeting</a>
+      <a id="d-book-btn" href="/mobile/m-11-meeting-scheduler.html" class="btn-primary-cta">📅 Book Meeting</a>
     </div>
 
     <!-- ── Bottom Nav ── -->
@@ -317,6 +307,101 @@ body {
 </div>
 
 <script>
+const persons = {
+  priya: {
+    initials: 'PS', avatarBg: '#1B5E20',
+    name: 'Priya Sharma', role: 'Senior Manager — People & Culture',
+    company: '🏢 ReNew Power', city: '📍 Mumbai',
+    experience: '👥 12 yrs experience', focus: '🎯 People Strategy',
+    matchPct: '92% Match',
+    matchReason: 'Priya and you both share a focus on cross-functional leadership, team-building, and innovation at ReNew. She\'s also exploring AI applications in HR — aligning with your Technology interest.',
+    interests: ['People Strategy','Innovation','Leadership','AI & Technology'],
+    about: 'Priya leads the People & Culture vertical at ReNew, focusing on high-performance team design, leadership development, and HR digital transformation. She is currently piloting an AI-driven performance management system across 3 business units.',
+    workingOn: ['🤖 AI in HR Processes','📊 Performance Analytics','🌱 Leadership Pipeline'],
+    goal: '"Looking to connect with peers from Technology and Strategy teams to explore how AI can accelerate people decisions at ReNew."',
+    slots: ['🕙 Today · 11:00 AM · Hub 1','🕑 Today · 2:30 PM · Hub 2']
+  },
+  rohan: {
+    initials: 'RK', avatarBg: '#4CAF50',
+    name: 'Rohan Kapoor', role: 'Lead Engineer — Technology',
+    company: '🏢 ReNew Power', city: '📍 Gurugram',
+    experience: '👥 8 yrs experience', focus: '🎯 AI & Technology',
+    matchPct: '87% Match',
+    matchReason: 'Rohan and you are both exploring AI applications in renewable energy operations. He leads tech innovation at ReNew\'s largest wind farm cluster — directly aligned with your Innovation and AI interests.',
+    interests: ['AI & Technology','Innovation','Green Hydrogen','Operations'],
+    about: 'Rohan leads engineering and tech innovation for ReNew\'s wind energy division. He is currently building an ML-based predictive maintenance system for turbine fleets across Rajasthan and Gujarat.',
+    workingOn: ['⚡ Predictive Maintenance ML','🌬️ Wind Farm Optimization','🤖 AI Operations Stack'],
+    goal: '"Looking to connect with Strategy and Business peers to understand how technology can drive faster commercial decisions at ReNew."',
+    slots: ['🕙 Today · 10:30 AM · Hub 2','🕓 Today · 3:30 PM · Hub 3']
+  },
+  neha: {
+    initials: 'NJ', avatarBg: '#FF6F00',
+    name: 'Neha Joshi', role: 'Business Analyst — Strategy',
+    company: '🏢 ReNew Power', city: '📍 Hyderabad',
+    experience: '👥 5 yrs experience', focus: '🎯 Energy Transition',
+    matchPct: '81% Match',
+    matchReason: 'Neha and you are both working on data-driven strategy and digital transformation at ReNew. Her analytical background in energy transition projects directly complements your strategic interests.',
+    interests: ['Energy Transition','AI & Technology','Finance & Risk','Policy & Regulation'],
+    about: 'Neha works in ReNew\'s corporate strategy team, specializing in energy transition analytics and market entry modelling. She has led feasibility studies for 4 new state markets in FY2025-26.',
+    workingOn: ['📊 Energy Market Analytics','🌍 State Market Expansion','📋 Policy Impact Modelling'],
+    goal: '"Looking to connect with Technology and Operations peers to build data pipelines that support faster strategic decisions."',
+    slots: ['🕛 Today · 12:00 PM · Hub 1','🕑 Today · 2:00 PM · Hub 3']
+  }
+};
+
+// Read param and render
+const key = new URLSearchParams(window.location.search).get('person') || 'priya';
+const p = persons[key] || persons.priya;
+
+// Avatar
+const av = document.getElementById('d-avatar');
+av.textContent = p.initials;
+av.style.background = p.avatarBg;
+
+// Nav badge + hero text
+document.getElementById('d-match-badge').textContent = p.matchPct;
+document.getElementById('d-name').textContent = p.name;
+document.getElementById('d-role').textContent = p.role;
+document.getElementById('d-company').textContent = p.company;
+document.getElementById('d-city').textContent = p.city;
+document.getElementById('d-exp').textContent = p.experience;
+document.getElementById('d-focus').textContent = p.focus;
+document.getElementById('d-reason').textContent = p.matchReason;
+document.getElementById('d-about').textContent = p.about;
+document.getElementById('d-goal').textContent = p.goal;
+document.getElementById('d-goal-label').textContent = 'Their goal at Leaders Connect';
+
+// Interest pills
+const iWrap = document.getElementById('d-interests');
+p.interests.forEach(i => {
+  const s = document.createElement('span');
+  s.className = 'interest-pill';
+  s.textContent = i;
+  iWrap.appendChild(s);
+});
+
+// Working on pills
+const wWrap = document.getElementById('d-working');
+p.workingOn.forEach(w => {
+  const d = document.createElement('div');
+  d.className = 'focus-pill';
+  d.textContent = w;
+  wWrap.appendChild(d);
+});
+
+// Availability slots
+const sWrap = document.getElementById('d-slots');
+p.slots.forEach(s => {
+  const sp = document.createElement('span');
+  sp.className = 'slot-pill';
+  sp.textContent = s;
+  sWrap.appendChild(sp);
+});
+
+// Book Meeting CTA
+document.getElementById('d-book-btn').href = '/mobile/m-11-meeting-scheduler.html?person=' + key;
+
+// Toasts
 let toastTimer = null;
 function fireToast(msg) {
   const t = document.getElementById('mainToast');

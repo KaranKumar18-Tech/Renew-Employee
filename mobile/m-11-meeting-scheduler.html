@@ -171,7 +171,7 @@ body {
 
       <!-- Top Nav -->
       <div class="top-nav">
-        <a href="/mobile/m-10-match-profile.html" class="back-pill">
+        <a id="d-back-pill" href="/mobile/m-10-match-profile.html" class="back-pill">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
           <span class="back-pill-text">Profile</span>
         </a>
@@ -184,11 +184,11 @@ body {
         <div class="with-card">
           <div style="font-size:11px;font-weight:400;color:rgba(255,255,255,0.7);">Meeting with</div>
           <div class="with-row">
-            <div class="ps-av">PS</div>
-            <span style="font-size:14px;font-weight:600;color:#FFFFFF;">Priya Sharma</span>
-            <span class="match-tag">92% Match</span>
+            <div class="ps-av" id="d-strip-av">—</div>
+            <span style="font-size:14px;font-weight:600;color:#FFFFFF;" id="d-strip-name">—</span>
+            <span class="match-tag" id="d-strip-badge">—</span>
           </div>
-          <div style="font-size:11px;font-weight:400;color:rgba(255,255,255,0.7);margin-top:4px;">Senior Manager HR · Mumbai</div>
+          <div style="font-size:11px;font-weight:400;color:rgba(255,255,255,0.7);margin-top:4px;" id="d-strip-sub">—</div>
         </div>
       </div>
 
@@ -209,26 +209,9 @@ body {
             </div>
           </div>
 
-          <!-- Time Slots -->
+          <!-- Time Slots (rendered by JS) -->
           <div class="sec-label mt">Available Time Slots</div>
-          <div>
-            <div class="slot-card sel" id="slot-1" onclick="selectSlot(1)">
-              <span class="slot-time">🕙 11:00 AM – 11:30 AM</span>
-              <span class="slot-status">✓ Selected</span>
-            </div>
-            <div class="slot-card" id="slot-2" onclick="selectSlot(2)">
-              <span class="slot-time">🕛 12:00 PM – 12:30 PM</span>
-              <span class="slot-status">Available</span>
-            </div>
-            <div class="slot-card" id="slot-3" onclick="selectSlot(3)">
-              <span class="slot-time">🕑 2:30 PM – 3:00 PM</span>
-              <span class="slot-status">Available</span>
-            </div>
-            <div class="slot-card unavail" id="slot-4">
-              <span class="slot-time">🕓 4:00 PM – 4:30 PM</span>
-              <span class="slot-status">Booked</span>
-            </div>
-          </div>
+          <div id="d-slots-wrap"></div>
 
           <!-- Hub -->
           <div class="sec-label mt">Networking Hub</div>
@@ -266,7 +249,7 @@ body {
       <!-- CTA Bar -->
       <div class="cta-bar">
         <button class="btn-confirm" onclick="confirmBooking()">Confirm Booking</button>
-        <div style="font-size:11px;font-weight:400;color:#9E9E9E;text-align:center;margin-top:8px;">Priya will be notified instantly</div>
+        <div style="font-size:11px;font-weight:400;color:#9E9E9E;text-align:center;margin-top:8px;" id="d-notify-text">Confirming...</div>
       </div>
 
     </div><!-- /state-book -->
@@ -300,13 +283,13 @@ body {
           </div>
 
           <div style="font-size:20px;font-weight:700;color:#1A1A1A;margin-top:20px;">Meeting Booked!</div>
-          <div style="font-size:13px;font-weight:400;color:#616161;margin-top:6px;text-align:center;">You and Priya are confirmed for:</div>
+          <div style="font-size:13px;font-weight:400;color:#616161;margin-top:6px;text-align:center;" id="confirm-intro">You and them are confirmed for:</div>
 
           <!-- Booking summary card -->
           <div class="summary-card" style="margin-top:20px;">
             <div class="summary-row">
               <span class="summary-key">👤 With</span>
-              <span class="summary-val">Priya Sharma · Senior Manager HR</span>
+              <span class="summary-val" id="confirm-with">—</span>
             </div>
             <div class="summary-row">
               <span class="summary-key">🗓 When</span>
@@ -369,33 +352,116 @@ body {
 </div>
 
 <script>
+/* ── PERSON DATA ── */
+const persons = {
+  priya: {
+    initials: 'PS', avatarBg: '#1B5E20',
+    name: 'Priya Sharma', role: 'Senior Manager HR', city: 'Mumbai',
+    matchPct: '92% Match',
+    slots: [
+      { time: '🕙 11:00 AM – 11:30 AM', label: 'Available' },
+      { time: '🕛 12:00 PM – 12:30 PM', label: 'Available' },
+      { time: '🕑 2:30 PM – 3:00 PM',   label: 'Available' },
+      { time: '🕓 4:00 PM – 4:30 PM',   label: 'Booked' }
+    ],
+    notifyText: 'Priya will be notified instantly'
+  },
+  rohan: {
+    initials: 'RK', avatarBg: '#4CAF50',
+    name: 'Rohan Kapoor', role: 'Lead Engineer', city: 'Gurugram',
+    matchPct: '87% Match',
+    slots: [
+      { time: '🕙 10:30 AM – 11:00 AM', label: 'Available' },
+      { time: '🕛 12:30 PM – 1:00 PM',  label: 'Booked' },
+      { time: '🕓 3:30 PM – 4:00 PM',   label: 'Available' },
+      { time: '🕔 4:30 PM – 5:00 PM',   label: 'Available' }
+    ],
+    notifyText: 'Rohan will be notified instantly'
+  },
+  neha: {
+    initials: 'NJ', avatarBg: '#FF6F00',
+    name: 'Neha Joshi', role: 'Business Analyst', city: 'Hyderabad',
+    matchPct: '81% Match',
+    slots: [
+      { time: '🕙 10:00 AM – 10:30 AM', label: 'Booked' },
+      { time: '🕛 12:00 PM – 12:30 PM', label: 'Available' },
+      { time: '🕑 2:00 PM – 2:30 PM',   label: 'Available' },
+      { time: '🕓 4:00 PM – 4:30 PM',   label: 'Available' }
+    ],
+    notifyText: 'Neha will be notified instantly'
+  }
+};
+
+/* ── INIT: read URL param and populate ── */
+const key = new URLSearchParams(window.location.search).get('person') || 'priya';
+const p = persons[key] || persons.priya;
+
+// Back pill
+document.getElementById('d-back-pill').href = '/mobile/m-10-match-profile.html?person=' + key;
+
+// Strip
+const stripAv = document.getElementById('d-strip-av');
+stripAv.textContent = p.initials;
+stripAv.style.background = p.avatarBg;
+stripAv.style.color = '#1B5E20';
+document.getElementById('d-strip-name').textContent = p.name;
+document.getElementById('d-strip-badge').textContent = p.matchPct;
+document.getElementById('d-strip-sub').textContent = p.role + ' · ' + p.city;
+document.getElementById('d-notify-text').textContent = p.notifyText;
+
+// Confirmation intro
+document.getElementById('confirm-intro').textContent = 'You and ' + p.name.split(' ')[0] + ' are confirmed for:';
+document.getElementById('confirm-with').textContent = p.name + ' · ' + p.role;
+
+// Render time slots dynamically
+const slotsWrap = document.getElementById('d-slots-wrap');
+let firstAvailableIdx = null;
+p.slots.forEach((slot, i) => {
+  const isBooked = slot.label === 'Booked';
+  const idx = i + 1;
+  const div = document.createElement('div');
+  div.id = 'slot-' + idx;
+  div.className = 'slot-card' + (isBooked ? ' unavail' : '');
+  div.innerHTML = '<span class="slot-time">' + slot.time + '</span><span class="slot-status">' + (isBooked ? 'Booked' : 'Available') + '</span>';
+  if (!isBooked) {
+    div.onclick = () => selectSlot(idx);
+    if (firstAvailableIdx === null) firstAvailableIdx = idx;
+  }
+  slotsWrap.appendChild(div);
+});
+
 /* ── DATE SELECTION ── */
 const DATE_LABELS = { today: ['Today', 'May 15'], tomorrow: ['Tomorrow', 'May 16'] };
 let selectedDate = 'today';
 function selectDate(d) {
   selectedDate = d;
   ['today','tomorrow'].forEach(k => {
-    const el = document.getElementById('date-' + k);
-    el.classList.toggle('sel', k === d);
+    document.getElementById('date-' + k).classList.toggle('sel', k === d);
   });
 }
 
 /* ── TIME SLOT SELECTION ── */
-const SLOT_DATA = {
-  1: { time: '11:00 – 11:30 AM', label: '11:00 – 11:30 AM' },
-  2: { time: '12:00 PM – 12:30 PM', label: '12:00 – 12:30 PM' },
-  3: { time: '2:30 PM – 3:00 PM',  label: '2:30 – 3:00 PM' }
-};
-let selectedSlot = 1;
+let selectedSlot = firstAvailableIdx || 1;
+// Pre-select first available
+if (firstAvailableIdx) {
+  const preEl = document.getElementById('slot-' + firstAvailableIdx);
+  if (preEl) {
+    preEl.classList.add('sel');
+    preEl.querySelector('.slot-status').textContent = '✓ Selected';
+  }
+}
 function selectSlot(n) {
-  if (n === 4) return;
-  selectedSlot = n;
-  [1,2,3].forEach(i => {
-    const el = document.getElementById('slot-' + i);
-    const isSel = i === n;
-    el.classList.toggle('sel', isSel);
-    el.querySelector('.slot-status').textContent = isSel ? '✓ Selected' : 'Available';
+  const allSlots = slotsWrap.querySelectorAll('.slot-card:not(.unavail)');
+  allSlots.forEach(el => {
+    el.classList.remove('sel');
+    el.querySelector('.slot-status').textContent = 'Available';
   });
+  const target = document.getElementById('slot-' + n);
+  if (target && !target.classList.contains('unavail')) {
+    target.classList.add('sel');
+    target.querySelector('.slot-status').textContent = '✓ Selected';
+    selectedSlot = n;
+  }
 }
 
 /* ── HUB SELECTION ── */
@@ -409,20 +475,19 @@ function selectHub(n) {
   selectedHub = n;
   [1,2,3].forEach(i => {
     document.getElementById('hub-' + i).classList.toggle('sel', i === n);
-    const r = document.getElementById('radio-' + i);
-    r.classList.toggle('on', i === n);
+    document.getElementById('radio-' + i).classList.toggle('on', i === n);
   });
 }
 
 /* ── CONFIRM BOOKING ── */
 function confirmBooking() {
-  // Build confirmation values
   const dateLbl = DATE_LABELS[selectedDate][0] + ' · May ' + (selectedDate === 'today' ? '15' : '16');
-  const slotLbl = SLOT_DATA[selectedSlot].time;
+  const selSlotEl = document.getElementById('slot-' + selectedSlot);
+  const slotTime  = selSlotEl ? selSlotEl.querySelector('.slot-time').textContent.replace(/^[🕙🕛🕑🕓🕔]\s*/,'') : '—';
   const hubLbl  = HUB_DATA[selectedHub];
   const noteVal = document.getElementById('noteField').value.trim() || 'No note added';
 
-  document.getElementById('confirm-when').textContent  = dateLbl + ' · ' + slotLbl;
+  document.getElementById('confirm-when').textContent  = dateLbl + ' · ' + slotTime;
   document.getElementById('confirm-where').textContent = hubLbl;
   document.getElementById('confirm-note').textContent  = noteVal;
 
