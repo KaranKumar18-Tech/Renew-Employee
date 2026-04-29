@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ReNew Leaders Connect 2026 — Mobile App</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #F2F2F2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+    }
+
+    .page-title {
+      font-weight: 600;
+      font-size: 18px;
+      color: #1A1A1A;
+      margin-bottom: 32px;
+      text-align: center;
+    }
+
+    .directory-btn {
+      position: fixed;
+      top: 24px;
+      left: 24px;
+      z-index: 999;
+      background: #FFFFFF;
+      border: 1px solid #C8E6C9;
+      border-radius: 8px;
+      padding: 8px 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: #1B5E20;
+    }
+
+    .directory-btn:hover {
+      background: #F5F9F5;
+      border-color: #1B5E20;
+    }
+
+    .directory-btn svg {
+      width: 16px;
+      height: 16px;
+      stroke: #1B5E20;
+      stroke-width: 2.5;
+    }
+
+    .iphone-frame {
+      width: 320px;
+      height: 694px;
+      border-radius: 55px;
+      background: #000;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 12px 48px rgba(0,0,0,0.25), inset 0 0 0 2px #1c1c1c;
+      z-index: 1;
+    }
+
+    .notch {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 28px;
+      background: #000;
+      border-radius: 0 0 18px 18px;
+      z-index: 100;
+    }
+
+    .home-bar {
+      position: absolute;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 4px;
+      border-radius: 2px;
+      background: rgba(0,0,0,0.18);
+      z-index: 100;
+    }
+
+    .status-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 44px;
+      z-index: 90;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 22px 0;
+      font-size: 12px;
+      font-weight: 600;
+      color: #FFFFFF;
+      pointer-events: none;
+    }
+
+    .sb-right {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .sb-right svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .screen {
+      position: absolute;
+      inset: 0;
+      border-radius: 55px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      background: #F5F9F5;
+    }
+
+    .screen-scroll {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .screen-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
+    .top-nav {
+      background: #1B5E20;
+      padding: 14px 16px;
+      padding-top: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .back-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 8px;
+      padding: 4px 8px 4px 4px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .back-pill:hover {
+      background: rgba(255,255,255,0.25);
+    }
+
+    .back-pill svg {
+      width: 16px;
+      height: 16px;
+      stroke: #FFFFFF;
+      stroke-width: 2.5;
+      fill: none;
+    }
+
+    .back-pill-text {
+      font-size: 13px;
+      font-weight: 600;
+      color: #FFFFFF;
+    }
+
+    .nav-center {
+      flex: 1;
+      text-align: center;
+      font-size: 16px;
+      font-weight: 600;
+      color: #FFFFFF;
+    }
+
+    .nav-icon-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 22px;
+      color: #FFFFFF;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+    }
+
+    .post-creator-bar {
+      background: #FFFFFF;
+      padding: 10px 16px;
+      border-bottom: 1px solid #F0F0F0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .creator-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #1B5E20;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 12px;
+      color: #FFFFFF;
+      flex-shrink: 0;
+    }
+
+    .creator-input {
+      flex: 1;
+      background: #F5F9F5;
+      border-radius: 20px;
+      padding: 8px 14px;
+      border: none;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      color: #9E9E9E;
+      cursor: pointer;
+    }
+
+    .creator-camera {
+      color: #4CAF50;
+      font-size: 22px;
+      cursor: pointer;
+    }
+
+    .feed {
+      background: #F5F9F5;
+      padding: 8px 0 80px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .post-card {
+      background: #FFFFFF;
+      margin-bottom: 8px;
+    }
+
+    .post-header {
+      padding: 12px 16px 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      position: relative;
+    }
+
+    .post-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 13px;
+      color: #FFFFFF;
+      flex-shrink: 0;
+    }
+
+    .post-author-info {
+      flex: 1;
+    }
+
+    .post-author-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: #1A1A1A;
+    }
+
+    .post-author-meta {
+      font-size: 11px;
+      font-weight: 400;
+      color: #9E9E9E;
+      margin-top: 2px;
+    }
+
+    .post-more-btn {
+      background: none;
+      border: none;
+      color: #9E9E9E;
+      font-size: 18px;
+      cursor: pointer;
+      padding: 0;
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    .post-more-menu {
+      display: none;
+      position: absolute;
+      top: 24px;
+      right: 0;
+      background: #FFFFFF;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      padding: 8px 12px;
+      z-index: 50;
+      min-width: 140px;
+    }
+
+    .post-more-menu.show {
+      display: block;
+    }
+
+    .post-more-item {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px 0;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      color: #D32F2F;
+      display: block;
+      width: 100%;
+      text-align: left;
+    }
+
+    .post-more-item:hover {
+      color: #B71C1C;
+    }
+
+    .post-photo {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      background: linear-gradient(135deg, #1B5E20 0%, #4CAF50 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .post-photo-emoji {
+      font-size: 48px;
+      margin-bottom: 8px;
+    }
+
+    .post-photo-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.9);
+      text-align: center;
+      margin-bottom: 6px;
+    }
+
+    .post-photo-subtitle {
+      font-size: 12px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.7);
+      text-align: center;
+    }
+
+    .post-caption {
+      padding: 8px 16px;
+      font-size: 13px;
+      font-weight: 400;
+      color: #1A1A1A;
+      line-height: 1.5;
+    }
+
+    .post-actions {
+      padding: 6px 16px 12px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .post-action-btn {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      transition: color 0.2s;
+    }
+
+    .post-action-btn-icon {
+      font-size: 16px;
+      color: #9E9E9E;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .post-action-btn-count {
+      font-size: 12px;
+      font-weight: 500;
+      color: #616161;
+      transition: color 0.2s;
+    }
+
+    .post-action-btn.upvoted .post-action-btn-icon {
+      color: #1B5E20;
+    }
+
+    .post-action-btn.upvoted .post-action-btn-count {
+      color: #1B5E20;
+    }
+
+    .upvote-arrow {
+      width: 0;
+      height: 0;
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-bottom: 10px solid currentColor;
+    }
+
+    .post-action-right {
+      margin-left: auto;
+      font-size: 10px;
+      font-weight: 400;
+      color: #9E9E9E;
+    }
+
+    .post-comments {
+      display: none;
+      background: #F5F9F5;
+      padding: 10px 16px;
+      border-top: 1px solid #F0F0F0;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .post-comments.show {
+      display: flex;
+    }
+
+    .comment {
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+    }
+
+    .comment-avatar {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 10px;
+      color: #FFFFFF;
+      flex-shrink: 0;
+      font-size: 9px;
+    }
+
+    .comment-text {
+      font-size: 12px;
+      font-weight: 400;
+      color: #1A1A1A;
+      line-height: 1.4;
+    }
+
+    .comment-input-row {
+      display: flex;
+      gap: 8px;
+      align-items: flex-end;
+      margin-top: 4px;
+    }
+
+    .comment-input {
+      flex: 1;
+      background: #FFFFFF;
+      border: 1px solid #E0E0E0;
+      border-radius: 20px;
+      padding: 6px 12px;
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: #1A1A1A;
+      outline: none;
+    }
+
+    .comment-input::placeholder {
+      color: #9E9E9E;
+    }
+
+    .comment-send {
+      background: none;
+      border: none;
+      color: #4CAF50;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 0 4px;
+    }
+
+    .bottom-nav {
+      background: #FFFFFF;
+      border-top: 1px solid #E0E0E0;
+      padding: 8px 0 20px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-around;
+      flex-shrink: 0;
+    }
+
+    .nav-tab {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      cursor: pointer;
+      flex: 1;
+      text-decoration: none;
+      font-size: 11px;
+      font-weight: 500;
+      color: #616161;
+      transition: color 0.2s;
+    }
+
+    .nav-tab:hover {
+      color: #1B5E20;
+    }
+
+    .nav-tab.active {
+      color: #1B5E20;
+    }
+
+    .nav-icon {
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    .screen-label {
+      margin-top: 16px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #888888;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <a href="/" class="directory-btn" onclick="goDirectory(event)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+    Directory
+  </a>
+
+  <div class="page-title">ReNew Leaders Connect 2026 — Mobile App</div>
+
+  <div class="iphone-frame">
+    <div class="notch"></div>
+    <div class="home-bar"></div>
+
+    <div class="status-bar">
+      <span>9:41</span>
+      <div class="sb-right">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4c-1.48 0-2.85.43-4.01 1.17l1.46 1.46C10.21 5.23 11.08 5 12 5c3.04 0 5.5 2.46 5.5 5.5v.5H19c1.66 0 3 1.34 3 3 0 1.13-.64 2.11-1.56 2.62l1.45 1.45c.9-.86 1.48-2.05 1.48-3.36 0-2.64-2.05-4.78-4.63-4.97z"/></svg>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg>
+      </div>
+    </div>
+
+    <div class="screen">
+      <div class="top-nav">
+        <a href="/mobile/m-07-home-dashboard.html" class="back-pill" onclick="goBack(event)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
+          <span class="back-pill-text">Home</span>
+        </a>
+        <div class="nav-center">Event Feed</div>
+        <a href="/mobile/m-28-post-creator.html" class="nav-icon-btn" onclick="navClick(event)">📷</a>
+      </div>
+
+      <div class="post-creator-bar">
+        <div class="creator-avatar">AM</div>
+        <div class="creator-input" onclick="goToPostCreator(event)">Share a moment from the event...</div>
+        <div class="creator-camera" onclick="goToPostCreator(event)">📷</div>
+      </div>
+
+      <div class="screen-scroll">
+        <div class="feed">
+          <!-- POST 1 -->
+          <div class="post-card">
+            <div class="post-header">
+              <div class="post-avatar" style="background: #4CAF50;">PS</div>
+              <div class="post-author-info">
+                <div class="post-author-name">Priya Sharma</div>
+                <div class="post-author-meta">Senior Manager HR · 2 mins ago</div>
+              </div>
+              <button class="post-more-btn" onclick="togglePostMenu(event)">⋯</button>
+              <div class="post-more-menu" onclick="reportPost(event)">
+                <button class="post-more-item">🚩 Report Post</button>
+              </div>
+            </div>
+            <div class="post-photo" style="background: linear-gradient(135deg, #1B5E20 0%, #4CAF50 100%);">
+              <div class="post-photo-emoji">📸</div>
+              <div class="post-photo-title">Leaders Connect 2026</div>
+              <div class="post-photo-subtitle">Networking Hub 1</div>
+            </div>
+            <div class="post-caption">Great conversations at Hub 1! The energy here is incredible 🌱 #LeadersConnect2026</div>
+            <div class="post-actions">
+              <button class="post-action-btn" onclick="toggleUpvote(event)">
+                <div class="post-action-btn-icon"><div class="upvote-arrow"></div></div>
+                <div class="post-action-btn-count">24</div>
+              </button>
+              <button class="post-action-btn" onclick="toggleComments(event)">
+                <div class="post-action-btn-icon">💬</div>
+                <div class="post-action-btn-count">6</div>
+              </button>
+              <div class="post-action-right">Strategy · Day 1</div>
+            </div>
+            <div class="post-comments">
+              <div class="comment">
+                <div class="comment-avatar" style="background: #0D47A1;">AM</div>
+                <div class="comment-text"><strong>Arjun Mehta:</strong> Agreed! Best session so far 🔥</div>
+              </div>
+              <div class="comment">
+                <div class="comment-avatar" style="background: #4CAF50;">RK</div>
+                <div class="comment-text"><strong>Rohan Kapoor:</strong> Hub 1 vibes 💚</div>
+              </div>
+              <div class="comment-input-row">
+                <div class="comment-avatar" style="background: #1B5E20;">AM</div>
+                <input type="text" class="comment-input" placeholder="Add a comment...">
+                <button class="comment-send">→</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- POST 2 -->
+          <div class="post-card">
+            <div class="post-header">
+              <div class="post-avatar" style="background: #1B5E20;">AM</div>
+              <div class="post-author-info">
+                <div class="post-author-name">Arjun Mehta</div>
+                <div class="post-author-meta">VP Strategy · 15 mins ago</div>
+              </div>
+              <button class="post-more-btn" onclick="togglePostMenu(event)">⋯</button>
+              <div class="post-more-menu" onclick="reportPost(event)">
+                <button class="post-more-item">🚩 Report Post</button>
+              </div>
+            </div>
+            <div class="post-photo" style="background: linear-gradient(135deg, #0D47A1 0%, #1976D2 100%);">
+              <div class="post-photo-emoji">📸</div>
+              <div class="post-photo-title">ReNew 2030 Vision Session</div>
+              <div class="post-photo-subtitle">Main Auditorium</div>
+            </div>
+            <div class="post-caption">Mindblown by the 2030 vision talk! 50GW is not just a number — it's a movement 🚀 #ReNew2030 #LeadersConnect</div>
+            <div class="post-actions">
+              <button class="post-action-btn upvoted" onclick="toggleUpvote(event)">
+                <div class="post-action-btn-icon"><div class="upvote-arrow"></div></div>
+                <div class="post-action-btn-count">18</div>
+              </button>
+              <button class="post-action-btn" onclick="toggleComments(event)">
+                <div class="post-action-btn-icon">💬</div>
+                <div class="post-action-btn-count">4</div>
+              </button>
+            </div>
+            <div class="post-comments">
+              <div class="comment">
+                <div class="comment-avatar" style="background: #4CAF50;">PS</div>
+                <div class="comment-text"><strong>Priya Sharma:</strong> So inspiring! 🌱</div>
+              </div>
+              <div class="comment">
+                <div class="comment-avatar" style="background: #9C27B0;">NJ</div>
+                <div class="comment-text"><strong>Neha Joshi:</strong> This changes everything for our strategy</div>
+              </div>
+              <div class="comment-input-row">
+                <div class="comment-avatar" style="background: #1B5E20;">AM</div>
+                <input type="text" class="comment-input" placeholder="Add a comment...">
+                <button class="comment-send">→</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- POST 3 -->
+          <div class="post-card">
+            <div class="post-header">
+              <div class="post-avatar" style="background: #9C27B0;">NJ</div>
+              <div class="post-author-info">
+                <div class="post-author-name">Neha Joshi</div>
+                <div class="post-author-meta">Business Analyst · 32 mins ago</div>
+              </div>
+              <button class="post-more-btn" onclick="togglePostMenu(event)">⋯</button>
+              <div class="post-more-menu" onclick="reportPost(event)">
+                <button class="post-more-item">🚩 Report Post</button>
+              </div>
+            </div>
+            <div class="post-photo" style="background: linear-gradient(135deg, #E65100 0%, #FF6F00 100%);">
+              <div class="post-photo-emoji">📸</div>
+              <div class="post-photo-title">Delhi Team Reunion!</div>
+              <div class="post-photo-subtitle">The Leela Lobby</div>
+            </div>
+            <div class="post-caption">Delhi team representing at Leaders Connect! So proud of this crew 💚🏆 #DelhiSquad #ReNewFamily</div>
+            <div class="post-actions">
+              <button class="post-action-btn" onclick="toggleUpvote(event)">
+                <div class="post-action-btn-icon"><div class="upvote-arrow"></div></div>
+                <div class="post-action-btn-count">31</div>
+              </button>
+              <button class="post-action-btn" onclick="toggleComments(event)">
+                <div class="post-action-btn-icon">💬</div>
+                <div class="post-action-btn-count">9</div>
+              </button>
+            </div>
+            <div class="post-comments">
+              <div class="comment">
+                <div class="comment-avatar" style="background: #1B5E20;">SR</div>
+                <div class="comment-text"><strong>Sunita Rao:</strong> Awesome team energy! 💪</div>
+              </div>
+              <div class="comment">
+                <div class="comment-avatar" style="background: #0D47A1;">RK</div>
+                <div class="comment-text"><strong>Rohan Kapoor:</strong> Delhi squad representing!</div>
+              </div>
+              <div class="comment-input-row">
+                <div class="comment-avatar" style="background: #1B5E20;">AM</div>
+                <input type="text" class="comment-input" placeholder="Add a comment...">
+                <button class="comment-send">→</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- POST 4 -->
+          <div class="post-card">
+            <div class="post-header">
+              <div class="post-avatar" style="background: #1B5E20;">SR</div>
+              <div class="post-author-info">
+                <div class="post-author-name">Sunita Rao</div>
+                <div class="post-author-meta">Product Manager · 1 hr ago</div>
+              </div>
+              <button class="post-more-btn" onclick="togglePostMenu(event)">⋯</button>
+              <div class="post-more-menu" onclick="reportPost(event)">
+                <button class="post-more-item">🚩 Report Post</button>
+              </div>
+            </div>
+            <div class="post-photo" style="background: linear-gradient(135deg, #00695C 0%, #26A69A 100%);">
+              <div class="post-photo-emoji">📸</div>
+              <div class="post-photo-title">AI Workshop Vibes</div>
+              <div class="post-photo-subtitle">Hall B</div>
+            </div>
+            <div class="post-caption">The AI in Renewable Operations workshop just changed how I think about our roadmap. @RohanKapoor killing it as always! 🤖⚡</div>
+            <div class="post-actions">
+              <button class="post-action-btn" onclick="toggleUpvote(event)">
+                <div class="post-action-btn-icon"><div class="upvote-arrow"></div></div>
+                <div class="post-action-btn-count">12</div>
+              </button>
+              <button class="post-action-btn" onclick="toggleComments(event)">
+                <div class="post-action-btn-icon">💬</div>
+                <div class="post-action-btn-count">3</div>
+              </button>
+            </div>
+            <div class="post-comments">
+              <div class="comment">
+                <div class="comment-avatar" style="background: #4CAF50;">RK</div>
+                <div class="comment-text"><strong>Rohan Kapoor:</strong> Thanks! Glad it resonated 🚀</div>
+              </div>
+              <div class="comment">
+                <div class="comment-avatar" style="background: #1976D2;">VK</div>
+                <div class="comment-text"><strong>Vikram Singh:</strong> This is the future of operations</div>
+              </div>
+              <div class="comment-input-row">
+                <div class="comment-avatar" style="background: #1B5E20;">AM</div>
+                <input type="text" class="comment-input" placeholder="Add a comment...">
+                <button class="comment-send">→</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bottom-nav">
+        <a href="/mobile/m-07-home-dashboard.html" class="nav-tab" onclick="navClick(event)">
+          <div class="nav-icon">🏠</div>
+          <div>Home</div>
+        </a>
+        <a href="/mobile/m-22-master-schedule.html" class="nav-tab" onclick="navClick(event)">
+          <div class="nav-icon">📅</div>
+          <div>Agenda</div>
+        </a>
+        <a href="/mobile/m-09-networking-v2.html" class="nav-tab" onclick="navClick(event)">
+          <div class="nav-icon">🤝</div>
+          <div>Network</div>
+        </a>
+        <a href="/mobile/m-27-social-feed.html" class="nav-tab active" onclick="navClick(event)">
+          <div class="nav-icon">📸</div>
+          <div>Feed</div>
+        </a>
+        <a href="#" class="nav-tab" onclick="navClick(event)">
+          <div class="nav-icon">☰</div>
+          <div>More</div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="screen-label">Social Feed</div>
+
+  <script>
+    function toggleUpvote(event) {
+      const btn = event.currentTarget;
+      const countEl = btn.querySelector('.post-action-btn-count');
+      let count = parseInt(countEl.textContent);
+
+      if (btn.classList.contains('upvoted')) {
+        btn.classList.remove('upvoted');
+        count--;
+      } else {
+        btn.classList.add('upvoted');
+        count++;
+      }
+
+      countEl.textContent = count;
+    }
+
+    function toggleComments(event) {
+      const card = event.currentTarget.closest('.post-card');
+      const comments = card.querySelector('.post-comments');
+      comments.classList.toggle('show');
+    }
+
+    function togglePostMenu(event) {
+      event.stopPropagation();
+      const menu = event.currentTarget.nextElementSibling;
+      menu.classList.toggle('show');
+
+      document.addEventListener('click', (e) => {
+        if (!menu.contains(e.target) && e.target !== event.currentTarget) {
+          menu.classList.remove('show');
+        }
+      }, { once: true });
+    }
+
+    function reportPost(event) {
+      event.preventDefault();
+      const screen = document.querySelector('.screen');
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.textContent = 'Post reported. Thanks for keeping our community safe.';
+      toast.style.position = 'absolute';
+      toast.style.bottom = '80px';
+      toast.style.left = '50%';
+      toast.style.transform = 'translateX(-50%)';
+      toast.style.background = '#1A1A1A';
+      toast.style.color = '#FFFFFF';
+      toast.style.padding = '8px 16px';
+      toast.style.borderRadius = '8px';
+      toast.style.fontSize = '12px';
+      toast.style.fontWeight = '500';
+      toast.style.zIndex = '200';
+      toast.style.animation = 'slideUp 0.2s ease-out forwards';
+      screen.appendChild(toast);
+      setTimeout(() => toast.remove(), 3000);
+      event.currentTarget.parentElement.classList.remove('show');
+    }
+
+    function goToPostCreator(event) {
+      event.preventDefault();
+      history.pushState({}, '', '/mobile/m-28-post-creator.html');
+      window.location.href = '/mobile/m-28-post-creator.html';
+    }
+
+    function goDirectory(event) {
+      event.preventDefault();
+      window.location.href = '/';
+    }
+
+    function goBack(event) {
+      event.preventDefault();
+      window.history.back();
+    }
+
+    function navClick(event) {
+      const href = event.currentTarget.getAttribute('href');
+      if (href === '#') {
+        event.preventDefault();
+        const screen = document.querySelector('.screen');
+        const toast = document.createElement('div');
+        toast.textContent = 'Coming soon';
+        toast.style.position = 'absolute';
+        toast.style.bottom = '80px';
+        toast.style.left = '50%';
+        toast.style.transform = 'translateX(-50%)';
+        toast.style.background = '#1A1A1A';
+        toast.style.color = '#FFFFFF';
+        toast.style.padding = '8px 16px';
+        toast.style.borderRadius = '8px';
+        toast.style.fontSize = '12px';
+        toast.style.fontWeight = '500';
+        toast.style.zIndex = '200';
+        toast.style.animation = 'slideUp 0.2s ease-out forwards';
+        screen.appendChild(toast);
+        setTimeout(() => toast.remove(), 3000);
+      } else {
+        event.preventDefault();
+        history.pushState({}, '', href);
+        window.location.href = href;
+      }
+    }
+
+    window.addEventListener('popstate', () => {
+      window.location.reload();
+    });
+  </script>
+</body>
+</html>
