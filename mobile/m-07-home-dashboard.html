@@ -86,10 +86,32 @@ body{background:#F2F2F2;font-family:'Inter',sans-serif;display:flex;flex-directi
 
 /* Bottom nav */
 .bottom-nav{background:#FFFFFF;border-top:1px solid #E0E0E0;padding:8px 0 20px;display:flex;align-items:flex-start;justify-content:space-around;flex-shrink:0;}
-.nav-tab{display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;flex:1;}
+.nav-tab{display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;flex:1;text-decoration:none;}
 .nav-icon{font-size:18px;line-height:1;}
 .nav-label{font-size:10px;font-weight:400;color:#9E9E9E;}
 .nav-tab.active .nav-label{font-weight:600;color:#1B5E20;}
+
+/* Linked cards */
+.session-card-link{display:block;text-decoration:none;margin-bottom:8px;border-radius:10px;}
+.session-card-link:last-child{margin-bottom:0;}
+.session-card-link .session-card{margin-bottom:0;transition:background 0.2s;}
+.session-card-link:hover .session-card{background:#F9FBF9;}
+.lb-row-link{display:flex;align-items:center;padding:10px 12px;gap:8px;border-bottom:1px solid #F5F5F5;text-decoration:none;transition:background 0.2s;}
+.lb-row-link:last-child{border-bottom:none;}
+.lb-row-link:hover{background:#F9FBF9;}
+.quick-tile-link{display:block;text-decoration:none;}
+.quick-tile-link .quick-tile{transition:transform 0.15s,box-shadow 0.15s;}
+.quick-tile-link:hover .quick-tile{transform:translateY(-1px);box-shadow:0 3px 10px rgba(0,0,0,0.09);}
+
+/* Toast */
+.toast{
+  position:absolute;bottom:80px;left:50%;transform:translateX(-50%);
+  background:#1A1A1A;color:#FFFFFF;font-size:12px;font-weight:500;
+  font-family:'Inter',sans-serif;border-radius:8px;padding:8px 16px;
+  white-space:nowrap;z-index:200;pointer-events:none;
+  opacity:0;transition:opacity 0.2s;
+}
+.toast.show{opacity:1;}
 </style>
 </head>
 <body>
@@ -141,7 +163,9 @@ body{background:#F2F2F2;font-family:'Inter',sans-serif;display:flex;flex-directi
             <div class="event-card">
               <div class="event-title">🗓 Leaders Connect 2026</div>
               <div class="event-meta">Day 1 of 2 · The Leela Ambience, Gurugram</div>
-              <div class="live-badge">● LIVE NOW</div>
+              <a href="/mobile/m-22-master-schedule.html" style="text-decoration:none;display:inline-block;">
+                <div class="live-badge">● LIVE NOW</div>
+              </a>
             </div>
           </div>
 
@@ -154,36 +178,40 @@ body{background:#F2F2F2;font-family:'Inter',sans-serif;display:flex;flex-directi
           <div>
             <div class="section-header">
               <div class="section-label">Today's Schedule</div>
-              <div class="section-link">View All →</div>
+              <a href="/mobile/m-22-master-schedule.html" class="section-link" style="text-decoration:none;">View All →</a>
             </div>
 
-            <div class="session-card">
-              <div class="session-left">
-                <div class="session-time">09:00 – 10:00 AM</div>
-                <div class="session-title">ReNew 2030: Our Path to 50GW</div>
-                <div class="session-meta">🎤 Keynote &nbsp; 📍 Main Auditorium</div>
+            <a href="/mobile/m-22-master-schedule.html" class="session-card-link">
+              <div class="session-card">
+                <div class="session-left">
+                  <div class="session-time">09:00 – 10:00 AM</div>
+                  <div class="session-title">ReNew 2030: Our Path to 50GW</div>
+                  <div class="session-meta">🎤 Keynote &nbsp; 📍 Main Auditorium</div>
+                </div>
+                <div class="track-pill">Strategy</div>
               </div>
-              <div class="track-pill">Strategy</div>
-            </div>
+            </a>
 
-            <div class="session-card tech">
-              <div class="session-left">
-                <div class="session-time">10:30 – 11:30 AM</div>
-                <div class="session-title">AI in Renewable Operations</div>
-                <div class="session-meta">🎤 Workshop &nbsp; 📍 Hall B</div>
+            <a href="/mobile/m-22-master-schedule.html" class="session-card-link">
+              <div class="session-card tech">
+                <div class="session-left">
+                  <div class="session-time">10:30 – 11:30 AM</div>
+                  <div class="session-title">AI in Renewable Operations</div>
+                  <div class="session-meta">🎤 Workshop &nbsp; 📍 Hall B</div>
+                </div>
+                <div class="track-pill">Technology</div>
               </div>
-              <div class="track-pill">Technology</div>
-            </div>
+            </a>
           </div>
 
           <!-- Section 2: Leaderboard -->
           <div>
             <div class="section-header">
               <div class="section-label">🏆 Leaderboard</div>
-              <div class="section-link">Full Board →</div>
+              <a href="/mobile/m-20-leaderboard.html" class="section-link" style="text-decoration:none;">Full Board →</a>
             </div>
             <div class="lb-card">
-              <div class="lb-row">
+              <a href="/mobile/m-20-leaderboard.html" class="lb-row-link">
                 <div class="lb-medal">🥇</div>
                 <div class="lb-info">
                   <div class="lb-name">Arjun Mehta</div>
@@ -193,8 +221,8 @@ body{background:#F2F2F2;font-family:'Inter',sans-serif;display:flex;flex-directi
                   <div class="lb-pts">1,240 pts</div>
                   <div class="you-badge">YOU</div>
                 </div>
-              </div>
-              <div class="lb-row">
+              </a>
+              <a href="/mobile/m-20-leaderboard.html" class="lb-row-link">
                 <div class="lb-medal">🥈</div>
                 <div class="lb-info">
                   <div class="lb-name">Priya Sharma</div>
@@ -203,8 +231,8 @@ body{background:#F2F2F2;font-family:'Inter',sans-serif;display:flex;flex-directi
                 <div class="lb-right">
                   <div class="lb-pts">1,105 pts</div>
                 </div>
-              </div>
-              <div class="lb-row">
+              </a>
+              <a href="/mobile/m-20-leaderboard.html" class="lb-row-link">
                 <div class="lb-medal">🥉</div>
                 <div class="lb-info">
                   <div class="lb-name">Rohan Kapoor</div>
@@ -213,7 +241,7 @@ body{background:#F2F2F2;font-family:'Inter',sans-serif;display:flex;flex-directi
                 <div class="lb-right">
                   <div class="lb-pts">980 pts</div>
                 </div>
-              </div>
+              </a>
             </div>
           </div>
 
@@ -223,22 +251,30 @@ body{background:#F2F2F2;font-family:'Inter',sans-serif;display:flex;flex-directi
               <div class="section-label">Quick Actions</div>
             </div>
             <div class="quick-grid">
-              <div class="quick-tile">
-                <div class="quick-icon">🤝</div>
-                <div class="quick-label">Networking</div>
-              </div>
-              <div class="quick-tile">
-                <div class="quick-icon">📋</div>
-                <div class="quick-label">My Agenda</div>
-              </div>
-              <div class="quick-tile">
-                <div class="quick-icon">🗺</div>
-                <div class="quick-label">Floor Plan</div>
-              </div>
-              <div class="quick-tile">
-                <div class="quick-icon">📸</div>
-                <div class="quick-label">Event Feed</div>
-              </div>
+              <a href="#" class="quick-tile-link" onclick="showToast(event)">
+                <div class="quick-tile">
+                  <div class="quick-icon">🤝</div>
+                  <div class="quick-label">Networking</div>
+                </div>
+              </a>
+              <a href="/mobile/m-22-master-schedule.html" class="quick-tile-link">
+                <div class="quick-tile">
+                  <div class="quick-icon">📋</div>
+                  <div class="quick-label">My Agenda</div>
+                </div>
+              </a>
+              <a href="#" class="quick-tile-link" onclick="showToast(event)">
+                <div class="quick-tile">
+                  <div class="quick-icon">🗺</div>
+                  <div class="quick-label">Floor Plan</div>
+                </div>
+              </a>
+              <a href="#" class="quick-tile-link" onclick="showToast(event)">
+                <div class="quick-tile">
+                  <div class="quick-icon">📸</div>
+                  <div class="quick-label">Event Feed</div>
+                </div>
+              </a>
             </div>
           </div>
 
@@ -249,25 +285,28 @@ body{background:#F2F2F2;font-family:'Inter',sans-serif;display:flex;flex-directi
 
       </div><!-- /scroll-body -->
 
+      <!-- Toast -->
+      <div class="toast" id="toast">Coming soon — screen under construction</div>
+
       <!-- Bottom nav — outside scroll, sticky -->
       <div class="bottom-nav">
         <div class="nav-tab active">
           <div class="nav-icon">🏠</div>
           <div class="nav-label" style="color:#1B5E20;font-weight:600;">Home</div>
         </div>
-        <div class="nav-tab">
+        <a href="/mobile/m-22-master-schedule.html" class="nav-tab" style="text-decoration:none;">
           <div class="nav-icon">📅</div>
           <div class="nav-label">Agenda</div>
-        </div>
-        <div class="nav-tab">
+        </a>
+        <div class="nav-tab" onclick="showToast(event)">
           <div class="nav-icon">🤝</div>
           <div class="nav-label">Network</div>
         </div>
-        <div class="nav-tab">
+        <div class="nav-tab" onclick="showToast(event)">
           <div class="nav-icon">📸</div>
           <div class="nav-label">Feed</div>
         </div>
-        <div class="nav-tab">
+        <div class="nav-tab" onclick="showToast(event)">
           <div class="nav-icon">☰</div>
           <div class="nav-label">More</div>
         </div>
@@ -278,5 +317,15 @@ body{background:#F2F2F2;font-family:'Inter',sans-serif;display:flex;flex-directi
   <div class="frame-label">Home Dashboard</div>
 </div>
 
+<script>
+let toastTimer = null;
+function showToast(e) {
+  e.preventDefault();
+  const toast = document.getElementById('toast');
+  if (toastTimer) clearTimeout(toastTimer);
+  toast.classList.add('show');
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 2000);
+}
+</script>
 </body>
 </html>
