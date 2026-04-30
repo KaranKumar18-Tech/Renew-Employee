@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>My Agenda — ReNew Leaders Connect 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: #F5F5F5;
+  font-family: 'Inter', sans-serif;
+  overflow: hidden;
+}
+
+.frame {
+  width: 320px;
+  height: 694px;
+  background: #FFFFFF;
+  margin: 0 auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+}
+
+.status-bar {
+  height: 44px;
+  background: #FFFFFF;
+  border-bottom: 1px solid #E8E8E8;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  flex-shrink: 0;
+}
+
+.status-bar-left {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1A1A1A;
+}
+
+.status-bar-right {
+  display: flex;
+  gap: 4px;
+  font-size: 13px;
+  color: #1A1A1A;
+}
+
+.top-nav {
+  height: 56px;
+  background: #FFFFFF;
+  border-bottom: 1px solid #E8E8E8;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 50;
+}
+
+.back-pill {
+  background: #F0F0F0;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #1A1A1A;
+  cursor: pointer;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s;
+  min-width: fit-content;
+}
+
+.back-pill:hover {
+  background: #E0E0E0;
+}
+
+.back-pill a {
+  color: #1A1A1A;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.nav-title {
+  flex: 1;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 600;
+  color: #1A1A1A;
+  margin: 0 -80px;
+}
+
+.nav-badge {
+  background: #E8F5E9;
+  border-radius: 12px;
+  padding: 4px 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #1B5E20;
+}
+
+.content-area {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 16px 12px 100px 12px;
+}
+
+.content-area::-webkit-scrollbar {
+  width: 4px;
+}
+
+.content-area::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.content-area::-webkit-scrollbar-thumb {
+  background: #D0D0D0;
+  border-radius: 2px;
+}
+
+.summary-strip {
+  background: linear-gradient(135deg, #E8F5E9 0%, #F1F8F6 100%);
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 20px;
+  border-left: 4px solid #1B5E20;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  font-size: 13px;
+}
+
+.summary-row:last-child {
+  margin-bottom: 0;
+}
+
+.summary-label {
+  color: #616161;
+  font-weight: 500;
+}
+
+.summary-value {
+  color: #1A1A1A;
+  font-weight: 600;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 6px;
+  background: #D0D0D0;
+  border-radius: 3px;
+  overflow: hidden;
+  margin-top: 8px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #1B5E20;
+  border-radius: 3px;
+  width: 40%;
+  transition: width 0.3s ease;
+}
+
+.sessions-section {
+  margin-bottom: 24px;
+}
+
+.sessions-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1A1A1A;
+  margin-bottom: 12px;
+  padding-left: 4px;
+}
+
+.timeline {
+  position: relative;
+  padding-left: 24px;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 8px;
+  top: 20px;
+  bottom: 0;
+  width: 2px;
+  background: #E8E8E8;
+}
+
+.session-card {
+  background: #FFFFFF;
+  border: 1px solid #E8E8E8;
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 12px;
+  position: relative;
+  transition: all 0.3s ease;
+  animation: slideDown 0.4s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.session-card::before {
+  content: '';
+  position: absolute;
+  left: -20px;
+  top: 16px;
+  width: 12px;
+  height: 12px;
+  background: #1B5E20;
+  border: 3px solid #FFFFFF;
+  border-radius: 50%;
+  z-index: 2;
+  animation: dotPulse 2s ease-in-out infinite;
+}
+
+@keyframes dotPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+.session-card.removing {
+  opacity: 0;
+  transform: translateX(20px);
+}
+
+.session-time {
+  font-size: 12px;
+  font-weight: 600;
+  color: #1B5E20;
+  margin-bottom: 4px;
+}
+
+.session-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1A1A1A;
+  margin-bottom: 8px;
+  line-height: 1.3;
+}
+
+.session-track {
+  display: inline-block;
+  background: #F5F5F5;
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-size: 11px;
+  font-weight: 500;
+  color: #616161;
+}
+
+.session-remove {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 4px;
+  transition: transform 0.2s;
+}
+
+.session-remove:hover {
+  transform: scale(1.1);
+}
+
+.time-gap {
+  margin: 8px 0;
+  padding-left: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #9E9E9E;
+  text-align: left;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 40px 16px;
+  color: #9E9E9E;
+}
+
+.empty-state-icon {
+  font-size: 40px;
+  margin-bottom: 12px;
+}
+
+.empty-state-text {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.empty-state-subtext {
+  font-size: 12px;
+  color: #BDBDBD;
+}
+
+.suggestions-section {
+  margin-bottom: 24px;
+}
+
+.suggestions-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1A1A1A;
+  margin-bottom: 12px;
+  padding-left: 4px;
+}
+
+.suggestion-card {
+  background: #FFFFFF;
+  border: 1px solid #E8E8E8;
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.suggestion-info {
+  flex: 1;
+}
+
+.suggestion-time {
+  font-size: 12px;
+  font-weight: 600;
+  color: #616161;
+  margin-bottom: 4px;
+}
+
+.suggestion-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1A1A1A;
+  margin-bottom: 4px;
+  line-height: 1.2;
+}
+
+.suggestion-track {
+  display: inline-block;
+  background: #F5F5F5;
+  border-radius: 6px;
+  padding: 3px 6px;
+  font-size: 11px;
+  font-weight: 500;
+  color: #616161;
+}
+
+.suggestion-add {
+  background: #1B5E20;
+  border: none;
+  border-radius: 6px;
+  color: #FFFFFF;
+  font-size: 18px;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  margin-left: 8px;
+  flex-shrink: 0;
+}
+
+.suggestion-add:hover {
+  background: #2E7D32;
+}
+
+.suggestion-add.added {
+  background: #1B5E20;
+  border-radius: 20px;
+  width: auto;
+  padding: 4px 12px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.reminder-cta {
+  width: 100%;
+  height: 50px;
+  background: #1B5E20;
+  border: none;
+  border-radius: 12px;
+  color: #FFFFFF;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin: 16px 0 24px 0;
+}
+
+.reminder-cta:hover {
+  background: #2E7D32;
+}
+
+.bottom-nav {
+  height: 56px;
+  background: #FFFFFF;
+  border-top: 1px solid #E8E8E8;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  text-decoration: none;
+  color: #9E9E9E;
+  font-size: 10px;
+  font-weight: 400;
+  transition: color 0.2s;
+  flex: 1;
+  height: 100%;
+}
+
+.nav-item.active {
+  color: #1B5E20;
+  font-weight: 600;
+}
+
+.nav-icon {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-icon svg {
+  width: 20px;
+  height: 20px;
+  stroke-width: 2;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.nav-item.active .nav-icon svg {
+  stroke: #1B5E20;
+}
+
+.nav-item:not(.active) .nav-icon svg {
+  stroke: #9E9E9E;
+}
+
+.toast {
+  position: fixed;
+  bottom: 72px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #323232;
+  color: #FFFFFF;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  z-index: 30;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+
+.toast.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+</style>
+</head>
+<body>
+
+<div class="frame">
+  <!-- Status Bar -->
+  <div class="status-bar">
+    <span class="status-bar-left">9:41</span>
+    <div class="status-bar-right">
+      <span>📶</span>
+      <span>📡</span>
+      <span>🔋</span>
+    </div>
+  </div>
+
+  <!-- Top Nav -->
+  <div class="top-nav">
+    <a href="/mobile/m-22-master-schedule.html" class="back-pill">← Schedule</a>
+    <div class="nav-title">My Agenda</div>
+    <div class="nav-badge" id="navBadge">2/5</div>
+  </div>
+
+  <!-- Content Area -->
+  <div class="content-area" id="contentArea">
+    <!-- Summary Strip -->
+    <div class="summary-strip" id="summaryStrip">
+      <div class="summary-row">
+        <span class="summary-label" id="summaryText">Day 1 • 2 sessions bookmarked</span>
+      </div>
+      <div class="summary-row">
+        <span class="summary-label">Total Time</span>
+        <span class="summary-value" id="totalTime">2h 00m</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill" style="width: 40%;"></div>
+      </div>
+    </div>
+
+    <!-- Sessions Section -->
+    <div class="sessions-section" id="sessionsSection">
+      <div class="sessions-title">📋 Your Bookmarked Sessions</div>
+      <div class="timeline" id="sessionTimeline">
+        <!-- Session 1 -->
+        <div class="session-card" data-session="1">
+          <button class="session-remove" onclick="removeSession(event, 1)">×</button>
+          <div class="session-time">09:00 – 10:00 AM</div>
+          <div class="session-title">ReNew 2030: Our Path to 50GW</div>
+          <span class="session-track">Strategy</span>
+        </div>
+
+        <!-- Time Gap -->
+        <div class="time-gap" id="gap1">1h 30m gap</div>
+
+        <!-- Session 2 -->
+        <div class="session-card" data-session="2">
+          <button class="session-remove" onclick="removeSession(event, 2)">×</button>
+          <div class="session-time">10:30 – 11:30 AM</div>
+          <div class="session-title">AI in Renewable Operations</div>
+          <span class="session-track">Technology</span>
+        </div>
+      </div>
+
+      <!-- Empty State (hidden by default) -->
+      <div class="empty-state" id="emptyState" style="display: none;">
+        <div class="empty-state-icon">📅</div>
+        <div class="empty-state-text">No sessions bookmarked yet</div>
+        <div class="empty-state-subtext">Browse and add sessions from the schedule</div>
+      </div>
+    </div>
+
+    <!-- Suggestions Section -->
+    <div class="suggestions-section">
+      <div class="suggestions-title">✨ Suggested for You</div>
+
+      <!-- Suggestion 1 -->
+      <div class="suggestion-card">
+        <div class="suggestion-info">
+          <div class="suggestion-time">11:45 AM – 12:30 PM</div>
+          <div class="suggestion-title">Women Leaders in Clean Energy</div>
+          <span class="suggestion-track">Leadership</span>
+        </div>
+        <button class="suggestion-add" onclick="addSuggestion(event, 1, 'Women Leaders in Clean Energy', '11:45 AM – 12:30 PM', 'Leadership')">+</button>
+      </div>
+
+      <!-- Suggestion 2 -->
+      <div class="suggestion-card">
+        <div class="suggestion-info">
+          <div class="suggestion-time">02:00 – 03:00 PM</div>
+          <div class="suggestion-title">Networking Mixer: Energy Innovators</div>
+          <span class="suggestion-track">Networking</span>
+        </div>
+        <button class="suggestion-add" onclick="addSuggestion(event, 2, 'Networking Mixer: Energy Innovators', '02:00 – 03:00 PM', 'Networking')">+</button>
+      </div>
+    </div>
+
+    <!-- Set Reminders Button -->
+    <button class="reminder-cta" onclick="showToast('Reminder notifications coming soon')">Set Reminders 🔔</button>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <!-- Bottom Nav -->
+  <div class="bottom-nav">
+    <a href="/mobile/m-07-home-dashboard-v2.html" class="nav-item">
+      <div class="nav-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      </div>
+      <span>Home</span>
+    </a>
+    <a href="/mobile/m-22-master-schedule.html" class="nav-item">
+      <div class="nav-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      </div>
+      <span>Agenda</span>
+    </a>
+    <a href="/mobile/m-24-my-agenda.html" class="nav-item active">
+      <div class="nav-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 1v6m4-2l-4 4m-4-4l4 4M4 12h16M4 16h10M4 20h6"/></svg>
+      </div>
+      <span>Agenda</span>
+    </a>
+    <a href="/mobile/m-09-networking-v2.html" class="nav-item">
+      <div class="nav-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </div>
+      <span>Network</span>
+    </a>
+    <a href="/mobile/m-27-social-feed.html" class="nav-item">
+      <div class="nav-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+      </div>
+      <span>Feed</span>
+    </a>
+    <a href="#" class="nav-item" onclick="showToast(event)">
+      <div class="nav-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+      </div>
+      <span>More</span>
+    </a>
+  </div>
+</div>
+
+<script>
+let bookmarkedCount = 2;
+const totalSessions = 5;
+const addedSuggestions = new Set();
+
+function removeSession(event, sessionNum) {
+  event.preventDefault();
+  const card = document.querySelector(`[data-session="${sessionNum}"]`);
+  card.classList.add('removing');
+
+  setTimeout(() => {
+    card.style.display = 'none';
+
+    if (sessionNum === 1) {
+      const gap = document.getElementById('gap1');
+      gap.style.display = 'none';
+    }
+
+    bookmarkedCount--;
+    const visibleCards = document.querySelectorAll('.session-card:not([style*="display: none"])').length;
+    if (visibleCards === 0) {
+      document.getElementById('sessionTimeline').style.display = 'none';
+      document.getElementById('emptyState').style.display = 'block';
+    }
+
+    updateCounter();
+    showToast('Session removed from agenda');
+  }, 300);
+}
+
+function addSuggestion(event, suggestionNum, title, time, track) {
+  event.preventDefault();
+  const btn = event.target;
+
+  if (addedSuggestions.has(suggestionNum)) {
+    addedSuggestions.delete(suggestionNum);
+    btn.classList.remove('added');
+    btn.innerHTML = '+';
+    bookmarkedCount--;
+
+    const newCard = document.querySelector(`[data-suggestion="${suggestionNum}"]`);
+    if (newCard) {
+      newCard.classList.add('removing');
+      setTimeout(() => newCard.remove(), 300);
+    }
+  } else {
+    addedSuggestions.add(suggestionNum);
+    btn.classList.add('added');
+    btn.innerHTML = '✓ Added';
+    bookmarkedCount++;
+
+    if (document.getElementById('emptyState').style.display === 'block') {
+      document.getElementById('sessionTimeline').style.display = 'block';
+      document.getElementById('emptyState').style.display = 'none';
+    } else if (document.getElementById('sessionTimeline').style.display === 'none') {
+      document.getElementById('sessionTimeline').style.display = 'block';
+      document.getElementById('emptyState').style.display = 'none';
+    }
+
+    const newCard = document.createElement('div');
+    newCard.className = 'session-card';
+    newCard.setAttribute('data-suggestion', suggestionNum);
+    newCard.innerHTML = `
+      <button class="session-remove" onclick="removeSession(event, ${suggestionNum + 100})">×</button>
+      <div class="session-time">${time}</div>
+      <div class="session-title">${title}</div>
+      <span class="session-track">${track}</span>
+    `;
+    document.getElementById('sessionTimeline').appendChild(newCard);
+  }
+
+  updateCounter();
+}
+
+function updateCounter() {
+  document.getElementById('navBadge').textContent = `${bookmarkedCount}/${totalSessions}`;
+  const hours = Math.floor((bookmarkedCount * 60 + (bookmarkedCount === 2 ? 0 : bookmarkedCount > 2 ? 30 : 0)) / 60);
+  const minutes = (bookmarkedCount * 60 + (bookmarkedCount === 2 ? 0 : bookmarkedCount > 2 ? 30 : 0)) % 60;
+  const timeStr = hours > 0 ? `${hours}h ${minutes}m` : `${minutes}m`;
+  document.getElementById('totalTime').textContent = timeStr;
+  document.getElementById('summaryText').textContent = `Day 1 • ${bookmarkedCount} sessions bookmarked`;
+  const progress = (bookmarkedCount / totalSessions) * 100;
+  document.getElementById('progressFill').style.width = `${progress}%`;
+}
+
+function showToast(e) {
+  if (e && e.preventDefault) {
+    e.preventDefault();
+  }
+  const toast = document.getElementById('toast');
+  toast.textContent = 'Coming soon';
+  toast.classList.add('show');
+
+  setTimeout(() => {
+    toast.classList.remove('show');
+  }, 2000);
+}
+</script>
+
+</body>
+</html>
