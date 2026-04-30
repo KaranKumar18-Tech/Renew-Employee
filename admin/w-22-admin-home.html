@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard — ReNew Leaders Connect 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', sans-serif; background: #F5F9F5; min-height: 100vh; display: flex; }
+
+/* ── Sidebar ── */
+.sidebar {
+  width: 240px; min-height: 100vh; background: #1B5E20;
+  display: flex; flex-direction: column;
+  position: fixed; top: 0; left: 0; bottom: 0; z-index: 100;
+}
+.sidebar-logo { padding: 24px 20px 16px; border-bottom: 1px solid rgba(255,255,255,0.12); }
+.sidebar-logo img { height: 32px; filter: brightness(0) invert(1); }
+.sidebar-logo-sub { font-size: 11px; font-weight: 500; color: rgba(255,255,255,0.6); margin-top: 6px; }
+.sidebar-nav { flex: 1; padding: 16px 0; overflow-y: auto; }
+.nav-link {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 20px; font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.75);
+  text-decoration: none; cursor: pointer; border: none; background: none; width: 100%;
+  transition: background 0.15s, color 0.15s;
+}
+.nav-link:hover { background: rgba(255,255,255,0.1); color: #FFFFFF; }
+.nav-link.active { background: rgba(255,255,255,0.18); color: #FFFFFF; font-weight: 600; border-right: 3px solid #4CAF50; }
+.nav-link svg { width: 16px; height: 16px; flex-shrink: 0; }
+.sidebar-footer { padding: 16px 20px; border-top: 1px solid rgba(255,255,255,0.12); }
+.admin-profile { display: flex; align-items: center; gap: 10px; }
+.admin-av { width: 34px; height: 34px; border-radius: 50%; background: #4CAF50; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: #FFFFFF; flex-shrink: 0; }
+
+/* ── Main content ── */
+.main { margin-left: 240px; flex: 1; display: flex; flex-direction: column; min-height: 100vh; }
+
+/* ── Top bar ── */
+.topbar { background: #FFFFFF; border-bottom: 1px solid #E0E0E0; padding: 0 32px; height: 64px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 50; }
+.topbar-left { display: flex; align-items: center; gap: 12px; }
+.event-name { font-size: 15px; font-weight: 600; color: #1A1A1A; }
+.live-badge { display: inline-flex; align-items: center; gap: 5px; background: #FFEBEE; border-radius: 20px; padding: 4px 12px; font-size: 11px; font-weight: 700; color: #D32F2F; }
+.live-badge-dot { width: 6px; height: 6px; border-radius: 50%; background: #D32F2F; animation: pulse-dot 1.2s ease-in-out infinite; }
+@keyframes pulse-dot { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:0.4;transform:scale(0.75);} }
+.topbar-right { display: flex; align-items: center; gap: 12px; }
+.topbar-av { width: 36px; height: 36px; border-radius: 50%; background: #1B5E20; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #FFFFFF; }
+
+/* ── Page body ── */
+.page-body { padding: 28px 32px; flex: 1; }
+.page-heading { font-size: 22px; font-weight: 700; color: #1A1A1A; margin-bottom: 6px; }
+.page-sub { font-size: 13px; font-weight: 400; color: #616161; margin-bottom: 24px; }
+
+/* ── KPI grid ── */
+.kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 28px; }
+.kpi-card { background: #FFFFFF; border-radius: 14px; padding: 20px; box-shadow: 0 1px 6px rgba(0,0,0,0.07); border: 1px solid #F0F0F0; }
+.kpi-label { font-size: 12px; font-weight: 500; color: #9E9E9E; margin-bottom: 8px; }
+.kpi-value { font-size: 28px; font-weight: 700; color: #1A1A1A; line-height: 1; }
+.kpi-sub { font-size: 12px; font-weight: 400; color: #616161; margin-top: 6px; }
+.kpi-up { color: #4CAF50; font-weight: 600; }
+
+/* ── Two column layout ── */
+.two-col { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; }
+
+/* ── Cards ── */
+.card { background: #FFFFFF; border-radius: 14px; padding: 22px; box-shadow: 0 1px 6px rgba(0,0,0,0.07); border: 1px solid #F0F0F0; margin-bottom: 20px; }
+.card-title { font-size: 15px; font-weight: 600; color: #1A1A1A; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; }
+.card-title-badge { font-size: 11px; font-weight: 600; background: #FFEBEE; color: #D32F2F; border-radius: 20px; padding: 3px 10px; display: inline-flex; align-items: center; gap: 4px; }
+
+/* ── Attendance bar ── */
+.att-bar-wrap { height: 10px; background: #E8F5E9; border-radius: 6px; overflow: hidden; margin: 6px 0; }
+.att-bar-fill { height: 100%; background: #1B5E20; border-radius: 6px; }
+
+/* ── Monitor buttons ── */
+.monitor-btns { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
+.btn-sm { padding: 8px 16px; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600; cursor: pointer; border: none; transition: background 0.15s; }
+.btn-primary { background: #1B5E20; color: #FFFFFF; }
+.btn-primary:hover { background: #2E7D32; }
+.btn-outline { background: #FFFFFF; border: 1.5px solid #1B5E20; color: #1B5E20; }
+.btn-outline:hover { background: #E8F5E9; }
+.btn-warning { background: #FFF3E0; color: #E65100; border: 1.5px solid #FFB74D; }
+.btn-warning:hover { background: #FFE0B2; }
+
+/* ── Sessions table ── */
+.sessions-table { width: 100%; border-collapse: collapse; }
+.sessions-table th { font-size: 11px; font-weight: 600; color: #9E9E9E; text-align: left; padding: 8px 10px; border-bottom: 1px solid #F0F0F0; }
+.sessions-table td { font-size: 13px; font-weight: 400; color: #1A1A1A; padding: 10px 10px; border-bottom: 1px solid #F5F5F5; }
+.sessions-table tr:last-child td { border-bottom: none; }
+.status-pill { display: inline-block; border-radius: 20px; padding: 3px 10px; font-size: 10px; font-weight: 700; }
+.s-completed { background: #F5F5F5; color: #9E9E9E; }
+.s-live { background: #FFEBEE; color: #D32F2F; }
+.s-upcoming { background: #E8F5E9; color: #1B5E20; }
+
+/* ── Activity feed ── */
+.feed-item { display: flex; align-items: flex-start; gap: 10px; padding: 10px 0; border-bottom: 1px solid #F5F5F5; }
+.feed-item:last-child { border-bottom: none; }
+.feed-dot { width: 8px; height: 8px; border-radius: 50%; background: #4CAF50; flex-shrink: 0; margin-top: 5px; }
+.feed-text { font-size: 12px; font-weight: 400; color: #1A1A1A; flex: 1; line-height: 1.4; }
+.feed-time { font-size: 11px; font-weight: 400; color: #9E9E9E; white-space: nowrap; margin-top: 1px; }
+
+/* ── Leaderboard widget ── */
+.lb-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid #F5F5F5; }
+.lb-row:last-child { border-bottom: none; }
+.lb-rank { font-size: 13px; font-weight: 700; color: #9E9E9E; width: 20px; text-align: center; }
+.lb-av { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: #FFFFFF; flex-shrink: 0; }
+.lb-name { flex: 1; font-size: 13px; font-weight: 500; color: #1A1A1A; }
+.lb-pts { font-size: 12px; font-weight: 600; color: #1B5E20; }
+
+/* ── Toast ── */
+.toast-web { position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%); background: #1A1A1A; color: #FFFFFF; font-size: 13px; font-weight: 500; border-radius: 8px; padding: 10px 20px; z-index: 999; opacity: 0; transition: opacity 0.2s; pointer-events: none; }
+.toast-web.show { opacity: 1; }
+
+/* ── Divider ── */
+.divider { height: 1px; background: #F0F0F0; margin: 12px 0; }
+</style>
+</head>
+<body>
+
+<!-- ← Directory -->
+<a href="/" style="position:fixed;top:20px;left:256px;z-index:999;background:#FFFFFF;border:1px solid #C8E6C9;border-radius:8px;padding:7px 14px;display:inline-flex;align-items:center;gap:6px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.08);text-decoration:none;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:#1B5E20;" onmouseover="this.style.background='#F5F9F5';" onmouseout="this.style.background='#FFFFFF';">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1B5E20" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  Directory
+</a>
+
+<!-- ══ SIDEBAR ══ -->
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <img src="https://dg4e57nn4fnta.cloudfront.net/logos/ReNew.svg" alt="ReNew">
+    <div class="sidebar-logo-sub">Admin Portal</div>
+  </div>
+  <div class="sidebar-nav">
+    <a class="nav-link active">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      Dashboard
+    </a>
+    <a class="nav-link" onclick="showToast('Event Manager coming soon')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      Event Manager
+    </a>
+    <a class="nav-link" onclick="showToast('Attendees coming soon')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      Attendees
+    </a>
+    <a class="nav-link" href="/admin/w-30-analytics.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      Analytics
+    </a>
+    <a class="nav-link" onclick="showToast('Gamification coming soon')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      Gamification
+    </a>
+    <a class="nav-link" onclick="showToast('Feed Moderation coming soon')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+      Feed Moderation
+    </a>
+    <a class="nav-link" onclick="showToast('Audit Log coming soon')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+      Audit Log
+    </a>
+    <a class="nav-link" onclick="showToast('Settings coming soon')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      Settings
+    </a>
+  </div>
+  <div class="sidebar-footer">
+    <div class="admin-profile">
+      <div class="admin-av">NJ</div>
+      <div>
+        <div style="font-size:13px;font-weight:600;color:#FFFFFF;">Neha Joshi</div>
+        <div style="font-size:11px;font-weight:400;color:rgba(255,255,255,0.6);">Event Admin</div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ══ MAIN ══ -->
+<div class="main">
+  <!-- Top bar -->
+  <div class="topbar">
+    <div class="topbar-left">
+      <span class="event-name">ReNew Leaders Connect 2026</span>
+      <span class="live-badge"><span class="live-badge-dot"></span> EVENT LIVE</span>
+    </div>
+    <div class="topbar-right">
+      <span style="font-size:13px;font-weight:500;color:#616161;">May 15, 2026 · Day 1</span>
+      <div class="topbar-av">NJ</div>
+    </div>
+  </div>
+
+  <!-- Page body -->
+  <div class="page-body">
+    <div class="page-heading">Admin Dashboard</div>
+    <div class="page-sub">Real-time overview · Leaders Connect 2026 · The Leela Ambience, Gurugram</div>
+
+    <!-- KPI Cards -->
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-label">Total Registered</div>
+        <div class="kpi-value">320</div>
+        <div class="kpi-sub"><span class="kpi-up">↑12</span> joined last hour</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Currently Active</div>
+        <div class="kpi-value" style="color:#1B5E20;">247</div>
+        <div class="kpi-sub">77% attendance rate</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Poll Responses</div>
+        <div class="kpi-value">183</div>
+        <div class="kpi-sub">63% participation</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Top Scorer</div>
+        <div class="kpi-value" style="font-size:18px;margin-top:4px;">Arjun Mehta</div>
+        <div class="kpi-sub"><span class="kpi-up">🏆 1,240 pts</span></div>
+      </div>
+    </div>
+
+    <!-- Two column -->
+    <div class="two-col">
+
+      <!-- LEFT -->
+      <div>
+        <!-- Live session monitor -->
+        <div class="card">
+          <div class="card-title">
+            Live Session Monitor
+            <span class="card-title-badge"><span class="live-badge-dot"></span> LIVE</span>
+          </div>
+          <div style="font-size:16px;font-weight:700;color:#1A1A1A;">Townhall: Q&amp;A with Leadership</div>
+          <div style="font-size:13px;font-weight:400;color:#616161;margin-top:4px;">📍 Main Auditorium · 14:00 – 15:30</div>
+          <div style="margin-top:14px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+              <span style="font-size:13px;font-weight:500;color:#1A1A1A;">Attendance</span>
+              <span style="font-size:13px;font-weight:700;color:#1B5E20;">213 / 320 <span style="font-weight:400;color:#616161;">(67%)</span></span>
+            </div>
+            <div class="att-bar-wrap"><div class="att-bar-fill" style="width:67%;"></div></div>
+          </div>
+          <div style="display:flex;gap:24px;margin-top:14px;">
+            <div style="text-align:center;">
+              <div style="font-size:20px;font-weight:700;color:#1B5E20;">183</div>
+              <div style="font-size:11px;color:#9E9E9E;">Poll votes</div>
+            </div>
+            <div style="text-align:center;">
+              <div style="font-size:20px;font-weight:700;color:#1B5E20;">12</div>
+              <div style="font-size:11px;color:#9E9E9E;">Q&amp;A questions</div>
+            </div>
+            <div style="text-align:center;">
+              <div style="font-size:20px;font-weight:700;color:#1B5E20;">42</div>
+              <div style="font-size:11px;color:#9E9E9E;">Upvotes</div>
+            </div>
+          </div>
+          <div class="monitor-btns">
+            <button class="btn-sm btn-primary" onclick="showToast('Poll launched!')">🗳 Launch Poll</button>
+            <a href="/admin/w-25-session-monitor.html" class="btn-sm btn-outline" style="text-decoration:none;display:inline-block;">📋 Moderate Q&amp;A</a>
+            <button class="btn-sm btn-warning" onclick="showToast('Alert sent to 247 attendees')">🔔 Send Alert</button>
+          </div>
+        </div>
+
+        <!-- Sessions table -->
+        <div class="card">
+          <div class="card-title">Today's Sessions</div>
+          <table class="sessions-table">
+            <thead>
+              <tr>
+                <th>Session</th>
+                <th>Time</th>
+                <th>Venue</th>
+                <th>Attendance</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>ReNew 2030: Our Path to 50GW</td>
+                <td>09:00</td>
+                <td>Main Aud.</td>
+                <td>287</td>
+                <td><span class="status-pill s-completed">Completed</span></td>
+              </tr>
+              <tr>
+                <td>AI in Renewable Operations</td>
+                <td>10:30</td>
+                <td>Hall B</td>
+                <td>198</td>
+                <td><span class="status-pill s-completed">Completed</span></td>
+              </tr>
+              <tr>
+                <td>Building High-Performance Teams</td>
+                <td>11:30</td>
+                <td>Hall C</td>
+                <td>176</td>
+                <td><span class="status-pill s-completed">Completed</span></td>
+              </tr>
+              <tr style="background:#FFFDE7;">
+                <td style="font-weight:600;">Townhall: Q&amp;A with Leadership</td>
+                <td>14:00</td>
+                <td>Main Aud.</td>
+                <td style="font-weight:600;color:#1B5E20;">213</td>
+                <td><span class="status-pill s-live">● LIVE</span></td>
+              </tr>
+              <tr>
+                <td>Project Delivery Excellence</td>
+                <td>16:00</td>
+                <td>Breakout 1</td>
+                <td>—</td>
+                <td><span class="status-pill s-upcoming">Upcoming</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- RIGHT -->
+      <div>
+        <!-- Live activity feed -->
+        <div class="card">
+          <div class="card-title">Live Activity Feed</div>
+          <div class="feed-item">
+            <div class="feed-dot"></div>
+            <div style="flex:1;">
+              <div class="feed-text">Arjun Mehta upvoted a Q&amp;A question</div>
+              <div class="feed-time">Just now</div>
+            </div>
+          </div>
+          <div class="feed-item">
+            <div class="feed-dot" style="background:#1B5E20;"></div>
+            <div style="flex:1;">
+              <div class="feed-text">Priya Sharma submitted poll response</div>
+              <div class="feed-time">1 min ago</div>
+            </div>
+          </div>
+          <div class="feed-item">
+            <div class="feed-dot" style="background:#FF6F00;"></div>
+            <div style="flex:1;">
+              <div class="feed-text">New Q&amp;A question: "What is the plan for Tier-2 cities?"</div>
+              <div class="feed-time">2 mins ago</div>
+            </div>
+          </div>
+          <div class="feed-item">
+            <div class="feed-dot" style="background:#4CAF50;"></div>
+            <div style="flex:1;">
+              <div class="feed-text">Rohan Kapoor posted in social feed</div>
+              <div class="feed-time">4 mins ago</div>
+            </div>
+          </div>
+          <div class="feed-item">
+            <div class="feed-dot" style="background:#1B5E20;"></div>
+            <div style="flex:1;">
+              <div class="feed-text">12 new connections made at Hub 1</div>
+              <div class="feed-time">5 mins ago</div>
+            </div>
+          </div>
+          <div class="feed-item">
+            <div class="feed-dot"></div>
+            <div style="flex:1;">
+              <div class="feed-text">Neha Joshi completed Knowledge Quiz</div>
+              <div class="feed-time">7 mins ago</div>
+            </div>
+          </div>
+          <div class="feed-item">
+            <div class="feed-dot" style="background:#FF6F00;"></div>
+            <div style="flex:1;">
+              <div class="feed-text">Amit Verma scanned a booth at Expo</div>
+              <div class="feed-time">9 mins ago</div>
+            </div>
+          </div>
+          <div class="feed-item">
+            <div class="feed-dot"></div>
+            <div style="flex:1;">
+              <div class="feed-text">Session survey submitted — AI session</div>
+              <div class="feed-time">11 mins ago</div>
+            </div>
+          </div>
+          <div class="feed-item">
+            <div class="feed-dot" style="background:#4CAF50;"></div>
+            <div style="flex:1;">
+              <div class="feed-text">Sunita Rao booked meeting with Rohan</div>
+              <div class="feed-time">14 mins ago</div>
+            </div>
+          </div>
+          <div class="feed-item">
+            <div class="feed-dot"></div>
+            <div style="flex:1;">
+              <div class="feed-text">42 poll votes counted on current poll</div>
+              <div class="feed-time">16 mins ago</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Leaderboard widget -->
+        <div class="card">
+          <div class="card-title">
+            Top Performers
+            <a href="/admin/w-30-analytics.html" style="font-size:12px;font-weight:500;color:#4CAF50;text-decoration:none;">Full Analytics →</a>
+          </div>
+          <div class="lb-row">
+            <div class="lb-rank">🥇</div>
+            <div class="lb-av" style="background:#1B5E20;">AM</div>
+            <div class="lb-name">Arjun Mehta<br><span style="font-size:11px;color:#9E9E9E;">VP Strategy</span></div>
+            <div class="lb-pts">1,240 pts</div>
+          </div>
+          <div class="lb-row">
+            <div class="lb-rank">🥈</div>
+            <div class="lb-av" style="background:#4CAF50;">PS</div>
+            <div class="lb-name">Priya Sharma<br><span style="font-size:11px;color:#9E9E9E;">HR</span></div>
+            <div class="lb-pts">1,105 pts</div>
+          </div>
+          <div class="lb-row">
+            <div class="lb-rank">🥉</div>
+            <div class="lb-av" style="background:#2E7D32;">RK</div>
+            <div class="lb-name">Rohan Kapoor<br><span style="font-size:11px;color:#9E9E9E;">Engineering</span></div>
+            <div class="lb-pts">980 pts</div>
+          </div>
+          <div class="lb-row">
+            <div class="lb-rank" style="color:#616161;">4</div>
+            <div class="lb-av" style="background:#FF6F00;">NJ</div>
+            <div class="lb-name">Neha Joshi<br><span style="font-size:11px;color:#9E9E9E;">Strategy</span></div>
+            <div class="lb-pts">870 pts</div>
+          </div>
+          <div class="lb-row">
+            <div class="lb-rank" style="color:#616161;">5</div>
+            <div class="lb-av" style="background:#7B1FA2;">AV</div>
+            <div class="lb-name">Amit Verma<br><span style="font-size:11px;color:#9E9E9E;">Operations</span></div>
+            <div class="lb-pts">760 pts</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /two-col -->
+  </div><!-- /page-body -->
+</div><!-- /main -->
+
+<!-- Toast -->
+<div class="toast-web" id="webToast">Message</div>
+
+<script>
+let toastTimer = null;
+function showToast(msg) {
+  const t = document.getElementById('webToast');
+  t.textContent = msg || 'Coming soon';
+  if (toastTimer) clearTimeout(toastTimer);
+  t.classList.add('show');
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2500);
+}
+</script>
+</body>
+</html>
