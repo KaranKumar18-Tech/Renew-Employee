@@ -6,443 +6,654 @@
 <title>Admin Dashboard — ReNew Leaders Connect 2026</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: 'Inter', sans-serif; background: #F5F9F5; min-height: 100vh; display: flex; }
 
-/* ── Sidebar ── */
-.sidebar {
-  width: 240px; min-height: 100vh; background: #1B5E20;
-  display: flex; flex-direction: column;
-  position: fixed; top: 0; left: 0; bottom: 0; z-index: 100;
+body {
+  font-family: 'Inter', sans-serif;
+  background: #F2F2F2;
+  min-height: 100vh;
+  display: flex;
 }
-.sidebar-logo { padding: 24px 20px 16px; border-bottom: 1px solid rgba(255,255,255,0.12); }
-.sidebar-logo img { height: 32px; filter: brightness(0) invert(1); }
-.sidebar-logo-sub { font-size: 11px; font-weight: 500; color: rgba(255,255,255,0.6); margin-top: 6px; }
+
+/* ─────────────────────────────
+   SIDEBAR
+───────────────────────────── */
+.sidebar {
+  width: 240px;
+  height: 100vh;
+  background: #1B5E20;
+  position: fixed;
+  left: 0; top: 0;
+  display: flex;
+  flex-direction: column;
+  z-index: 200;
+}
+
+.sidebar-logo {
+  padding: 20px 24px;
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+  flex-shrink: 0;
+}
+.sidebar-logo img { height: 32px; filter: brightness(0) invert(1); display: block; }
+.sidebar-logo-sub { font-size: 11px; font-weight: 400; color: rgba(255,255,255,0.6); margin-top: 4px; }
+
 .sidebar-nav { flex: 1; padding: 16px 0; overflow-y: auto; }
+.sidebar-nav::-webkit-scrollbar { display: none; }
+
 .nav-link {
   display: flex; align-items: center; gap: 10px;
-  padding: 10px 20px; font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.75);
-  text-decoration: none; cursor: pointer; border: none; background: none; width: 100%;
+  padding: 10px 24px;
+  font-size: 13px; font-weight: 500;
+  color: rgba(255,255,255,0.7);
+  text-decoration: none;
+  cursor: pointer;
+  border: none; background: none; width: 100%;
+  text-align: left;
   transition: background 0.15s, color 0.15s;
+  border-left: 3px solid transparent;
 }
-.nav-link:hover { background: rgba(255,255,255,0.1); color: #FFFFFF; }
-.nav-link.active { background: rgba(255,255,255,0.18); color: #FFFFFF; font-weight: 600; border-right: 3px solid #4CAF50; }
-.nav-link svg { width: 16px; height: 16px; flex-shrink: 0; }
-.sidebar-footer { padding: 16px 20px; border-top: 1px solid rgba(255,255,255,0.12); }
-.admin-profile { display: flex; align-items: center; gap: 10px; }
-.admin-av { width: 34px; height: 34px; border-radius: 50%; background: #4CAF50; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: #FFFFFF; flex-shrink: 0; }
+.nav-link:hover { background: rgba(255,255,255,0.08); color: #FFFFFF; }
+.nav-link.active {
+  background: rgba(255,255,255,0.15);
+  color: #FFFFFF;
+  font-weight: 600;
+  border-left-color: #4CAF50;
+}
+.nav-link svg { width: 18px; height: 18px; flex-shrink: 0; }
 
-/* ── Main content ── */
-.main { margin-left: 240px; flex: 1; display: flex; flex-direction: column; min-height: 100vh; }
+.sidebar-profile {
+  padding: 16px 24px;
+  border-top: 1px solid rgba(255,255,255,0.15);
+  flex-shrink: 0;
+}
+.profile-row { display: flex; align-items: center; gap: 10px; }
+.profile-av {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: #4CAF50;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 700; color: #FFFFFF;
+  flex-shrink: 0;
+}
+.profile-name { font-size: 13px; font-weight: 600; color: #FFFFFF; }
+.profile-role { font-size: 11px; font-weight: 400; color: rgba(255,255,255,0.6); margin-top: 1px; }
+.profile-logout { font-size: 11px; font-weight: 500; color: rgba(255,255,255,0.5); margin-top: 6px; cursor: pointer; display: inline-block; }
+.profile-logout:hover { color: rgba(255,255,255,0.8); }
 
-/* ── Top bar ── */
-.topbar { background: #FFFFFF; border-bottom: 1px solid #E0E0E0; padding: 0 32px; height: 64px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 50; }
-.topbar-left { display: flex; align-items: center; gap: 12px; }
-.event-name { font-size: 15px; font-weight: 600; color: #1A1A1A; }
-.live-badge { display: inline-flex; align-items: center; gap: 5px; background: #FFEBEE; border-radius: 20px; padding: 4px 12px; font-size: 11px; font-weight: 700; color: #D32F2F; }
-.live-badge-dot { width: 6px; height: 6px; border-radius: 50%; background: #D32F2F; animation: pulse-dot 1.2s ease-in-out infinite; }
-@keyframes pulse-dot { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:0.4;transform:scale(0.75);} }
-.topbar-right { display: flex; align-items: center; gap: 12px; }
-.topbar-av { width: 36px; height: 36px; border-radius: 50%; background: #1B5E20; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #FFFFFF; }
+/* ─────────────────────────────
+   MAIN
+───────────────────────────── */
+.main {
+  margin-left: 240px;
+  padding: 24px;
+  flex: 1;
+  min-height: 100vh;
+}
 
-/* ── Page body ── */
-.page-body { padding: 28px 32px; flex: 1; }
-.page-heading { font-size: 22px; font-weight: 700; color: #1A1A1A; margin-bottom: 6px; }
-.page-sub { font-size: 13px; font-weight: 400; color: #616161; margin-bottom: 24px; }
+/* TOP BAR */
+.topbar {
+  background: #FFFFFF;
+  border-radius: 12px;
+  padding: 14px 20px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+.topbar-title { font-size: 18px; font-weight: 700; color: #1A1A1A; }
+.topbar-sub { font-size: 13px; font-weight: 400; color: #616161; margin-top: 2px; }
+.live-pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: #D32F2F; color: #FFFFFF;
+  font-size: 11px; font-weight: 700;
+  border-radius: 20px; padding: 5px 14px;
+}
+@keyframes pulse-dot { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:0.4;transform:scale(0.7);} }
+.pulse-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: #FFFFFF;
+  animation: pulse-dot 1.2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+.topbar-right { display: flex; align-items: center; gap: 14px; }
+.bell-wrap { position: relative; cursor: pointer; }
+.bell-wrap svg { width: 22px; height: 22px; color: #616161; }
+.bell-dot { position: absolute; top: 0; right: 0; width: 8px; height: 8px; border-radius: 50%; background: #D32F2F; border: 2px solid #FFFFFF; }
+.topbar-admin-name { font-size: 13px; font-weight: 500; color: #1A1A1A; }
+.topbar-av { width: 32px; height: 32px; border-radius: 50%; background: #4CAF50; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: #FFFFFF; flex-shrink: 0; }
 
-/* ── KPI grid ── */
-.kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 28px; }
-.kpi-card { background: #FFFFFF; border-radius: 14px; padding: 20px; box-shadow: 0 1px 6px rgba(0,0,0,0.07); border: 1px solid #F0F0F0; }
-.kpi-label { font-size: 12px; font-weight: 500; color: #9E9E9E; margin-bottom: 8px; }
-.kpi-value { font-size: 28px; font-weight: 700; color: #1A1A1A; line-height: 1; }
-.kpi-sub { font-size: 12px; font-weight: 400; color: #616161; margin-top: 6px; }
-.kpi-up { color: #4CAF50; font-weight: 600; }
+/* KPI GRID */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.kpi-card {
+  background: #FFFFFF;
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+.kpi-icon {
+  width: 44px; height: 44px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; margin-bottom: 12px;
+}
+.kpi-label { font-size: 13px; font-weight: 500; color: #616161; }
+.kpi-value { font-size: 32px; font-weight: 800; color: #1A1A1A; margin-top: 4px; line-height: 1; }
+.kpi-value-name { font-size: 20px; font-weight: 700; color: #1A1A1A; margin-top: 4px; line-height: 1.2; }
+.kpi-sub { font-size: 11px; font-weight: 400; margin-top: 6px; }
 
-/* ── Two column layout ── */
-.two-col { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; }
+/* TWO COLUMN */
+.two-col { display: grid; grid-template-columns: 2fr 1fr; gap: 16px; }
 
-/* ── Cards ── */
-.card { background: #FFFFFF; border-radius: 14px; padding: 22px; box-shadow: 0 1px 6px rgba(0,0,0,0.07); border: 1px solid #F0F0F0; margin-bottom: 20px; }
-.card-title { font-size: 15px; font-weight: 600; color: #1A1A1A; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; }
-.card-title-badge { font-size: 11px; font-weight: 600; background: #FFEBEE; color: #D32F2F; border-radius: 20px; padding: 3px 10px; display: inline-flex; align-items: center; gap: 4px; }
+/* CARDS */
+.card {
+  background: #FFFFFF;
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  margin-bottom: 16px;
+}
+.card:last-child { margin-bottom: 0; }
+.card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.card-title { font-size: 16px; font-weight: 700; color: #1A1A1A; }
+.card-link { font-size: 12px; font-weight: 500; color: #4CAF50; text-decoration: none; cursor: pointer; }
+.card-link:hover { text-decoration: underline; }
 
-/* ── Attendance bar ── */
-.att-bar-wrap { height: 10px; background: #E8F5E9; border-radius: 6px; overflow: hidden; margin: 6px 0; }
-.att-bar-fill { height: 100%; background: #1B5E20; border-radius: 6px; }
+/* LIVE SESSION CARD */
+.live-session-inner {
+  background: #F5F9F5;
+  border-radius: 12px;
+  padding: 16px;
+  border-left: 4px solid #D32F2F;
+}
+.live-session-top { display: flex; align-items: center; gap: 10px; }
+.live-badge-red { display: inline-flex; align-items: center; gap: 5px; background: #D32F2F; color: #FFFFFF; font-size: 10px; font-weight: 700; border-radius: 20px; padding: 3px 10px; flex-shrink: 0; }
+.live-session-name { font-size: 15px; font-weight: 700; color: #1A1A1A; }
+.live-session-sub { font-size: 12px; font-weight: 400; color: #616161; margin-top: 4px; }
 
-/* ── Monitor buttons ── */
-.monitor-btns { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
-.btn-sm { padding: 8px 16px; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600; cursor: pointer; border: none; transition: background 0.15s; }
-.btn-primary { background: #1B5E20; color: #FFFFFF; }
-.btn-primary:hover { background: #2E7D32; }
-.btn-outline { background: #FFFFFF; border: 1.5px solid #1B5E20; color: #1B5E20; }
-.btn-outline:hover { background: #E8F5E9; }
-.btn-warning { background: #FFF3E0; color: #E65100; border: 1.5px solid #FFB74D; }
-.btn-warning:hover { background: #FFE0B2; }
+.att-label-row { display: flex; justify-content: space-between; align-items: center; margin: 12px 0 5px; }
+.att-label { font-size: 12px; font-weight: 500; color: #616161; }
+.att-value { font-size: 12px; font-weight: 600; color: #1B5E20; }
+.att-track { height: 8px; background: #E0E0E0; border-radius: 4px; overflow: hidden; }
+.att-fill { height: 100%; background: #1B5E20; border-radius: 4px; }
 
-/* ── Sessions table ── */
+.engagement-row { display: flex; gap: 16px; margin-top: 12px; flex-wrap: wrap; }
+.eng-item { font-size: 12px; font-weight: 500; color: #616161; }
+
+.action-row { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
+.btn-launch { background: #1B5E20; color: #FFFFFF; border: none; border-radius: 8px; padding: 8px 16px; font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600; cursor: pointer; transition: background 0.15s; }
+.btn-launch:hover { background: #2E7D32; }
+.btn-moderate { background: #FFFFFF; border: 1.5px solid #1B5E20; color: #1B5E20; border-radius: 8px; padding: 8px 16px; font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-block; transition: background 0.15s; }
+.btn-moderate:hover { background: #E8F5E9; }
+.btn-alert { background: #FFFFFF; border: 1.5px solid #E65100; color: #E65100; border-radius: 8px; padding: 8px 16px; font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600; cursor: pointer; transition: background 0.15s; }
+.btn-alert:hover { background: #FFF3E0; }
+
+/* TABLE */
+.section-title { font-size: 14px; font-weight: 600; color: #1A1A1A; margin: 20px 0 12px; }
 .sessions-table { width: 100%; border-collapse: collapse; }
-.sessions-table th { font-size: 11px; font-weight: 600; color: #9E9E9E; text-align: left; padding: 8px 10px; border-bottom: 1px solid #F0F0F0; }
-.sessions-table td { font-size: 13px; font-weight: 400; color: #1A1A1A; padding: 10px 10px; border-bottom: 1px solid #F5F5F5; }
+.sessions-table th {
+  background: #F5F9F5;
+  font-size: 11px; font-weight: 600; color: #9E9E9E;
+  padding: 10px 12px; text-align: left;
+  border-bottom: 1px solid #E0E0E0;
+}
+.sessions-table td {
+  padding: 12px 12px;
+  font-size: 13px; font-weight: 500; color: #1A1A1A;
+  border-bottom: 1px solid #F0F0F0;
+}
 .sessions-table tr:last-child td { border-bottom: none; }
-.status-pill { display: inline-block; border-radius: 20px; padding: 3px 10px; font-size: 10px; font-weight: 700; }
-.s-completed { background: #F5F5F5; color: #9E9E9E; }
-.s-live { background: #FFEBEE; color: #D32F2F; }
-.s-upcoming { background: #E8F5E9; color: #1B5E20; }
+.sessions-table tr:hover td { background: #F9F9F9; }
+.badge { display: inline-flex; align-items: center; gap: 4px; border-radius: 20px; padding: 3px 10px; font-size: 10px; font-weight: 600; }
+.badge-done { background: #E8F5E9; color: #4CAF50; }
+.badge-live { background: #FFEBEE; color: #D32F2F; }
+.badge-soon { background: #F5F9F5; color: #9E9E9E; }
 
-/* ── Activity feed ── */
-.feed-item { display: flex; align-items: flex-start; gap: 10px; padding: 10px 0; border-bottom: 1px solid #F5F5F5; }
+/* ACTIVITY FEED */
+.feed-list { margin-top: 14px; max-height: 300px; overflow-y: auto; }
+.feed-list::-webkit-scrollbar { width: 4px; }
+.feed-list::-webkit-scrollbar-thumb { background: #E0E0E0; border-radius: 2px; }
+.feed-item { display: flex; gap: 10px; padding: 10px 0; border-bottom: 1px solid #F5F5F5; }
 .feed-item:last-child { border-bottom: none; }
-.feed-dot { width: 8px; height: 8px; border-radius: 50%; background: #4CAF50; flex-shrink: 0; margin-top: 5px; }
-.feed-text { font-size: 12px; font-weight: 400; color: #1A1A1A; flex: 1; line-height: 1.4; }
-.feed-time { font-size: 11px; font-weight: 400; color: #9E9E9E; white-space: nowrap; margin-top: 1px; }
+.feed-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 6px; }
+.feed-text { font-size: 12px; font-weight: 400; color: #1A1A1A; line-height: 1.4; flex: 1; }
+.feed-time { font-size: 10px; font-weight: 400; color: #9E9E9E; margin-top: 2px; }
+.feed-updating { display: flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 400; color: #4CAF50; }
 
-/* ── Leaderboard widget ── */
-.lb-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid #F5F5F5; }
-.lb-row:last-child { border-bottom: none; }
-.lb-rank { font-size: 13px; font-weight: 700; color: #9E9E9E; width: 20px; text-align: center; }
-.lb-av { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: #FFFFFF; flex-shrink: 0; }
-.lb-name { flex: 1; font-size: 13px; font-weight: 500; color: #1A1A1A; }
-.lb-pts { font-size: 12px; font-weight: 600; color: #1B5E20; }
+/* LEADERBOARD */
+.lb-list { margin-top: 14px; }
+.lb-item { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid #F5F5F5; }
+.lb-item:last-child { border-bottom: none; }
+.lb-rank { font-size: 14px; font-weight: 700; color: #9E9E9E; width: 24px; text-align: center; flex-shrink: 0; }
+.lb-av { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: #FFFFFF; flex-shrink: 0; }
+.lb-info { flex: 1; min-width: 0; }
+.lb-name { font-size: 13px; font-weight: 600; color: #1A1A1A; }
+.lb-role { font-size: 11px; font-weight: 400; color: #616161; }
+.lb-pts { font-size: 13px; font-weight: 700; color: #1B5E20; flex-shrink: 0; }
 
-/* ── Toast ── */
-.toast-web { position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%); background: #1A1A1A; color: #FFFFFF; font-size: 13px; font-weight: 500; border-radius: 8px; padding: 10px 20px; z-index: 999; opacity: 0; transition: opacity 0.2s; pointer-events: none; }
+/* TOAST */
+.toast-web {
+  position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%);
+  background: #1A1A1A; color: #FFFFFF;
+  font-size: 13px; font-weight: 500;
+  border-radius: 8px; padding: 10px 20px;
+  z-index: 999; opacity: 0; transition: opacity 0.2s;
+  pointer-events: none; white-space: nowrap;
+}
 .toast-web.show { opacity: 1; }
 
-/* ── Divider ── */
-.divider { height: 1px; background: #F0F0F0; margin: 12px 0; }
+/* ALERT MODAL */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.4); z-index: 500;
+  display: none; align-items: center; justify-content: center;
+}
+.modal-overlay.show { display: flex; }
+.modal-box {
+  background: #FFFFFF; border-radius: 16px; padding: 28px;
+  width: 460px; max-width: 90vw;
+  box-shadow: 0 12px 48px rgba(0,0,0,0.2);
+}
+.modal-title { font-size: 17px; font-weight: 700; color: #1A1A1A; margin-bottom: 6px; }
+.modal-sub { font-size: 13px; color: #616161; margin-bottom: 16px; }
+.modal-textarea {
+  width: 100%; height: 90px; border: 1px solid #C8E6C9;
+  border-radius: 10px; padding: 10px 14px;
+  font-size: 13px; font-family: 'Inter', sans-serif;
+  color: #1A1A1A; resize: none; outline: none;
+  background: #F5F9F5;
+}
+.modal-textarea:focus { border-color: #4CAF50; box-shadow: 0 0 0 3px rgba(76,175,80,0.12); }
+.modal-btns { display: flex; gap: 10px; margin-top: 14px; }
+.modal-send { flex: 1; height: 44px; background: #1B5E20; border: none; border-radius: 10px; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 700; color: #FFFFFF; cursor: pointer; }
+.modal-send:hover { background: #2E7D32; }
+.modal-cancel { flex: 1; height: 44px; background: #FFFFFF; border: 1.5px solid #E0E0E0; border-radius: 10px; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600; color: #616161; cursor: pointer; }
+
+@media (max-width: 1200px) {
+  .kpi-grid { grid-template-columns: repeat(2,1fr); }
+  .two-col { grid-template-columns: 1fr; }
+}
 </style>
 </head>
 <body>
 
-<!-- ← Directory -->
-<a href="/" style="position:fixed;top:20px;left:256px;z-index:999;background:#FFFFFF;border:1px solid #C8E6C9;border-radius:8px;padding:7px 14px;display:inline-flex;align-items:center;gap:6px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.08);text-decoration:none;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:#1B5E20;" onmouseover="this.style.background='#F5F9F5';" onmouseout="this.style.background='#FFFFFF';">
+<!-- ← Directory button -->
+<a href="/" style="position:fixed;top:20px;left:256px;z-index:999;background:#FFFFFF;border:1px solid #C8E6C9;border-radius:8px;padding:7px 14px;display:inline-flex;align-items:center;gap:6px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.08);text-decoration:none;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:#1B5E20;transition:background 0.15s;" onmouseover="this.style.background='#F5F9F5';" onmouseout="this.style.background='#FFFFFF';">
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1B5E20" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
   Directory
 </a>
 
-<!-- ══ SIDEBAR ══ -->
+<!-- ═══════════════ SIDEBAR ═══════════════ -->
 <nav class="sidebar">
   <div class="sidebar-logo">
-    <img src="https://dg4e57nn4fnta.cloudfront.net/logos/ReNew.svg" alt="ReNew">
+    <img src="https://dg4e57nn4fnta.cloudfront.net/logos/ReNew.svg" alt="ReNew" height="32">
     <div class="sidebar-logo-sub">Admin Portal</div>
   </div>
+
   <div class="sidebar-nav">
     <a class="nav-link active">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
       Dashboard
     </a>
-    <a class="nav-link" onclick="showToast('Event Manager coming soon')">
+    <button class="nav-link" onclick="toast('Event Manager coming soon')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
       Event Manager
-    </a>
-    <a class="nav-link" onclick="showToast('Attendees coming soon')">
+    </button>
+    <button class="nav-link" onclick="toast('Attendees coming soon')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
       Attendees
-    </a>
-    <a class="nav-link" href="/admin/w-30-analytics.html">
+    </button>
+    <button class="nav-link" onclick="document.getElementById('analytics-anchor').scrollIntoView({behavior:'smooth'})">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
       Analytics
-    </a>
-    <a class="nav-link" onclick="showToast('Gamification coming soon')">
+    </button>
+    <button class="nav-link" onclick="toast('Gamification coming soon')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
       Gamification
-    </a>
-    <a class="nav-link" onclick="showToast('Feed Moderation coming soon')">
+    </button>
+    <button class="nav-link" onclick="toast('Feed Moderation coming soon')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
       Feed Moderation
-    </a>
-    <a class="nav-link" onclick="showToast('Audit Log coming soon')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+    </button>
+    <button class="nav-link" onclick="toast('Audit Log coming soon')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
       Audit Log
-    </a>
-    <a class="nav-link" onclick="showToast('Settings coming soon')">
+    </button>
+    <button class="nav-link" onclick="toast('Settings coming soon')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
       Settings
-    </a>
+    </button>
   </div>
-  <div class="sidebar-footer">
-    <div class="admin-profile">
-      <div class="admin-av">NJ</div>
+
+  <div class="sidebar-profile">
+    <div class="profile-row">
+      <div class="profile-av">NJ</div>
       <div>
-        <div style="font-size:13px;font-weight:600;color:#FFFFFF;">Neha Joshi</div>
-        <div style="font-size:11px;font-weight:400;color:rgba(255,255,255,0.6);">Event Admin</div>
+        <div class="profile-name">Neha Joshi</div>
+        <div class="profile-role">Event Admin</div>
       </div>
     </div>
+    <div class="profile-logout" onclick="toast('Logged out')">Logout →</div>
   </div>
 </nav>
 
-<!-- ══ MAIN ══ -->
+<!-- ═══════════════ MAIN ═══════════════ -->
 <div class="main">
-  <!-- Top bar -->
+
+  <!-- Top Bar -->
   <div class="topbar">
-    <div class="topbar-left">
-      <span class="event-name">ReNew Leaders Connect 2026</span>
-      <span class="live-badge"><span class="live-badge-dot"></span> EVENT LIVE</span>
+    <div>
+      <div class="topbar-title">Leaders Connect 2026</div>
+      <div class="topbar-sub">Day 1 · May 15, 2026 · The Leela Ambience, Gurugram</div>
+    </div>
+    <div class="live-pill">
+      <span class="pulse-dot"></span>
+      EVENT LIVE
     </div>
     <div class="topbar-right">
-      <span style="font-size:13px;font-weight:500;color:#616161;">May 15, 2026 · Day 1</span>
+      <div class="bell-wrap" onclick="toast('3 new notifications')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        <div class="bell-dot"></div>
+      </div>
+      <span class="topbar-admin-name">Neha Joshi · Event Admin</span>
       <div class="topbar-av">NJ</div>
     </div>
   </div>
 
-  <!-- Page body -->
-  <div class="page-body">
-    <div class="page-heading">Admin Dashboard</div>
-    <div class="page-sub">Real-time overview · Leaders Connect 2026 · The Leela Ambience, Gurugram</div>
+  <!-- KPI Cards -->
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-icon" style="background:#E8F5E9;">👥</div>
+      <div class="kpi-label">Total Registered</div>
+      <div class="kpi-value">320</div>
+      <div class="kpi-sub" style="color:#4CAF50;">↑ 12 checked in last hour</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-icon" style="background:#E3F2FD;">📍</div>
+      <div class="kpi-label">Currently Active</div>
+      <div class="kpi-value">247</div>
+      <div class="kpi-sub" style="color:#1565C0;">77% attendance rate</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-icon" style="background:#FFF3E0;">🗳️</div>
+      <div class="kpi-label">Poll Responses</div>
+      <div class="kpi-value">183</div>
+      <div class="kpi-sub" style="color:#E65100;">63% participation rate</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-icon" style="background:#F3E5F5;">🏆</div>
+      <div class="kpi-label">Top Scorer</div>
+      <div class="kpi-value-name">Arjun Mehta</div>
+      <div class="kpi-sub" style="color:#7B1FA2;">1,240 pts · VP Strategy</div>
+    </div>
+  </div>
 
-    <!-- KPI Cards -->
-    <div class="kpi-grid">
-      <div class="kpi-card">
-        <div class="kpi-label">Total Registered</div>
-        <div class="kpi-value">320</div>
-        <div class="kpi-sub"><span class="kpi-up">↑12</span> joined last hour</div>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-label">Currently Active</div>
-        <div class="kpi-value" style="color:#1B5E20;">247</div>
-        <div class="kpi-sub">77% attendance rate</div>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-label">Poll Responses</div>
-        <div class="kpi-value">183</div>
-        <div class="kpi-sub">63% participation</div>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-label">Top Scorer</div>
-        <div class="kpi-value" style="font-size:18px;margin-top:4px;">Arjun Mehta</div>
-        <div class="kpi-sub"><span class="kpi-up">🏆 1,240 pts</span></div>
+  <!-- Two Column -->
+  <div class="two-col">
+
+    <!-- LEFT -->
+    <div>
+      <!-- Live Session Monitor -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Live Session Monitor</div>
+          <a href="/admin/w-25-session-monitor.html" class="card-link">View Full Monitor →</a>
+        </div>
+
+        <div class="live-session-inner">
+          <div class="live-session-top">
+            <span class="live-badge-red"><span class="pulse-dot"></span> LIVE</span>
+            <span class="live-session-name">Townhall: Q&amp;A with Leadership</span>
+          </div>
+          <div class="live-session-sub">Main Auditorium · 2:00 – 3:30 PM · Leadership Panel</div>
+
+          <div class="att-label-row">
+            <span class="att-label">Attendance</span>
+            <span class="att-value">213 / 320 (67%)</span>
+          </div>
+          <div class="att-track"><div class="att-fill" style="width:67%;"></div></div>
+
+          <div class="engagement-row">
+            <span class="eng-item">📊 Poll: 183 responses</span>
+            <span class="eng-item">❓ Q&amp;A: 12 questions</span>
+            <span class="eng-item">🏆 Points: 45 active</span>
+          </div>
+
+          <div class="action-row">
+            <button class="btn-launch" onclick="toast('Poll launcher coming soon')">🗳️ Launch Poll</button>
+            <a href="/admin/w-25-session-monitor.html" class="btn-moderate">❓ Moderate Q&amp;A</a>
+            <button class="btn-alert" onclick="document.getElementById('alertModal').classList.add('show')">🔔 Send Alert</button>
+          </div>
+        </div>
+
+        <div class="section-title">Today's Sessions</div>
+        <table class="sessions-table">
+          <thead>
+            <tr>
+              <th>Session</th>
+              <th>Time</th>
+              <th>Room</th>
+              <th>Attendance</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>ReNew 2030: Our Path to 50GW</td>
+              <td>09:00–10:00</td>
+              <td>Main Aud.</td>
+              <td>287 / 320</td>
+              <td><span class="badge badge-done">Completed</span></td>
+            </tr>
+            <tr>
+              <td>AI in Renewable Operations</td>
+              <td>10:30–11:30</td>
+              <td>Hall B</td>
+              <td>198 / 320</td>
+              <td><span class="badge badge-done">Completed</span></td>
+            </tr>
+            <tr>
+              <td>Building High-Performance Teams</td>
+              <td>11:30–12:30</td>
+              <td>Hall C</td>
+              <td>176 / 320</td>
+              <td><span class="badge badge-done">Completed</span></td>
+            </tr>
+            <tr style="background:#FFFDE7;">
+              <td style="font-weight:600;">Townhall: Q&amp;A with Leadership</td>
+              <td>14:00–15:30</td>
+              <td>Main Aud.</td>
+              <td style="font-weight:600;color:#1B5E20;">213 / 320</td>
+              <td><span class="badge badge-live"><span class="pulse-dot" style="background:#D32F2F;width:5px;height:5px;"></span> Live</span></td>
+            </tr>
+            <tr>
+              <td>Project Delivery Excellence</td>
+              <td>16:00–17:00</td>
+              <td>Breakout 1</td>
+              <td>—</td>
+              <td><span class="badge badge-soon">Upcoming</span></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
 
-    <!-- Two column -->
-    <div class="two-col">
-
-      <!-- LEFT -->
-      <div>
-        <!-- Live session monitor -->
-        <div class="card">
-          <div class="card-title">
-            Live Session Monitor
-            <span class="card-title-badge"><span class="live-badge-dot"></span> LIVE</span>
-          </div>
-          <div style="font-size:16px;font-weight:700;color:#1A1A1A;">Townhall: Q&amp;A with Leadership</div>
-          <div style="font-size:13px;font-weight:400;color:#616161;margin-top:4px;">📍 Main Auditorium · 14:00 – 15:30</div>
-          <div style="margin-top:14px;">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
-              <span style="font-size:13px;font-weight:500;color:#1A1A1A;">Attendance</span>
-              <span style="font-size:13px;font-weight:700;color:#1B5E20;">213 / 320 <span style="font-weight:400;color:#616161;">(67%)</span></span>
-            </div>
-            <div class="att-bar-wrap"><div class="att-bar-fill" style="width:67%;"></div></div>
-          </div>
-          <div style="display:flex;gap:24px;margin-top:14px;">
-            <div style="text-align:center;">
-              <div style="font-size:20px;font-weight:700;color:#1B5E20;">183</div>
-              <div style="font-size:11px;color:#9E9E9E;">Poll votes</div>
-            </div>
-            <div style="text-align:center;">
-              <div style="font-size:20px;font-weight:700;color:#1B5E20;">12</div>
-              <div style="font-size:11px;color:#9E9E9E;">Q&amp;A questions</div>
-            </div>
-            <div style="text-align:center;">
-              <div style="font-size:20px;font-weight:700;color:#1B5E20;">42</div>
-              <div style="font-size:11px;color:#9E9E9E;">Upvotes</div>
-            </div>
-          </div>
-          <div class="monitor-btns">
-            <button class="btn-sm btn-primary" onclick="showToast('Poll launched!')">🗳 Launch Poll</button>
-            <a href="/admin/w-25-session-monitor.html" class="btn-sm btn-outline" style="text-decoration:none;display:inline-block;">📋 Moderate Q&amp;A</a>
-            <button class="btn-sm btn-warning" onclick="showToast('Alert sent to 247 attendees')">🔔 Send Alert</button>
-          </div>
+    <!-- RIGHT -->
+    <div>
+      <!-- Activity Feed -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Live Activity</div>
+          <span class="feed-updating"><span class="pulse-dot"></span> Updating live</span>
         </div>
-
-        <!-- Sessions table -->
-        <div class="card">
-          <div class="card-title">Today's Sessions</div>
-          <table class="sessions-table">
-            <thead>
-              <tr>
-                <th>Session</th>
-                <th>Time</th>
-                <th>Venue</th>
-                <th>Attendance</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>ReNew 2030: Our Path to 50GW</td>
-                <td>09:00</td>
-                <td>Main Aud.</td>
-                <td>287</td>
-                <td><span class="status-pill s-completed">Completed</span></td>
-              </tr>
-              <tr>
-                <td>AI in Renewable Operations</td>
-                <td>10:30</td>
-                <td>Hall B</td>
-                <td>198</td>
-                <td><span class="status-pill s-completed">Completed</span></td>
-              </tr>
-              <tr>
-                <td>Building High-Performance Teams</td>
-                <td>11:30</td>
-                <td>Hall C</td>
-                <td>176</td>
-                <td><span class="status-pill s-completed">Completed</span></td>
-              </tr>
-              <tr style="background:#FFFDE7;">
-                <td style="font-weight:600;">Townhall: Q&amp;A with Leadership</td>
-                <td>14:00</td>
-                <td>Main Aud.</td>
-                <td style="font-weight:600;color:#1B5E20;">213</td>
-                <td><span class="status-pill s-live">● LIVE</span></td>
-              </tr>
-              <tr>
-                <td>Project Delivery Excellence</td>
-                <td>16:00</td>
-                <td>Breakout 1</td>
-                <td>—</td>
-                <td><span class="status-pill s-upcoming">Upcoming</span></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- RIGHT -->
-      <div>
-        <!-- Live activity feed -->
-        <div class="card">
-          <div class="card-title">Live Activity Feed</div>
+        <div class="feed-list">
           <div class="feed-item">
-            <div class="feed-dot"></div>
-            <div style="flex:1;">
+            <div class="feed-dot" style="background:#4CAF50;"></div>
+            <div>
               <div class="feed-text">Arjun Mehta upvoted a Q&amp;A question</div>
               <div class="feed-time">Just now</div>
             </div>
           </div>
           <div class="feed-item">
             <div class="feed-dot" style="background:#1B5E20;"></div>
-            <div style="flex:1;">
+            <div>
               <div class="feed-text">Priya Sharma submitted poll response</div>
               <div class="feed-time">1 min ago</div>
             </div>
           </div>
           <div class="feed-item">
-            <div class="feed-dot" style="background:#FF6F00;"></div>
-            <div style="flex:1;">
-              <div class="feed-text">New Q&amp;A question: "What is the plan for Tier-2 cities?"</div>
+            <div class="feed-dot" style="background:#E65100;"></div>
+            <div>
+              <div class="feed-text">New Q&amp;A question: grid reliability?</div>
               <div class="feed-time">2 mins ago</div>
             </div>
           </div>
           <div class="feed-item">
-            <div class="feed-dot" style="background:#4CAF50;"></div>
-            <div style="flex:1;">
-              <div class="feed-text">Rohan Kapoor posted in social feed</div>
-              <div class="feed-time">4 mins ago</div>
+            <div class="feed-dot" style="background:#9C27B0;"></div>
+            <div>
+              <div class="feed-text">Rohan Kapoor earned Quiz Champion badge</div>
+              <div class="feed-time">3 mins ago</div>
             </div>
           </div>
           <div class="feed-item">
-            <div class="feed-dot" style="background:#1B5E20;"></div>
-            <div style="flex:1;">
-              <div class="feed-text">12 new connections made at Hub 1</div>
+            <div class="feed-dot" style="background:#4CAF50;"></div>
+            <div>
+              <div class="feed-text">213 attendees checked into Townhall</div>
               <div class="feed-time">5 mins ago</div>
             </div>
           </div>
           <div class="feed-item">
-            <div class="feed-dot"></div>
-            <div style="flex:1;">
-              <div class="feed-text">Neha Joshi completed Knowledge Quiz</div>
+            <div class="feed-dot" style="background:#1B5E20;"></div>
+            <div>
+              <div class="feed-text">Social post flagged for review</div>
               <div class="feed-time">7 mins ago</div>
             </div>
           </div>
           <div class="feed-item">
-            <div class="feed-dot" style="background:#FF6F00;"></div>
-            <div style="flex:1;">
-              <div class="feed-text">Amit Verma scanned a booth at Expo</div>
-              <div class="feed-time">9 mins ago</div>
-            </div>
-          </div>
-          <div class="feed-item">
-            <div class="feed-dot"></div>
-            <div style="flex:1;">
-              <div class="feed-text">Session survey submitted — AI session</div>
-              <div class="feed-time">11 mins ago</div>
+            <div class="feed-dot" style="background:#E65100;"></div>
+            <div>
+              <div class="feed-text">Neha Joshi booked meeting with Arjun</div>
+              <div class="feed-time">10 mins ago</div>
             </div>
           </div>
           <div class="feed-item">
             <div class="feed-dot" style="background:#4CAF50;"></div>
-            <div style="flex:1;">
-              <div class="feed-text">Sunita Rao booked meeting with Rohan</div>
-              <div class="feed-time">14 mins ago</div>
+            <div>
+              <div class="feed-text">Knowledge quiz completed by 45 users</div>
+              <div class="feed-time">12 mins ago</div>
             </div>
           </div>
           <div class="feed-item">
-            <div class="feed-dot"></div>
-            <div style="flex:1;">
-              <div class="feed-text">42 poll votes counted on current poll</div>
-              <div class="feed-time">16 mins ago</div>
+            <div class="feed-dot" style="background:#1B5E20;"></div>
+            <div>
+              <div class="feed-text">Room change: Hall B → Hall C sent</div>
+              <div class="feed-time">15 mins ago</div>
             </div>
           </div>
-        </div>
-
-        <!-- Leaderboard widget -->
-        <div class="card">
-          <div class="card-title">
-            Top Performers
-            <a href="/admin/w-30-analytics.html" style="font-size:12px;font-weight:500;color:#4CAF50;text-decoration:none;">Full Analytics →</a>
-          </div>
-          <div class="lb-row">
-            <div class="lb-rank">🥇</div>
-            <div class="lb-av" style="background:#1B5E20;">AM</div>
-            <div class="lb-name">Arjun Mehta<br><span style="font-size:11px;color:#9E9E9E;">VP Strategy</span></div>
-            <div class="lb-pts">1,240 pts</div>
-          </div>
-          <div class="lb-row">
-            <div class="lb-rank">🥈</div>
-            <div class="lb-av" style="background:#4CAF50;">PS</div>
-            <div class="lb-name">Priya Sharma<br><span style="font-size:11px;color:#9E9E9E;">HR</span></div>
-            <div class="lb-pts">1,105 pts</div>
-          </div>
-          <div class="lb-row">
-            <div class="lb-rank">🥉</div>
-            <div class="lb-av" style="background:#2E7D32;">RK</div>
-            <div class="lb-name">Rohan Kapoor<br><span style="font-size:11px;color:#9E9E9E;">Engineering</span></div>
-            <div class="lb-pts">980 pts</div>
-          </div>
-          <div class="lb-row">
-            <div class="lb-rank" style="color:#616161;">4</div>
-            <div class="lb-av" style="background:#FF6F00;">NJ</div>
-            <div class="lb-name">Neha Joshi<br><span style="font-size:11px;color:#9E9E9E;">Strategy</span></div>
-            <div class="lb-pts">870 pts</div>
-          </div>
-          <div class="lb-row">
-            <div class="lb-rank" style="color:#616161;">5</div>
-            <div class="lb-av" style="background:#7B1FA2;">AV</div>
-            <div class="lb-name">Amit Verma<br><span style="font-size:11px;color:#9E9E9E;">Operations</span></div>
-            <div class="lb-pts">760 pts</div>
+          <div class="feed-item">
+            <div class="feed-dot" style="background:#9E9E9E;"></div>
+            <div>
+              <div class="feed-text">Sunita Rao joined the event</div>
+              <div class="feed-time">20 mins ago</div>
+            </div>
           </div>
         </div>
       </div>
 
-    </div><!-- /two-col -->
-  </div><!-- /page-body -->
+      <!-- Leaderboard -->
+      <div class="card" id="analytics-anchor">
+        <div class="card-header">
+          <div class="card-title">Top Performers</div>
+          <a href="/admin/w-30-analytics.html" class="card-link">View Full Leaderboard →</a>
+        </div>
+        <div class="lb-list">
+          <div class="lb-item">
+            <div class="lb-rank">🥇</div>
+            <div class="lb-av" style="background:#1B5E20;">AM</div>
+            <div class="lb-info">
+              <div class="lb-name">Arjun Mehta</div>
+              <div class="lb-role">VP Strategy · Delhi</div>
+            </div>
+            <div class="lb-pts">1,240 pts</div>
+          </div>
+          <div class="lb-item">
+            <div class="lb-rank">🥈</div>
+            <div class="lb-av" style="background:#4CAF50;">PS</div>
+            <div class="lb-info">
+              <div class="lb-name">Priya Sharma</div>
+              <div class="lb-role">HR · Mumbai</div>
+            </div>
+            <div class="lb-pts">1,105 pts</div>
+          </div>
+          <div class="lb-item">
+            <div class="lb-rank">🥉</div>
+            <div class="lb-av" style="background:#2E7D32;">RK</div>
+            <div class="lb-info">
+              <div class="lb-name">Rohan Kapoor</div>
+              <div class="lb-role">Engineering · Gurugram</div>
+            </div>
+            <div class="lb-pts">980 pts</div>
+          </div>
+          <div class="lb-item">
+            <div class="lb-rank" style="font-size:13px;">4</div>
+            <div class="lb-av" style="background:#FF6F00;">NJ</div>
+            <div class="lb-info">
+              <div class="lb-name">Neha Joshi</div>
+              <div class="lb-role">Strategy · Hyderabad</div>
+            </div>
+            <div class="lb-pts">870 pts</div>
+          </div>
+          <div class="lb-item">
+            <div class="lb-rank" style="font-size:13px;">5</div>
+            <div class="lb-av" style="background:#7B1FA2;">AV</div>
+            <div class="lb-info">
+              <div class="lb-name">Amit Verma</div>
+              <div class="lb-role">Operations · Pune</div>
+            </div>
+            <div class="lb-pts">760 pts</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /two-col -->
 </div><!-- /main -->
 
+<!-- Alert Modal -->
+<div class="modal-overlay" id="alertModal" onclick="if(event.target===this)this.classList.remove('show')">
+  <div class="modal-box">
+    <div class="modal-title">🔔 Send Push Alert</div>
+    <div class="modal-sub">Message will be sent to all 247 currently active attendees.</div>
+    <textarea class="modal-textarea" id="alertMsg" placeholder="e.g. 🎉 Surprise! Free coffee at Networking Hub 1 — right now!"></textarea>
+    <div class="modal-btns">
+      <button class="modal-send" onclick="sendAlert()">Send to 247 Attendees</button>
+      <button class="modal-cancel" onclick="document.getElementById('alertModal').classList.remove('show')">Cancel</button>
+    </div>
+  </div>
+</div>
+
 <!-- Toast -->
-<div class="toast-web" id="webToast">Message</div>
+<div class="toast-web" id="webToast"></div>
 
 <script>
 let toastTimer = null;
-function showToast(msg) {
+function toast(msg) {
   const t = document.getElementById('webToast');
-  t.textContent = msg || 'Coming soon';
+  t.textContent = msg;
   if (toastTimer) clearTimeout(toastTimer);
   t.classList.add('show');
   toastTimer = setTimeout(() => t.classList.remove('show'), 2500);
+}
+function sendAlert() {
+  const msg = document.getElementById('alertMsg').value.trim();
+  document.getElementById('alertModal').classList.remove('show');
+  document.getElementById('alertMsg').value = '';
+  toast(msg ? '✅ Alert sent to 247 attendees!' : 'Please enter a message');
 }
 </script>
 </body>
