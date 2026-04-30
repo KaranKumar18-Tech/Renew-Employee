@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>ReNew Leaders Connect 2026 — Mobile App</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #F2F2F2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+    }
+
+    .page-title {
+      font-weight: 600;
+      font-size: 18px;
+      color: #1A1A1A;
+      margin-bottom: 32px;
+      text-align: center;
+    }
+
+    .directory-btn {
+      position: fixed;
+      top: 24px;
+      left: 24px;
+      z-index: 999;
+      background: #FFFFFF;
+      border: 1px solid #C8E6C9;
+      border-radius: 8px;
+      padding: 8px 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: #1B5E20;
+    }
+
+    .directory-btn:hover {
+      background: #F5F9F5;
+      border-color: #1B5E20;
+    }
+
+    .directory-btn svg {
+      width: 16px;
+      height: 16px;
+      stroke: #1B5E20;
+      stroke-width: 2.5;
+    }
+
+    .iphone-frame {
+      width: 320px;
+      height: 694px;
+      border-radius: 55px;
+      background: #000;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 12px 48px rgba(0,0,0,0.25), inset 0 0 0 2px #1c1c1c;
+      z-index: 1;
+    }
+
+    .notch {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 28px;
+      background: #000;
+      border-radius: 0 0 18px 18px;
+      z-index: 100;
+    }
+
+    .home-bar {
+      position: absolute;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 4px;
+      border-radius: 2px;
+      background: rgba(0,0,0,0.18);
+      z-index: 100;
+    }
+
+    .status-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 44px;
+      z-index: 90;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 22px 0;
+      font-size: 12px;
+      font-weight: 600;
+      color: #FFFFFF;
+      pointer-events: none;
+    }
+
+    .sb-right {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .sb-right svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .screen {
+      position: absolute;
+      inset: 0;
+      border-radius: 55px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      background: #F5F9F5;
+    }
+
+    .top-nav {
+      background: #1B5E20;
+      padding: 14px 16px;
+      padding-top: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 50;
+    }
+
+    .back-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 8px;
+      padding: 4px 8px 4px 4px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .back-pill:hover {
+      background: rgba(255,255,255,0.25);
+    }
+
+    .back-pill svg {
+      width: 16px;
+      height: 16px;
+      stroke: #FFFFFF;
+      stroke-width: 2.5;
+      fill: none;
+    }
+
+    .back-pill-text {
+      font-size: 13px;
+      font-weight: 600;
+      color: #FFFFFF;
+    }
+
+    .nav-center {
+      flex: 1;
+      text-align: center;
+      font-size: 16px;
+      font-weight: 600;
+      color: #FFFFFF;
+    }
+
+    .live-badge {
+      background: #D32F2F;
+      border-radius: 20px;
+      padding: 3px 10px;
+      font-size: 10px;
+      font-weight: 700;
+      color: #FFFFFF;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .live-dot {
+      width: 6px;
+      height: 6px;
+      background: #FFFFFF;
+      border-radius: 50%;
+      animation: pulse 1.2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .session-strip {
+      background: #1B5E20;
+      padding: 0 16px 16px;
+    }
+
+    .session-card {
+      background: rgba(255,255,255,0.12);
+      border-radius: 10px;
+      padding: 10px 14px;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .session-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #FFFFFF;
+    }
+
+    .session-meta {
+      font-size: 11px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.7);
+      margin-top: 4px;
+    }
+
+    .main-content {
+      background: #F5F9F5;
+      border-radius: 20px 20px 0 0;
+      margin-top: -8px;
+      padding: 0 0 80px;
+      flex: 1;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .main-content::-webkit-scrollbar {
+      display: none;
+    }
+
+    .tab-row {
+      background: #FFFFFF;
+      padding: 0 16px;
+      border-bottom: 1px solid #F0F0F0;
+      display: flex;
+      gap: 0;
+      flex-shrink: 0;
+    }
+
+    .tab {
+      flex: 1;
+      border-bottom: 2px solid transparent;
+      padding: 12px 0;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 500;
+      color: #9E9E9E;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .tab.active {
+      border-bottom-color: #1B5E20;
+      font-weight: 600;
+      color: #1B5E20;
+    }
+
+    .sort-row {
+      background: #F5F9F5;
+      padding: 10px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-shrink: 0;
+      border-bottom: 1px solid #F0F0F0;
+    }
+
+    .sort-label {
+      font-size: 12px;
+      font-weight: 400;
+      color: #9E9E9E;
+    }
+
+    .sort-pill {
+      background: #E8F5E9;
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: 11px;
+      font-weight: 500;
+      color: #1B5E20;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .sort-pill:hover {
+      background: #C8E6C9;
+    }
+
+    .questions-list {
+      padding: 10px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex: 1;
+    }
+
+    .tab-content {
+      display: none;
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .tab-content.active {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .question-card {
+      background: #FFFFFF;
+      border-radius: 12px;
+      padding: 14px;
+      border-left: 4px solid #1B5E20;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+
+    .question-card.answered {
+      border-left-color: #4CAF50;
+    }
+
+    .question-card.pending {
+      border-left-color: #E0E0E0;
+    }
+
+    .question-header {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .badge {
+      border-radius: 20px;
+      padding: 2px 8px;
+      font-size: 9px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .badge-top {
+      background: #1B5E20;
+      color: #FFFFFF;
+    }
+
+    .badge-answered {
+      background: #E8F5E9;
+      color: #4CAF50;
+    }
+
+    .badge-pending {
+      background: #FFF3E0;
+      color: #E65100;
+    }
+
+    .question-text {
+      font-size: 13px;
+      font-weight: 600;
+      color: #1A1A1A;
+      line-height: 1.5;
+      margin-bottom: 6px;
+    }
+
+    .question-asker {
+      font-size: 11px;
+      font-weight: 400;
+      color: #9E9E9E;
+      margin-bottom: 10px;
+    }
+
+    .upvote-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .upvote-btn {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .upvote-arrow {
+      width: 0;
+      height: 0;
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-bottom: 8px solid currentColor;
+    }
+
+    .upvote-count {
+      font-size: 13px;
+      font-weight: 700;
+      color: #1B5E20;
+    }
+
+    .upvote-btn:hover .upvote-arrow {
+      color: #1B5E20;
+    }
+
+    .upvote-btn.not-voted .upvote-arrow {
+      color: #9E9E9E;
+    }
+
+    .upvote-btn.not-voted .upvote-count {
+      color: #616161;
+    }
+
+    .view-answer {
+      font-size: 11px;
+      font-weight: 500;
+      color: #4CAF50;
+      cursor: pointer;
+      background: none;
+      border: none;
+      transition: all 0.2s;
+    }
+
+    .view-answer:hover {
+      color: #388E3C;
+    }
+
+    .answer-section {
+      display: none;
+      background: #F5F9F5;
+      border-radius: 8px;
+      padding: 10px 12px;
+      margin-top: 10px;
+      border-left: 2px solid #4CAF50;
+    }
+
+    .answer-section.show {
+      display: block;
+    }
+
+    .answer-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: #1B5E20;
+    }
+
+    .answer-text {
+      font-size: 12px;
+      font-weight: 400;
+      color: #616161;
+      line-height: 1.5;
+      margin-top: 4px;
+    }
+
+    .answer-author {
+      font-size: 11px;
+      font-weight: 500;
+      color: #9E9E9E;
+      margin-top: 4px;
+    }
+
+    .my-questions-header {
+      font-size: 12px;
+      font-weight: 500;
+      color: #9E9E9E;
+      padding: 16px 16px 8px;
+      border-bottom: 1px solid #E0E0E0;
+    }
+
+    .my-question-card {
+      background: #E8F5E9;
+      border-radius: 12px;
+      padding: 14px;
+      border-left: 4px solid #1B5E20;
+    }
+
+    .my-question-card.pending {
+      background: #FFFFFF;
+      border-left-color: #9E9E9E;
+    }
+
+    .my-question-meta {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      margin-top: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #4CAF50;
+    }
+
+    .my-question-meta.pending {
+      color: #9E9E9E;
+    }
+
+    .my-question-time {
+      font-size: 11px;
+      font-weight: 400;
+      color: #9E9E9E;
+      margin-top: 4px;
+    }
+
+    .ask-bar {
+      position: sticky;
+      bottom: 56px;
+      background: #FFFFFF;
+      border-top: 1px solid #E0E0E0;
+      padding: 10px 16px;
+      display: flex;
+      align-items: flex-end;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .ask-avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: #1B5E20;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 600;
+      color: #FFFFFF;
+      flex-shrink: 0;
+    }
+
+    .ask-input-wrapper {
+      flex: 1;
+      position: relative;
+    }
+
+    .ask-input {
+      width: 100%;
+      background: #F5F9F5;
+      border: 1px solid #C8E6C9;
+      border-radius: 20px;
+      padding: 8px 14px;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 400;
+      color: #1A1A1A;
+      outline: none;
+      transition: all 0.2s;
+      resize: none;
+      max-height: 80px;
+    }
+
+    .ask-input:focus {
+      border-color: #4CAF50;
+      box-shadow: 0 0 0 3px rgba(76,175,80,0.1);
+    }
+
+    .ask-input::placeholder {
+      color: #9E9E9E;
+    }
+
+    .ask-counter {
+      font-size: 10px;
+      font-weight: 400;
+      color: #9E9E9E;
+      text-align: right;
+      margin-top: 2px;
+    }
+
+    .ask-counter.over {
+      color: #D32F2F;
+    }
+
+    .send-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #1B5E20;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all 0.2s;
+    }
+
+    .send-btn:hover {
+      background: #0D3817;
+    }
+
+    .send-btn.shake {
+      animation: shake 0.3s ease;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-4px); }
+      75% { transform: translateX(4px); }
+    }
+
+    .send-arrow {
+      color: #FFFFFF;
+      font-size: 14px;
+    }
+
+    .bottom-nav {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #FFFFFF;
+      border-top: 1px solid #E0E0E0;
+      padding: 8px 0 20px;
+      display: flex;
+      justify-content: space-around;
+      align-items: flex-start;
+      flex-shrink: 0;
+    }
+
+    .nav-tab {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      cursor: pointer;
+      flex: 1;
+      text-decoration: none;
+      font-size: 11px;
+      font-weight: 500;
+      color: #616161;
+      transition: color 0.2s;
+    }
+
+    .nav-tab:hover {
+      color: #1B5E20;
+    }
+
+    .nav-icon {
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    .screen-label {
+      margin-top: 16px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #888888;
+      text-align: center;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+  </style>
+</head>
+<body>
+  <a href="/" class="directory-btn" onclick="goDirectory(event)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+    Directory
+  </a>
+
+  <div class="page-title">ReNew Leaders Connect 2026 — Mobile App</div>
+
+  <div class="iphone-frame">
+    <div class="notch"></div>
+    <div class="home-bar"></div>
+
+    <div class="status-bar">
+      <span>9:41</span>
+      <div class="sb-right">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4c-1.48 0-2.85.43-4.01 1.17l1.46 1.46C10.21 5.23 11.08 5 12 5c3.04 0 5.5 2.46 5.5 5.5v.5H19c1.66 0 3 1.34 3 3 0 1.13-.64 2.11-1.56 2.62l1.45 1.45c.9-.86 1.48-2.05 1.48-3.36 0-2.64-2.05-4.78-4.63-4.97z"/></svg>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg>
+      </div>
+    </div>
+
+    <div class="screen">
+      <div class="top-nav">
+        <a href="/mobile/m-22-master-schedule.html" style="text-decoration:none;">
+          <div style="display:inline-flex; align-items:center; gap:6px; background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.25); border-radius:8px; padding:4px 8px 4px 4px; cursor:pointer;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+            <span style="font-family:Inter,sans-serif; font-weight:600; font-size:13px; color:#FFFFFF;">Session</span>
+          </div>
+        </a>
+        <div class="nav-center">Live Q&A</div>
+        <div class="live-badge">
+          <div class="live-dot">●</div>
+          LIVE
+        </div>
+      </div>
+
+      <div class="session-strip">
+        <div class="session-card">
+          <div class="session-title">Townhall: Q&A with Leadership</div>
+          <div class="session-meta">📍 Main Auditorium · 🎤 Leadership Panel</div>
+        </div>
+      </div>
+
+      <div class="main-content">
+        <div class="tab-row">
+          <div class="tab active" onclick="switchTab(0)">Questions (12)</div>
+          <div class="tab" onclick="switchTab(1)">My Questions (2)</div>
+        </div>
+
+        <div class="sort-row">
+          <div class="sort-label">12 questions</div>
+          <div class="sort-pill" onclick="toggleSort()"><span id="sort-text">▼ Top Voted</span></div>
+        </div>
+
+        <!-- TAB 1: QUESTIONS -->
+        <div class="tab-content active" id="tab-0">
+          <div class="questions-list" id="questions-list">
+            <!-- Question cards will be inserted here -->
+          </div>
+        </div>
+
+        <!-- TAB 2: MY QUESTIONS -->
+        <div class="tab-content" id="tab-1">
+          <div class="my-questions-header">Your submitted questions:</div>
+          <div class="questions-list" id="my-questions-list">
+            <!-- My question cards will be inserted here -->
+          </div>
+        </div>
+      </div>
+
+      <div class="ask-bar">
+        <div class="ask-avatar">AM</div>
+        <div class="ask-input-wrapper">
+          <input type="text" class="ask-input" id="ask-input" placeholder="Ask the leadership panel..." oninput="updateCounter()" maxlength="200">
+          <div class="ask-counter" id="ask-counter">0 / 200</div>
+        </div>
+        <button class="send-btn" onclick="submitQuestion()">
+          <span class="send-arrow">→</span>
+        </button>
+      </div>
+
+      <div class="bottom-nav">
+        <a href="/mobile/m-07-home-dashboard.html" class="nav-tab">
+          <div class="nav-icon">🏠</div>
+          <div>Home</div>
+        </a>
+        <a href="/mobile/m-22-master-schedule.html" class="nav-tab">
+          <div class="nav-icon">📅</div>
+          <div>Agenda</div>
+        </a>
+        <a href="/mobile/m-09-networking-v2.html" class="nav-tab">
+          <div class="nav-icon">🤝</div>
+          <div>Network</div>
+        </a>
+        <a href="/mobile/m-27-social-feed.html" class="nav-tab">
+          <div class="nav-icon">📸</div>
+          <div>Feed</div>
+        </a>
+        <a href="#" class="nav-tab" onclick="showToast(event, 'Coming soon')">
+          <div class="nav-icon">☰</div>
+          <div>More</div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="screen-label">Live Q&A</div>
+
+  <script>
+    let currentSort = 'top-voted';
+    let questions = [
+      {
+        id: 1,
+        text: 'What is the plan for expanding into Tier-2 cities for our wind projects?',
+        asker: 'Arjun Mehta · VP Strategy',
+        upvotes: 42,
+        upvoted: true,
+        badge: 'top',
+        status: 'answered',
+        answer: 'We have identified 8 priority Tier-2 markets for FY27. Rajasthan, UP, and MP are first in the pipeline with combined capacity of 2GW.',
+        answerAuthor: 'Sumant Sinha, CEO',
+        mine: true
+      },
+      {
+        id: 2,
+        text: 'How are we addressing grid reliability for Round-the-Clock (RTC) projects?',
+        asker: 'Priya Sharma · Senior Manager HR',
+        upvotes: 38,
+        upvoted: false,
+        status: 'pending'
+      },
+      {
+        id: 3,
+        text: 'What new roles are being created in the Technology vertical for FY27?',
+        asker: 'Rohan Kapoor · Lead Engineer',
+        upvotes: 29,
+        upvoted: false,
+        status: 'pending'
+      },
+      {
+        id: 4,
+        text: 'How is ReNew approaching the green hydrogen opportunity?',
+        asker: 'Neha Joshi · Business Analyst',
+        upvotes: 21,
+        upvoted: false,
+        status: 'pending'
+      },
+      {
+        id: 5,
+        text: 'What is the employee ESOP refresh plan for this year?',
+        asker: 'Vikram Singh · Finance',
+        upvotes: 17,
+        upvoted: false,
+        status: 'pending'
+      }
+    ];
+
+    let myQuestions = [
+      {
+        id: 1,
+        text: 'What is the plan for expanding into Tier-2 cities for our wind projects?',
+        asker: 'Arjun Mehta',
+        upvotes: 42,
+        status: 'answered',
+        time: '14 mins ago'
+      },
+      {
+        id: 6,
+        text: 'Will there be a separate EV charging vertical under ReNew?',
+        asker: 'Arjun Mehta',
+        upvotes: 8,
+        status: 'pending',
+        time: '3 mins ago'
+      }
+    ];
+
+    function renderQuestions() {
+      const list = document.getElementById('questions-list');
+      let sorted = [...questions];
+
+      if (currentSort === 'recent') {
+        sorted.reverse();
+      }
+
+      list.innerHTML = sorted.map(q => `
+        <div class="question-card ${q.status}">
+          <div class="question-header">
+            ${q.badge ? `<div class="badge badge-${q.badge}">TOP QUESTION</div>` : ''}
+            ${q.status === 'answered' ? '<div class="badge badge-answered">Answered</div>' : ''}
+            ${q.status === 'pending' ? '<div class="badge badge-pending">Pending</div>' : ''}
+          </div>
+          <div class="question-text">${q.text}</div>
+          <div class="question-asker">Asked by ${q.asker}</div>
+          <div class="upvote-row">
+            <button class="upvote-btn ${q.upvoted ? '' : 'not-voted'}" onclick="toggleUpvote(${q.id})">
+              <div class="upvote-arrow"></div>
+              <span class="upvote-count">${q.upvotes}</span>
+            </button>
+            ${q.answer ? `<button class="view-answer" onclick="toggleAnswer(${q.id})">View Answer ↓</button>` : ''}
+          </div>
+          ${q.answer ? `
+            <div class="answer-section" id="answer-${q.id}">
+              <div class="answer-label">💬 Leadership Response:</div>
+              <div class="answer-text">${q.answer}</div>
+              <div class="answer-author">— ${q.answerAuthor}</div>
+            </div>
+          ` : ''}
+        </div>
+      `).join('');
+    }
+
+    function renderMyQuestions() {
+      const list = document.getElementById('my-questions-list');
+      list.innerHTML = myQuestions.map(q => `
+        <div class="my-question-card ${q.status}">
+          <div class="question-text">${q.text}</div>
+          <div class="my-question-meta ${q.status}">
+            <span>${q.upvotes} upvotes</span>
+            <div class="badge ${q.status === 'answered' ? 'badge-answered' : 'badge-pending'}">${q.status === 'answered' ? 'Answered ✓' : 'Pending'}</div>
+          </div>
+          <div class="my-question-time">Submitted ${q.time}</div>
+        </div>
+      `).join('');
+    }
+
+    function toggleUpvote(id) {
+      const q = questions.find(x => x.id === id);
+      if (q) {
+        q.upvoted = !q.upvoted;
+        q.upvotes += q.upvoted ? 1 : -1;
+        renderQuestions();
+      }
+    }
+
+    function toggleAnswer(id) {
+      const el = document.getElementById(`answer-${id}`);
+      if (el) {
+        el.classList.toggle('show');
+      }
+    }
+
+    function switchTab(index) {
+      document.querySelectorAll('.tab').forEach((t, i) => {
+        t.classList.toggle('active', i === index);
+      });
+      document.querySelectorAll('.tab-content').forEach((t, i) => {
+        t.classList.toggle('active', i === index);
+      });
+    }
+
+    function toggleSort() {
+      currentSort = currentSort === 'top-voted' ? 'recent' : 'top-voted';
+      document.getElementById('sort-text').textContent = currentSort === 'top-voted' ? '▼ Top Voted' : '▼ Recent';
+      renderQuestions();
+    }
+
+    function updateCounter() {
+      const input = document.getElementById('ask-input');
+      const counter = document.getElementById('ask-counter');
+      const len = input.value.length;
+      counter.textContent = `${len} / 200`;
+      counter.classList.toggle('over', len > 150);
+    }
+
+    function submitQuestion() {
+      const input = document.getElementById('ask-input');
+      const btn = document.querySelector('.send-btn');
+
+      if (input.value.trim().length === 0) {
+        btn.classList.add('shake');
+        setTimeout(() => btn.classList.remove('shake'), 300);
+        return;
+      }
+
+      const newQ = {
+        id: Math.max(...questions.map(q => q.id)) + 1,
+        text: input.value,
+        asker: 'Arjun Mehta · Just now',
+        upvotes: 0,
+        upvoted: false,
+        status: 'pending',
+        mine: true
+      };
+
+      questions.unshift(newQ);
+      myQuestions.unshift({
+        id: newQ.id,
+        text: newQ.text,
+        asker: 'Arjun Mehta',
+        upvotes: 0,
+        status: 'pending',
+        time: 'Just now'
+      });
+
+      input.value = '';
+      updateCounter();
+      renderQuestions();
+      renderMyQuestions();
+
+      showToast(null, 'Question submitted! Others can now upvote it.');
+    }
+
+    function showToast(event, message) {
+      if (event) event.preventDefault();
+      const screen = document.querySelector('.screen');
+      const toast = document.createElement('div');
+      toast.textContent = message;
+      toast.style.position = 'absolute';
+      toast.style.bottom = '80px';
+      toast.style.left = '50%';
+      toast.style.transform = 'translateX(-50%)';
+      toast.style.background = '#1A1A1A';
+      toast.style.color = '#FFFFFF';
+      toast.style.padding = '8px 16px';
+      toast.style.borderRadius = '8px';
+      toast.style.fontSize = '12px';
+      toast.style.fontWeight = '500';
+      toast.style.zIndex = '200';
+      toast.style.animation = 'slideUp 0.2s ease-out forwards';
+      screen.appendChild(toast);
+      setTimeout(() => toast.remove(), 3000);
+    }
+
+    function goDirectory(event) {
+      event.preventDefault();
+      window.location.href = '/';
+    }
+
+    window.addEventListener('popstate', () => {
+      window.location.reload();
+    });
+
+    renderQuestions();
+    renderMyQuestions();
+  </script>
+</body>
+</html>
