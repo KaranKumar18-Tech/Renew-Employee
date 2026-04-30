@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ReNew Leaders Connect 2026 — Mobile App</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: #F2F2F2; font-family: 'Inter', sans-serif;
+  min-height: 100vh; display: flex; flex-direction: column;
+  align-items: center; padding: 48px 24px;
+}
+.page-title { font-size: 18px; font-weight: 600; color: #1A1A1A; text-align: center; margin-bottom: 32px; }
+
+/* ── iPhone Shell ── */
+.iphone {
+  width: 320px; height: 694px; border-radius: 55px;
+  background: #000; position: relative; overflow: hidden;
+  box-shadow: 0 12px 48px rgba(0,0,0,0.25), inset 0 0 0 2px #1c1c1c;
+}
+.notch { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 120px; height: 28px; background: #000; border-radius: 0 0 18px 18px; z-index: 100; }
+.home-bar { position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); width: 100px; height: 4px; border-radius: 2px; background: rgba(0,0,0,0.18); z-index: 100; }
+
+/* ── Status Bar ── */
+.status-bar {
+  position: absolute; top: 0; left: 0; right: 0; height: 44px; z-index: 90;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 22px 0; font-size: 12px; font-weight: 600; color: #FFFFFF;
+  pointer-events: none;
+}
+.sb-right { display: flex; align-items: center; gap: 5px; }
+.sb-right svg { width: 16px; height: 16px; }
+
+/* ── Screen ── */
+.screen {
+  position: absolute; inset: 0; border-radius: 55px; overflow: hidden;
+  display: flex; flex-direction: column; background: #F5F9F5;
+}
+.screen-scroll { flex: 1; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+.screen-scroll::-webkit-scrollbar { display: none; }
+
+/* ── Top Nav ── */
+.top-nav {
+  background: #1B5E20; padding: 56px 16px 14px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.nav-left { display: flex; align-items: center; gap: 8px; text-decoration: none; cursor: pointer; }
+.nav-left:hover { opacity: 0.7; }
+.nav-left svg { flex-shrink: 0; }
+.nav-title { font-size: 16px; font-weight: 600; color: #FFFFFF; }
+.nav-right { font-size: 22px; }
+
+/* ── Session Strip ── */
+.session-strip {
+  background: #1B5E20; padding: 0 16px 20px;
+}
+.session-card {
+  background: rgba(255,255,255,0.12); border-radius: 10px;
+  padding: 10px 14px; border: 1px solid rgba(255,255,255,0.2);
+}
+.session-title { font-size: 13px; font-weight: 600; color: #FFFFFF; }
+.session-subtitle { font-size: 11px; font-weight: 400; color: rgba(255,255,255,0.7); margin-top: 4px; }
+
+/* ── Main Content ── */
+.main-content {
+  background: #F5F9F5; border-radius: 20px 20px 0 0;
+  margin-top: -8px; padding: 24px 20px; flex: 1;
+}
+
+/* ── States ── */
+.state { transition: opacity 0.3s ease; }
+.state.hidden { display: none; opacity: 0; }
+
+/* ── Quiz Card (State 1) ── */
+.quiz-card {
+  background: #FFFFFF; border-radius: 16px;
+  padding: 20px; box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+.brain-circle {
+  width: 80px; height: 80px; margin: 0 auto;
+  background: #E8F5E9; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 40px;
+}
+.quiz-title { font-size: 20px; font-weight: 700; color: #1A1A1A; text-align: center; margin-top: 16px; }
+.quiz-desc { font-size: 13px; font-weight: 400; color: #616161; text-align: center; margin-top: 8px; line-height: 1.5; }
+
+/* ── Stats Row ── */
+.stats-row {
+  margin-top: 20px; background: #F5F9F5; border-radius: 12px;
+  padding: 14px; display: flex; justify-content: space-around; align-items: center;
+}
+.stat {
+  text-align: center; flex: 1;
+}
+.stat-value { font-size: 22px; font-weight: 700; color: #1B5E20; }
+.stat-value.bonus { color: #4CAF50; }
+.stat-label { font-size: 11px; font-weight: 400; color: #616161; margin-top: 2px; }
+.stat-divider { width: 1px; height: 32px; background: #E0E0E0; }
+
+/* ── Rewards ── */
+.rewards { margin-top: 16px; display: flex; flex-direction: column; gap: 6px; }
+.reward-row { font-size: 12px; font-weight: 400; color: #616161; }
+
+/* ── CTA Button ── */
+.cta-btn {
+  margin-top: 20px; width: 100%; height: 50px;
+  background: #1B5E20; border: none; border-radius: 12px;
+  font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 700;
+  color: #FFFFFF; cursor: pointer; transition: background 0.2s;
+}
+.cta-btn:hover { background: #145A1B; }
+.expiry { font-size: 11px; font-weight: 400; color: #9E9E9E; text-align: center; margin-top: 8px; }
+
+/* ── Progress Bar ── */
+.progress-bar-wrap {
+  background: #1B5E20; padding: 0 16px 16px;
+}
+.progress-bar {
+  width: 100%; height: 6px; background: rgba(255,255,255,0.2);
+  border-radius: 3px; overflow: hidden;
+}
+.progress-fill {
+  height: 100%; background: #4CAF50; border-radius: 3px;
+  width: 25%; transition: width 0.3s ease;
+}
+
+/* ── Question Card ── */
+.question-card {
+  background: #FFFFFF; border-radius: 16px;
+  padding: 20px; box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  position: relative;
+}
+.question-pill { background: #E8F5E9; color: #1B5E20; font-size: 11px; font-weight: 700;
+  border-radius: 20px; padding: 3px 10px; display: inline-block; }
+.timer-bar { width: 100%; height: 4px; background: #E0E0E0; border-radius: 2px;
+  overflow: hidden; margin-top: 10px; }
+.timer-fill {
+  height: 100%; background: #4CAF50; border-radius: 2px;
+  width: 100%; animation: timerDrain 30s linear forwards;
+}
+.timer-fill.critical { background: #FF5252; }
+@keyframes timerDrain { from { width: 100%; } to { width: 0%; } }
+.question-text { font-size: 15px; font-weight: 700; color: #1A1A1A; line-height: 1.5; margin-top: 12px; }
+
+/* ── Options ── */
+.options-wrap { display: flex; flex-direction: column; gap: 8px; margin-top: 16px; }
+.option-btn {
+  background: #F5F9F5; border: 1.5px solid #E0E0E0;
+  border-radius: 10px; padding: 12px 14px;
+  display: flex; align-items: center; gap: 10px;
+  cursor: pointer; font-family: 'Inter', sans-serif;
+  transition: border-color 0.15s, background 0.15s, opacity 0.15s;
+}
+.option-btn:hover { background: #F0F8F0; }
+.option-btn.locked { pointer-events: none; }
+.option-btn.correct { background: #E8F5E9; border-color: #4CAF50; }
+.option-btn.wrong { background: #FFEBEE; border-color: #D32F2F; }
+.option-btn.hidden-correct { background: #F5F9F5; border-color: #4CAF50; }
+.option-btn.dimmed { opacity: 0.4; }
+.opt-letter {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: #E8F5E9; color: #1B5E20;
+  font-size: 12px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  transition: background 0.15s, color 0.15s;
+}
+.option-btn.correct .opt-letter { background: #4CAF50; color: #FFFFFF; }
+.option-btn.wrong .opt-letter { background: #D32F2F; color: #FFFFFF; }
+.opt-text { font-size: 13px; font-weight: 500; color: #1A1A1A; flex: 1; text-align: left; }
+.opt-icon { font-size: 16px; margin-left: auto; opacity: 0; transition: opacity 0.2s; }
+.option-btn.correct .opt-icon { opacity: 1; color: #4CAF50; }
+.option-btn.wrong .opt-icon { opacity: 1; color: #D32F2F; }
+
+/* ── Result Toast ── */
+.result-toast {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  background: #4CAF50; color: #FFFFFF; font-size: 13px; font-weight: 700;
+  font-family: 'Inter', sans-serif; border-radius: 10px; padding: 8px 20px;
+  z-index: 100; opacity: 0; transition: opacity 0.2s;
+}
+.result-toast.show { opacity: 1; }
+.result-toast.wrong { background: #D32F2F; }
+
+/* ── Score Circle (State 3) ── */
+.score-circle-wrap { text-align: center; margin-top: 20px; }
+.score-circle {
+  width: 80px; height: 80px; margin: 0 auto;
+  border: 4px solid #4CAF50; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+}
+.score-text { text-align: center; }
+.score-value { font-size: 24px; font-weight: 700; color: #1B5E20; }
+.score-label { font-size: 11px; font-weight: 400; color: #616161; margin-top: 2px; }
+.score-circle svg {
+  position: absolute; width: 100%; height: 100%;
+  transform: rotate(-90deg);
+}
+.score-circle circle {
+  fill: none; stroke-linecap: round;
+  stroke-dasharray: 251.2;
+  stroke-dashoffset: 251.2;
+  transition: stroke-dashoffset 1s ease;
+}
+
+/* ── Results Content ── */
+.result-title { font-size: 18px; font-weight: 700; color: #1A1A1A; text-align: center; margin-top: 16px; }
+.result-subtitle { font-size: 13px; font-weight: 400; color: #616161; text-align: center; margin-top: 6px; }
+
+/* ── Points Breakdown ── */
+.breakdown-card { background: #F5F9F5; border-radius: 12px; padding: 14px; margin-top: 16px; }
+.breakdown-label { font-size: 13px; font-weight: 600; color: #1A1A1A; }
+.breakdown-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 8px 0; border-bottom: 1px solid #E0E0E0; font-size: 12px;
+}
+.breakdown-row:last-child { border-bottom: none; }
+.breakdown-item { font-weight: 400; color: #616161; }
+.breakdown-points { font-weight: 600; color: #1B5E20; }
+.breakdown-points.grayed { color: #9E9E9E; }
+.breakdown-total {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 0; margin-top: 8px; font-size: 14px; font-weight: 700;
+  border-top: 1px solid #E0E0E0; color: #1B5E20;
+}
+
+/* ── Answer Review ── */
+.review-label { font-size: 13px; font-weight: 600; color: #1A1A1A; margin-top: 16px; margin-bottom: 8px; }
+.review-row {
+  display: flex; align-items: flex-start; gap: 10px; padding: 8px 0;
+  border-bottom: 1px solid #F0F0F0; font-size: 12px;
+}
+.review-row:last-child { border-bottom: none; }
+.review-icon { width: 24px; height: 24px; border-radius: 50%; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 700; color: #FFFFFF; margin-top: 2px; }
+.review-icon.correct { background: #4CAF50; }
+.review-icon.wrong { background: #D32F2F; }
+.review-content { flex: 1; }
+.review-answer { font-weight: 500; color: #1A1A1A; }
+.review-note { font-size: 11px; font-weight: 400; color: #9E9E9E; margin-top: 2px; }
+
+/* ── Action Buttons ── */
+.action-buttons { margin-top: 20px; display: flex; flex-direction: column; gap: 10px; }
+.action-btn {
+  width: 100%; height: 46px; border: none; border-radius: 10px;
+  font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600;
+  cursor: pointer; text-decoration: none; display: flex;
+  align-items: center; justify-content: center; transition: all 0.2s;
+}
+.action-btn.primary { background: #1B5E20; color: #FFFFFF; }
+.action-btn.primary:hover { background: #145A1B; }
+.action-btn.secondary { background: #FFFFFF; border: 1.5px solid #1B5E20; color: #1B5E20; }
+.action-btn.secondary:hover { background: #F5F9F5; }
+.back-link { font-size: 12px; font-weight: 500; color: #9E9E9E; text-decoration: none; text-align: center; display: block; margin-top: 4px; }
+
+/* ── Bottom Nav ── */
+.bottom-nav {
+  background: #FFFFFF; border-top: 1px solid #E0E0E0;
+  padding: 8px 0 20px; display: flex; justify-content: space-around;
+  flex-shrink: 0;
+}
+.nav-tab { display: flex; flex-direction: column; align-items: center; gap: 3px; cursor: pointer; flex: 1; text-decoration: none; }
+.nav-icon { font-size: 18px; line-height: 1; }
+.nav-lbl { font-size: 10px; font-weight: 400; color: #9E9E9E; }
+.nav-tab.active .nav-lbl { font-weight: 600; color: #1B5E20; }
+
+/* ── Toast ── */
+.toast {
+  position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%);
+  background: #1A1A1A; color: #FFFFFF; font-size: 12px; font-weight: 500;
+  font-family: 'Inter', sans-serif; border-radius: 8px; padding: 8px 16px;
+  white-space: nowrap; z-index: 200; pointer-events: none;
+  opacity: 0; transition: opacity 0.2s;
+}
+.toast.show { opacity: 1; }
+
+/* ── Frame label ── */
+.frame-label { margin-top: 16px; font-size: 13px; font-weight: 500; color: #888888; text-align: center; }
+</style>
+</head>
+<body>
+
+<a href="/" style="position:fixed;top:24px;left:24px;z-index:999;background:#FFFFFF;border:1px solid #C8E6C9;border-radius:8px;padding:8px 14px;display:inline-flex;align-items:center;gap:6px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.08);text-decoration:none;transition:all 0.2s;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:#1B5E20;" onmouseover="this.style.background='#F5F9F5';this.style.borderColor='#1B5E20';" onmouseout="this.style.background='#FFFFFF';this.style.borderColor='#C8E6C9';">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1B5E20" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  Directory
+</a>
+
+<div class="page-title">ReNew Leaders Connect 2026 — Mobile App</div>
+
+<div style="display:flex;flex-direction:column;align-items:center;">
+<div class="iphone">
+  <div class="notch"></div>
+  <div class="home-bar"></div>
+
+  <!-- Status Bar -->
+  <div class="status-bar">
+    <span>9:41</span>
+    <div class="sb-right">
+      <svg viewBox="0 0 16 16"><rect x="0" y="9" width="3" height="7" rx="0.5" fill="white"/><rect x="4" y="6" width="3" height="10" rx="0.5" fill="white"/><rect x="8" y="3" width="3" height="13" rx="0.5" fill="white"/><rect x="12" y="0" width="3" height="16" rx="0.5" fill="white" opacity="0.35"/></svg>
+      <svg viewBox="0 0 16 16" fill="none"><path d="M1 12.5C3.5 8.5 12.5 8.5 15 12.5" stroke="white" stroke-width="1.5" stroke-linecap="round"/><path d="M3.5 10C5.5 7.5 10.5 7.5 12.5 10" stroke="white" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="14" r="1.2" fill="white"/></svg>
+      <svg viewBox="0 0 24 12" fill="none"><rect x="0" y="1" width="20" height="10" rx="2" stroke="white" stroke-width="1"/><rect x="21" y="3.5" width="2" height="5" rx="1" fill="white" opacity="0.4"/><rect x="2" y="3" width="13" height="6" rx="1" fill="white"/></svg>
+    </div>
+  </div>
+
+  <div class="screen">
+
+    <!-- ══ STATE 1: QUIZ INTRO ══ -->
+    <div class="state" id="state-intro">
+
+      <!-- Top Nav -->
+      <div class="top-nav">
+        <a href="/mobile/m-22-master-schedule.html" class="nav-left">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          <span class="nav-title">Session</span>
+        </a>
+        <span class="nav-title">Knowledge Check</span>
+        <span class="nav-right">🧠</span>
+      </div>
+
+      <!-- Session Strip -->
+      <div class="session-strip">
+        <div class="session-card">
+          <div class="session-title">AI in Renewable Operations</div>
+          <div class="session-subtitle">Post-session quiz · Triggered by host</div>
+        </div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="screen-scroll">
+        <div class="main-content">
+
+          <div class="quiz-card">
+            <div class="brain-circle">🧠</div>
+            <div class="quiz-title">Knowledge Check!</div>
+            <div class="quiz-desc">Test what you learned in the AI in Renewable Operations session.</div>
+
+            <div class="stats-row">
+              <div class="stat">
+                <div class="stat-value">4</div>
+                <div class="stat-label">Questions</div>
+              </div>
+              <div class="stat-divider"></div>
+              <div class="stat">
+                <div class="stat-value">30s</div>
+                <div class="stat-label">Per question</div>
+              </div>
+              <div class="stat-divider"></div>
+              <div class="stat">
+                <div class="stat-value bonus">+100</div>
+                <div class="stat-label">Max pts</div>
+              </div>
+            </div>
+
+            <div class="rewards">
+              <div class="reward-row">🏆 Complete quiz → +25 pts guaranteed</div>
+              <div class="reward-row">⚡ Each correct answer → +25 pts bonus</div>
+              <div class="reward-row">🎯 Perfect score → +50 pts bonus!</div>
+            </div>
+
+            <button class="cta-btn" onclick="startQuiz()">Start Quiz 🧠</button>
+            <div class="expiry">Expires in 08:32</div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Toast -->
+      <div class="toast" id="toast">Coming soon</div>
+
+    </div><!-- /state-intro -->
+
+    <!-- ══ STATE 2: QUESTION ACTIVE ══ -->
+    <div class="state hidden" id="state-question">
+
+      <!-- Top Nav -->
+      <div class="top-nav" style="padding-bottom:0;">
+        <div style="visibility:hidden;width:20px;height:20px;"></div>
+        <span class="nav-title" id="questionCounter">Question 1 of 4</span>
+        <span class="nav-title" id="timerDisplay" style="font-weight:700;font-size:14px;">00:30</span>
+      </div>
+
+      <!-- Progress Bar -->
+      <div class="progress-bar-wrap">
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="screen-scroll">
+        <div class="main-content">
+
+          <div class="question-card">
+            <span class="question-pill" id="questionPill">Q1</span>
+            <div class="timer-bar">
+              <div class="timer-fill" id="timerFill"></div>
+            </div>
+            <div class="question-text" id="questionText">Which ML model type is most commonly used for solar irradiance forecasting?</div>
+            <div class="options-wrap" id="optionsWrap"></div>
+          </div>
+
+          <!-- Result Toast (hidden initially) -->
+          <div class="result-toast" id="resultToast">✓ Correct! +25 pts</div>
+
+        </div>
+      </div>
+
+      <!-- Toast -->
+      <div class="toast" id="toastQuestion">Coming soon</div>
+
+    </div><!-- /state-question -->
+
+    <!-- ══ STATE 3: RESULTS ══ -->
+    <div class="state hidden" id="state-results">
+
+      <!-- Top Nav -->
+      <div class="top-nav">
+        <div style="visibility:hidden;width:20px;height:20px;"></div>
+        <span class="nav-title">Quiz Complete! 🎉</span>
+        <div style="visibility:hidden;width:20px;height:20px;"></div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="screen-scroll">
+        <div class="main-content">
+
+          <div class="quiz-card">
+            <div class="score-circle-wrap">
+              <div class="score-circle">
+                <svg viewBox="0 0 100 100">
+                  <circle cx="50" cy="50" r="40" stroke="#4CAF50" stroke-width="4" id="scoreCircle"></circle>
+                </svg>
+                <div class="score-text">
+                  <div class="score-value" id="scoreValue">3/4</div>
+                  <div class="score-label">Correct</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="result-title" id="resultTitle">Great job, Arjun! 🎉</div>
+            <div class="result-subtitle" id="resultMessage">You scored 3 out of 4 correctly</div>
+
+            <!-- Points Breakdown -->
+            <div class="breakdown-card">
+              <div class="breakdown-label">Points Earned</div>
+              <div class="breakdown-row">
+                <span class="breakdown-item">✅ Quiz completion</span>
+                <span class="breakdown-points">+25 pts</span>
+              </div>
+              <div class="breakdown-row">
+                <span class="breakdown-item" id="correctBonusLabel">✅ 3 correct answers</span>
+                <span class="breakdown-points" id="correctBonusPoints">+75 pts</span>
+              </div>
+              <div class="breakdown-row">
+                <span class="breakdown-item">🎯 Perfect score bonus</span>
+                <span class="breakdown-points grayed" id="perfectBonusPoints">+0 pts</span>
+              </div>
+              <div class="breakdown-total">
+                <span>🏆 Total earned</span>
+                <span id="totalPoints">+100 pts</span>
+              </div>
+            </div>
+
+            <!-- Answer Review -->
+            <div class="review-label">Answer Review</div>
+            <div id="reviewContainer"></div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+              <a href="/mobile/m-20-leaderboard.html" class="action-btn primary">View Leaderboard 🏆</a>
+              <a href="/mobile/m-21-points-badges.html" class="action-btn secondary">View My Points</a>
+              <a href="/mobile/m-22-master-schedule.html" class="back-link">Back to Schedule</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div><!-- /state-results -->
+
+    <!-- ══ BOTTOM NAV ══ -->
+    <div class="bottom-nav">
+      <a href="/mobile/m-07-home-dashboard-v2.html" class="nav-tab" style="text-decoration:none;">
+        <div class="nav-icon">🏠</div>
+        <div class="nav-lbl">Home</div>
+      </a>
+      <a href="/mobile/m-22-master-schedule.html" class="nav-tab" style="text-decoration:none;">
+        <div class="nav-icon">📅</div>
+        <div class="nav-lbl">Agenda</div>
+      </a>
+      <a href="/mobile/m-09-networking-v2.html" class="nav-tab" style="text-decoration:none;">
+        <div class="nav-icon">🤝</div>
+        <div class="nav-lbl">Network</div>
+      </a>
+      <a href="/mobile/m-27-social-feed.html" class="nav-tab" style="text-decoration:none;">
+        <div class="nav-icon">📸</div>
+        <div class="nav-lbl">Feed</div>
+      </a>
+      <div class="nav-tab" onclick="showToast(event)">
+        <div class="nav-icon">☰</div>
+        <div class="nav-lbl">More</div>
+      </div>
+    </div>
+
+  </div><!-- /screen -->
+</div><!-- /iphone -->
+<div class="frame-label">Knowledge Check Quiz</div>
+</div>
+
+<script>
+/* ── QUIZ DATA ── */
+const QUIZ_DATA = [
+  {
+    question: "Which ML model type is most commonly used for solar irradiance forecasting?",
+    options: [
+      { letter: "A", text: "Random Forest" },
+      { letter: "B", text: "LSTM" },
+      { letter: "C", text: "Support Vector Machine" },
+      { letter: "D", text: "K-Means Clustering" }
+    ],
+    correct: "B"
+  },
+  {
+    question: "What percentage of ReNew's current capacity comes from wind energy?",
+    options: [
+      { letter: "A", text: "35%" },
+      { letter: "B", text: "52%" },
+      { letter: "C", text: "67%" },
+      { letter: "D", text: "48%" }
+    ],
+    correct: "C"
+  },
+  {
+    question: "Which technology does ReNew use for predictive turbine maintenance?",
+    options: [
+      { letter: "A", text: "Rule-based alerts" },
+      { letter: "B", text: "Computer Vision only" },
+      { letter: "C", text: "IoT sensors + ML models" },
+      { letter: "D", text: "Manual inspection schedules" }
+    ],
+    correct: "C"
+  },
+  {
+    question: "What is the primary benefit of AI-driven energy storage optimization?",
+    options: [
+      { letter: "A", text: "Reduced installation cost" },
+      { letter: "B", text: "Better grid frequency response" },
+      { letter: "C", text: "Longer battery lifespan" },
+      { letter: "D", text: "Lower maintenance staff needs" }
+    ],
+    correct: "B"
+  }
+];
+
+let currentQuestion = 0;
+let score = 0;
+let answers = [];
+let timerInterval = null;
+let timeRemaining = 30;
+let answerLocked = false;
+
+/* ── STATE TRANSITIONS ── */
+function fadeState(fromId, toId) {
+  const fromEl = document.getElementById(fromId);
+  const toEl = document.getElementById(toId);
+  fromEl.style.opacity = '0';
+  setTimeout(() => {
+    fromEl.classList.add('hidden');
+    toEl.classList.remove('hidden');
+    toEl.style.opacity = '0';
+    void toEl.offsetWidth;
+    toEl.style.opacity = '1';
+  }, 300);
+}
+
+function startQuiz() {
+  fadeState('state-intro', 'state-question');
+  currentQuestion = 0;
+  score = 0;
+  answers = [];
+  loadQuestion();
+}
+
+function loadQuestion() {
+  answerLocked = false;
+  timeRemaining = 30;
+  const q = QUIZ_DATA[currentQuestion];
+
+  document.getElementById('questionCounter').textContent = `Question ${currentQuestion + 1} of 4`;
+  document.getElementById('questionPill').textContent = `Q${currentQuestion + 1}`;
+  document.getElementById('questionText').textContent = q.question;
+  document.getElementById('progressFill').style.width = ((currentQuestion + 1) * 25) + '%';
+
+  const wrap = document.getElementById('optionsWrap');
+  wrap.innerHTML = '';
+  q.options.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.setAttribute('data-opt', opt.letter);
+    btn.innerHTML = `
+      <div class="opt-letter">${opt.letter}</div>
+      <span class="opt-text">${opt.text}</span>
+      <span class="opt-icon">✓</span>
+    `;
+    btn.onclick = () => selectAnswer(opt.letter);
+    wrap.appendChild(btn);
+  });
+
+  startTimer();
+}
+
+function startTimer() {
+  if (timerInterval) clearInterval(timerInterval);
+  timeRemaining = 30;
+  updateTimerDisplay();
+
+  const timerFill = document.getElementById('timerFill');
+  timerFill.style.animation = 'none';
+  void timerFill.offsetWidth;
+  timerFill.style.animation = 'timerDrain 30s linear forwards';
+  timerFill.classList.remove('critical');
+
+  timerInterval = setInterval(() => {
+    timeRemaining--;
+    updateTimerDisplay();
+
+    if (timeRemaining <= 10) {
+      timerFill.classList.add('critical');
+    }
+
+    if (timeRemaining <= 0) {
+      clearInterval(timerInterval);
+      if (!answerLocked) {
+        submitAnswer(null);
+      }
+    }
+  }, 1000);
+}
+
+function updateTimerDisplay() {
+  const display = String(timeRemaining).padStart(2, '0');
+  document.getElementById('timerDisplay').textContent = '00:' + display;
+  document.getElementById('timerDisplay').style.color = timeRemaining <= 10 ? '#FF5252' : '#FFFFFF';
+}
+
+function selectAnswer(letter) {
+  if (answerLocked) return;
+  submitAnswer(letter);
+}
+
+function submitAnswer(letter) {
+  answerLocked = true;
+  clearInterval(timerInterval);
+  const q = QUIZ_DATA[currentQuestion];
+  const isCorrect = letter === q.correct;
+
+  if (isCorrect) {
+    score++;
+  }
+
+  answers.push({ question: currentQuestion, selected: letter, correct: q.correct });
+
+  // Reveal answer
+  setTimeout(() => {
+    document.querySelectorAll('.option-btn').forEach(btn => {
+      const opt = btn.getAttribute('data-opt');
+      btn.classList.add('locked');
+
+      if (opt === q.correct) {
+        if (opt === letter) {
+          btn.classList.add('correct');
+          showResultToast(true);
+        } else {
+          btn.classList.add('hidden-correct');
+        }
+      } else if (opt === letter && !isCorrect) {
+        btn.classList.add('wrong');
+        showResultToast(false);
+      } else {
+        btn.classList.add('dimmed');
+      }
+    });
+  }, 800);
+
+  // Next question or results
+  setTimeout(() => {
+    currentQuestion++;
+    if (currentQuestion < 4) {
+      loadQuestion();
+    } else {
+      showResults();
+    }
+  }, 1200);
+}
+
+function showResultToast(isCorrect) {
+  const toast = document.getElementById('resultToast');
+  toast.textContent = isCorrect ? '✓ Correct! +25 pts' : '✗ Incorrect';
+  toast.classList.toggle('wrong', !isCorrect);
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 1500);
+}
+
+function showResults() {
+  fadeState('state-question', 'state-results');
+
+  // Animate score circle
+  const circle = document.getElementById('scoreCircle');
+  const percentage = (score / 4) * 100;
+  const circumference = 2 * Math.PI * 40;
+  const offset = circumference - (circumference * percentage / 100);
+  setTimeout(() => {
+    circle.style.strokeDashoffset = offset;
+  }, 100);
+
+  document.getElementById('scoreValue').textContent = score + '/4';
+  document.getElementById('resultTitle').textContent = `Great job, Arjun! 🎉`;
+  document.getElementById('resultMessage').textContent = `You scored ${score} out of 4 correctly`;
+
+  // Calculate points
+  let totalPoints = 25; // Completion bonus
+  const correctBonus = score * 25;
+  const perfectBonus = score === 4 ? 50 : 0;
+  totalPoints += correctBonus + perfectBonus;
+
+  document.getElementById('correctBonusLabel').textContent = `✅ ${score} correct answer${score !== 1 ? 's' : ''}`;
+  document.getElementById('correctBonusPoints').textContent = `+${correctBonus} pts`;
+  document.getElementById('perfectBonusPoints').textContent = perfectBonus > 0 ? `+${perfectBonus} pts` : '+0 pts';
+  document.getElementById('totalPoints').textContent = `+${totalPoints} pts`;
+
+  // Build answer review
+  const reviewContainer = document.getElementById('reviewContainer');
+  reviewContainer.innerHTML = '';
+  QUIZ_DATA.forEach((q, idx) => {
+    const userAnswer = answers[idx];
+    const isCorrect = userAnswer && userAnswer.selected === userAnswer.correct;
+    const selectedOptText = userAnswer ? q.options.find(o => o.letter === userAnswer.selected)?.text : 'Not answered';
+    const correctOptText = q.options.find(o => o.letter === userAnswer.correct)?.text;
+
+    const row = document.createElement('div');
+    row.className = 'review-row';
+    row.innerHTML = `
+      <div class="review-icon ${isCorrect ? 'correct' : 'wrong'}">${isCorrect ? '✓' : '✗'}</div>
+      <div class="review-content">
+        <div class="review-answer">${selectedOptText}</div>
+        ${!isCorrect ? `<div class="review-note">Correct: ${correctOptText}</div>` : ''}
+      </div>
+    `;
+    reviewContainer.appendChild(row);
+  });
+}
+
+/* ── TOAST ── */
+let toastTimer = null;
+function showToast(e) {
+  e.preventDefault();
+  const toast = document.getElementById('toast');
+  if (toastTimer) clearTimeout(toastTimer);
+  toast.classList.add('show');
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 2000);
+}
+
+/* ── BROWSER BACK SUPPORT ── */
+history.pushState(null, null, window.location.href);
+window.addEventListener('popstate', function() { window.history.back(); });
+</script>
+
+</body>
+</html>
