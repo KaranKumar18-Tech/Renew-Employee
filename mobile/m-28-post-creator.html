@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>ReNew Leaders Connect 2026 — Mobile App</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #F2F2F2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+    }
+
+    .page-title {
+      font-weight: 600;
+      font-size: 18px;
+      color: #1A1A1A;
+      margin-bottom: 32px;
+      text-align: center;
+    }
+
+    .directory-btn {
+      position: fixed;
+      top: 24px;
+      left: 24px;
+      z-index: 999;
+      background: #FFFFFF;
+      border: 1px solid #C8E6C9;
+      border-radius: 8px;
+      padding: 8px 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: #1B5E20;
+    }
+
+    .directory-btn:hover {
+      background: #F5F9F5;
+      border-color: #1B5E20;
+    }
+
+    .directory-btn svg {
+      width: 16px;
+      height: 16px;
+      stroke: #1B5E20;
+      stroke-width: 2.5;
+    }
+
+    .iphone-frame {
+      width: 320px;
+      height: 694px;
+      border-radius: 55px;
+      background: #000;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 12px 48px rgba(0,0,0,0.25), inset 0 0 0 2px #1c1c1c;
+      z-index: 1;
+    }
+
+    .notch {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 28px;
+      background: #000;
+      border-radius: 0 0 18px 18px;
+      z-index: 100;
+    }
+
+    .home-bar {
+      position: absolute;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 4px;
+      border-radius: 2px;
+      background: rgba(0,0,0,0.18);
+      z-index: 100;
+    }
+
+    .status-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 44px;
+      z-index: 90;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 22px 0;
+      font-size: 12px;
+      font-weight: 600;
+      color: #FFFFFF;
+      pointer-events: none;
+    }
+
+    .sb-right {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .sb-right svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .screen {
+      position: absolute;
+      inset: 0;
+      border-radius: 55px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      background: #F5F9F5;
+    }
+
+    .screen-scroll {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .screen-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
+    .top-nav {
+      background: #1B5E20;
+      padding: 14px 16px;
+      padding-top: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .back-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 8px;
+      padding: 4px 8px 4px 4px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .back-pill:hover {
+      background: rgba(255,255,255,0.25);
+    }
+
+    .back-pill svg {
+      width: 16px;
+      height: 16px;
+      stroke: #FFFFFF;
+      stroke-width: 2.5;
+      fill: none;
+    }
+
+    .back-pill-text {
+      font-size: 13px;
+      font-weight: 600;
+      color: #FFFFFF;
+    }
+
+    .nav-center {
+      flex: 1;
+      text-align: center;
+      font-size: 16px;
+      font-weight: 600;
+      color: #FFFFFF;
+    }
+
+    .nav-post-btn {
+      background: #4CAF50;
+      border: none;
+      border-radius: 20px;
+      padding: 5px 14px;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: #FFFFFF;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .nav-post-btn:hover:not(:disabled) {
+      background: #388E3C;
+    }
+
+    .nav-post-btn:disabled {
+      background: rgba(255,255,255,0.2);
+      color: rgba(255,255,255,0.5);
+      cursor: not-allowed;
+    }
+
+    .compose-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .photo-picker {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .photo-picker-default {
+      background: #F5F9F5;
+      border: 2px dashed #C8E6C9;
+      height: 180px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .photo-picker-icon {
+      font-size: 40px;
+      color: #4CAF50;
+    }
+
+    .photo-picker-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1B5E20;
+    }
+
+    .photo-picker-subtitle {
+      font-size: 12px;
+      font-weight: 400;
+      color: #9E9E9E;
+      text-align: center;
+      padding: 0 16px;
+    }
+
+    .photo-picker-selected {
+      height: 180px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      position: relative;
+      color: #FFFFFF;
+      gap: 8px;
+    }
+
+    .photo-picker-selected-emoji {
+      font-size: 36px;
+    }
+
+    .photo-picker-selected-text {
+      font-size: 13px;
+      font-weight: 500;
+      color: #FFFFFF;
+    }
+
+    .photo-remove-btn {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.4);
+      border: none;
+      color: #FFFFFF;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+
+    .photo-remove-btn:hover {
+      background: rgba(0,0,0,0.6);
+    }
+
+    .photo-options {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .photo-option-btn {
+      flex: 1;
+      background: #FFFFFF;
+      border: 1px solid #C8E6C9;
+      border-radius: 8px;
+      padding: 8px 14px;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      color: #1B5E20;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .photo-option-btn:hover {
+      background: #F5F9F5;
+      border-color: #1B5E20;
+    }
+
+    .form-section {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .form-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: #1A1A1A;
+    }
+
+    .caption-wrapper {
+      position: relative;
+    }
+
+    .caption-input {
+      width: 100%;
+      background: #FFFFFF;
+      border: 1px solid #C8E6C9;
+      border-radius: 12px;
+      padding: 14px;
+      box-sizing: border-box;
+      height: 100px;
+      resize: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 400;
+      color: #1A1A1A;
+      line-height: 1.5;
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    .caption-input:focus {
+      border-color: #4CAF50;
+      box-shadow: 0 0 0 3px rgba(76,175,80,0.1);
+    }
+
+    .caption-input::placeholder {
+      color: #9E9E9E;
+    }
+
+    .caption-counter {
+      font-size: 11px;
+      font-weight: 400;
+      color: #9E9E9E;
+      text-align: right;
+      margin-top: 4px;
+    }
+
+    .caption-counter.over {
+      color: #D32F2F;
+    }
+
+    .tags-container {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .tags-container::-webkit-scrollbar {
+      height: 4px;
+    }
+
+    .tags-container::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .tags-container::-webkit-scrollbar-thumb {
+      background: #C8E6C9;
+      border-radius: 2px;
+    }
+
+    .tag-pill {
+      background: #FFFFFF;
+      border: 1px solid #C8E6C9;
+      border-radius: 20px;
+      padding: 5px 12px;
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      color: #1B5E20;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+
+    .tag-pill:hover {
+      border-color: #1B5E20;
+    }
+
+    .tag-pill.selected {
+      background: #1B5E20;
+      border-color: #1B5E20;
+      color: #FFFFFF;
+    }
+
+    .visibility-card {
+      background: #F5F9F5;
+      border: 1px solid #C8E6C9;
+      border-radius: 10px;
+      padding: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .visibility-icon {
+      font-size: 20px;
+      color: #4CAF50;
+      flex-shrink: 0;
+    }
+
+    .visibility-text-col {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .visibility-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: #1A1A1A;
+    }
+
+    .visibility-subtitle {
+      font-size: 11px;
+      font-weight: 400;
+      color: #616161;
+    }
+
+    .published-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 32px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .success-icon-outer {
+      width: 90px;
+      height: 90px;
+      background: #E8F5E9;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 16px;
+    }
+
+    .success-icon-inner {
+      width: 68px;
+      height: 68px;
+      background: #1B5E20;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: popIn 400ms ease-out;
+    }
+
+    .success-icon-check {
+      font-size: 30px;
+      color: #FFFFFF;
+    }
+
+    @keyframes popIn {
+      0% {
+        transform: scale(0);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    .published-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1A1A1A;
+      margin-top: 20px;
+    }
+
+    .published-subtitle {
+      font-size: 13px;
+      font-weight: 400;
+      color: #616161;
+      margin-top: 6px;
+    }
+
+    .post-preview-card {
+      background: #F5F9F5;
+      border: 1px solid #C8E6C9;
+      border-radius: 14px;
+      padding: 14px;
+      margin-top: 20px;
+      width: 100%;
+      text-align: left;
+    }
+
+    .post-preview-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .post-preview-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #1B5E20;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 600;
+      color: #FFFFFF;
+      flex-shrink: 0;
+    }
+
+    .post-preview-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .post-preview-author {
+      font-size: 13px;
+      font-weight: 600;
+      color: #1A1A1A;
+    }
+
+    .post-preview-time {
+      font-size: 11px;
+      font-weight: 400;
+      color: #9E9E9E;
+    }
+
+    .post-preview-photo {
+      height: 100px;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
+
+    .post-preview-caption {
+      font-size: 12px;
+      font-weight: 400;
+      color: #616161;
+      margin-top: 8px;
+      line-height: 1.5;
+    }
+
+    .points-badge {
+      background: #1B5E20;
+      border-radius: 12px;
+      padding: 10px 20px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #FFFFFF;
+      margin-top: 16px;
+      text-align: center;
+    }
+
+    .action-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 20px;
+      width: 100%;
+    }
+
+    .action-btn {
+      width: 100%;
+      height: 46px;
+      border-radius: 10px;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .action-btn-primary {
+      background: #1B5E20;
+      color: #FFFFFF;
+    }
+
+    .action-btn-primary:hover {
+      background: #0D3817;
+    }
+
+    .action-btn-secondary {
+      background: #FFFFFF;
+      border: 1.5px solid #1B5E20;
+      color: #1B5E20;
+    }
+
+    .action-btn-secondary:hover {
+      background: #F5F9F5;
+    }
+
+    .screen-label {
+      margin-top: 16px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #888888;
+      text-align: center;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+  </style>
+</head>
+<body>
+  <a href="/" class="directory-btn" onclick="goDirectory(event)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+    Directory
+  </a>
+
+  <div class="page-title">ReNew Leaders Connect 2026 — Mobile App</div>
+
+  <div class="iphone-frame">
+    <div class="notch"></div>
+    <div class="home-bar"></div>
+
+    <div class="status-bar">
+      <span>9:41</span>
+      <div class="sb-right">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4c-1.48 0-2.85.43-4.01 1.17l1.46 1.46C10.21 5.23 11.08 5 12 5c3.04 0 5.5 2.46 5.5 5.5v.5H19c1.66 0 3 1.34 3 3 0 1.13-.64 2.11-1.56 2.62l1.45 1.45c.9-.86 1.48-2.05 1.48-3.36 0-2.64-2.05-4.78-4.63-4.97z"/></svg>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg>
+      </div>
+    </div>
+
+    <div class="screen">
+      <!-- STATE 1: COMPOSE -->
+      <div id="state-compose" class="state-container">
+        <div class="top-nav">
+          <a href="/mobile/m-27-social-feed.html" class="back-pill" onclick="goBack(event)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
+            <span class="back-pill-text">Feed</span>
+          </a>
+          <div class="nav-center">New Post</div>
+          <button class="nav-post-btn" id="post-btn" onclick="publishPost()" disabled>Post</button>
+        </div>
+
+        <div class="compose-content">
+          <!-- Photo Picker -->
+          <div class="photo-picker" id="photo-picker" onclick="selectPhoto(event)">
+            <div id="photo-picker-default" class="photo-picker-default">
+              <div class="photo-picker-icon">📷</div>
+              <div class="photo-picker-title">Tap to add a photo</div>
+              <div class="photo-picker-subtitle">Share a moment from Leaders Connect 2026</div>
+            </div>
+            <div id="photo-picker-selected" class="photo-picker-selected hidden">
+              <button class="photo-remove-btn" onclick="removePhoto(event)">✕</button>
+              <div class="photo-picker-selected-emoji">📸</div>
+              <div class="photo-picker-selected-text">Photo selected</div>
+            </div>
+          </div>
+
+          <div class="photo-options">
+            <button class="photo-option-btn" onclick="selectPhoto(event)">📷 Camera</button>
+            <button class="photo-option-btn" onclick="selectPhoto(event)">🖼 Gallery</button>
+          </div>
+
+          <!-- Caption Section -->
+          <div class="form-section">
+            <label class="form-label">Caption</label>
+            <div class="caption-wrapper">
+              <textarea class="caption-input" id="caption-input" placeholder="Share what's happening at Leaders Connect 2026..." oninput="updateCaption()"></textarea>
+              <div class="caption-counter" id="caption-counter">0 / 150</div>
+            </div>
+          </div>
+
+          <!-- Tags Section -->
+          <div class="form-section">
+            <label class="form-label">Tag this moment</label>
+            <div class="tags-container" id="tags-container">
+              <button class="tag-pill" onclick="toggleTag(event)">🎤 Session</button>
+              <button class="tag-pill" onclick="toggleTag(event)">🤝 Networking</button>
+              <button class="tag-pill" onclick="toggleTag(event)">🏆 Achievement</button>
+              <button class="tag-pill" onclick="toggleTag(event)">🌱 Sustainability</button>
+              <button class="tag-pill" onclick="toggleTag(event)">💡 Innovation</button>
+              <button class="tag-pill" onclick="toggleTag(event)">👥 Team</button>
+              <button class="tag-pill" onclick="toggleTag(event)">🎉 Celebration</button>
+            </div>
+          </div>
+
+          <!-- Visibility Card -->
+          <div class="visibility-card">
+            <div class="visibility-icon">🔒</div>
+            <div class="visibility-text-col">
+              <div class="visibility-title">Visible to all Leaders Connect attendees</div>
+              <div class="visibility-subtitle">320 employees can see this post</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STATE 2: PUBLISHED -->
+      <div id="state-published" class="state-container hidden">
+        <div class="top-nav">
+          <a href="/mobile/m-27-social-feed.html" class="back-pill" onclick="goBack(event)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
+            <span class="back-pill-text">Feed</span>
+          </a>
+          <div class="nav-center">Posted! ✅</div>
+        </div>
+
+        <div class="published-content">
+          <div class="success-icon-outer">
+            <div class="success-icon-inner">
+              <div class="success-icon-check">✓</div>
+            </div>
+          </div>
+
+          <div class="published-title">Your post is live! 🎉</div>
+          <div class="published-subtitle">Everyone at Leaders Connect can see your moment.</div>
+
+          <div class="post-preview-card">
+            <div class="post-preview-header">
+              <div class="post-preview-avatar">AM</div>
+              <div class="post-preview-info">
+                <div class="post-preview-author">Arjun Mehta</div>
+                <div class="post-preview-time">Just now</div>
+              </div>
+            </div>
+            <div id="preview-photo" class="post-preview-photo"></div>
+            <div class="post-preview-caption" id="preview-caption">Shared a moment from Leaders Connect 2026</div>
+          </div>
+
+          <div class="points-badge">🏆 +20 pts for sharing a moment!</div>
+
+          <div class="action-buttons">
+            <a href="/mobile/m-27-social-feed.html" class="action-btn action-btn-primary" onclick="goFeed(event)">View in Feed</a>
+            <button class="action-btn action-btn-secondary" onclick="postAnother()">Post Another</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="screen-label">Post Creator</div>
+
+  <script>
+    const gradients = [
+      'linear-gradient(135deg, #1B5E20 0%, #4CAF50 100%)',
+      'linear-gradient(135deg, #0D47A1 0%, #1976D2 100%)',
+      'linear-gradient(135deg, #E65100 0%, #FF6F00 100%)'
+    ];
+
+    let currentGradient = null;
+    let photoSelected = false;
+    let captionText = '';
+
+    function selectPhoto(event) {
+      event.preventDefault();
+      if (photoSelected) return;
+
+      photoSelected = true;
+      currentGradient = gradients[Math.floor(Math.random() * gradients.length)];
+
+      const defaultState = document.getElementById('photo-picker-default');
+      const selectedState = document.getElementById('photo-picker-selected');
+      const previewPhoto = document.getElementById('preview-photo');
+
+      defaultState.classList.add('hidden');
+      selectedState.classList.remove('hidden');
+      selectedState.style.background = currentGradient;
+      previewPhoto.style.background = currentGradient;
+
+      updatePostButtonState();
+    }
+
+    function removePhoto(event) {
+      event.preventDefault();
+      event.stopPropagation();
+
+      photoSelected = false;
+      currentGradient = null;
+
+      const defaultState = document.getElementById('photo-picker-default');
+      const selectedState = document.getElementById('photo-picker-selected');
+
+      defaultState.classList.remove('hidden');
+      selectedState.classList.add('hidden');
+
+      updatePostButtonState();
+    }
+
+    function updateCaption() {
+      const input = document.getElementById('caption-input');
+      const counter = document.getElementById('caption-counter');
+      captionText = input.value;
+      const length = captionText.length;
+
+      counter.textContent = `${length} / 150`;
+
+      if (length > 150) {
+        counter.classList.add('over');
+      } else {
+        counter.classList.remove('over');
+      }
+
+      updatePostButtonState();
+    }
+
+    function toggleTag(event) {
+      event.preventDefault();
+      event.currentTarget.classList.toggle('selected');
+    }
+
+    function updatePostButtonState() {
+      const postBtn = document.getElementById('post-btn');
+      const hasPhoto = photoSelected;
+      const hasCaption = captionText.trim().length > 0;
+
+      postBtn.disabled = !(hasPhoto || hasCaption);
+    }
+
+    function publishPost() {
+      const previewCaption = document.getElementById('preview-caption');
+      if (captionText.trim().length > 0) {
+        const first60 = captionText.substring(0, 60);
+        previewCaption.textContent = first60 + (captionText.length > 60 ? '...' : '');
+      } else {
+        previewCaption.textContent = 'Shared a moment from Leaders Connect 2026';
+      }
+
+      setTimeout(() => {
+        document.getElementById('state-compose').classList.add('hidden');
+        document.getElementById('state-published').classList.remove('hidden');
+      }, 600);
+    }
+
+    function postAnother() {
+      photoSelected = false;
+      currentGradient = null;
+      captionText = '';
+
+      document.getElementById('caption-input').value = '';
+      document.getElementById('caption-counter').textContent = '0 / 150';
+      document.getElementById('caption-counter').classList.remove('over');
+
+      const defaultState = document.getElementById('photo-picker-default');
+      const selectedState = document.getElementById('photo-picker-selected');
+      defaultState.classList.remove('hidden');
+      selectedState.classList.add('hidden');
+
+      const tags = document.querySelectorAll('.tag-pill');
+      tags.forEach(tag => tag.classList.remove('selected'));
+
+      document.getElementById('state-compose').classList.remove('hidden');
+      document.getElementById('state-published').classList.add('hidden');
+
+      updatePostButtonState();
+    }
+
+    function goBack(event) {
+      event.preventDefault();
+      window.history.back();
+    }
+
+    function goFeed(event) {
+      event.preventDefault();
+      history.pushState({}, '', '/mobile/m-27-social-feed.html');
+      window.location.href = '/mobile/m-27-social-feed.html';
+    }
+
+    function goDirectory(event) {
+      event.preventDefault();
+      window.location.href = '/';
+    }
+
+    window.addEventListener('popstate', () => {
+      window.location.reload();
+    });
+  </script>
+</body>
+</html>
