@@ -596,24 +596,22 @@
           <span class="back-pill-text">Home</span>
         </a>
         <div class="nav-center">Event Feed</div>
-        <a href="/mobile/m-28-post-creator.html" class="nav-icon-btn" onclick="navClick(event)">
+        <button class="nav-icon-btn" onclick="showToast(event, 'Post creator coming soon')">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
             <circle cx="12" cy="13" r="4"/>
           </svg>
-        </a>
+        </button>
       </div>
 
-      <a href="/mobile/m-28-post-creator.html" style="text-decoration:none; display:block;">
-        <div class="post-creator-bar">
-          <div class="creator-avatar">AM</div>
-          <div class="creator-input">Share a moment from the event...</div>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4CAF50" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;">
-            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
-            <circle cx="12" cy="13" r="4"/>
-          </svg>
-        </div>
-      </a>
+      <div class="post-creator-bar" onclick="showToast(event, 'Post creator coming soon')" style="cursor: pointer;">
+        <div class="creator-avatar">AM</div>
+        <div class="creator-input">Share a moment from the event...</div>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4CAF50" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;">
+          <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+          <circle cx="12" cy="13" r="4"/>
+        </svg>
+      </div>
 
       <div class="screen-scroll">
         <div class="feed">
@@ -930,6 +928,27 @@
         history.pushState({}, '', href);
         window.location.href = href;
       }
+    }
+
+    function showToast(event, message) {
+      event.preventDefault();
+      const screen = document.querySelector('.screen');
+      const toast = document.createElement('div');
+      toast.textContent = message;
+      toast.style.position = 'absolute';
+      toast.style.bottom = '80px';
+      toast.style.left = '50%';
+      toast.style.transform = 'translateX(-50%)';
+      toast.style.background = '#1A1A1A';
+      toast.style.color = '#FFFFFF';
+      toast.style.padding = '8px 16px';
+      toast.style.borderRadius = '8px';
+      toast.style.fontSize = '12px';
+      toast.style.fontWeight = '500';
+      toast.style.zIndex = '200';
+      toast.style.animation = 'slideUp 0.2s ease-out forwards';
+      screen.appendChild(toast);
+      setTimeout(() => toast.remove(), 3000);
     }
 
     window.addEventListener('popstate', () => {
