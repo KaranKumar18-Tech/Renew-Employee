@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ReNew Leaders Connect 2026 — Mobile App</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: #F2F2F2; font-family: 'Inter', sans-serif;
+  min-height: 100vh; display: flex; flex-direction: column;
+  align-items: center; padding: 48px 24px;
+}
+.page-title { font-size: 18px; font-weight: 600; color: #1A1A1A; text-align: center; margin-bottom: 32px; }
+
+/* ── iPhone Shell ── */
+.iphone {
+  width: 320px; height: 694px; border-radius: 55px;
+  background: #000; position: relative; overflow: hidden;
+  box-shadow: 0 12px 48px rgba(0,0,0,0.25), inset 0 0 0 2px #1c1c1c;
+}
+.notch { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 120px; height: 28px; background: #000; border-radius: 0 0 18px 18px; z-index: 100; }
+.home-bar { position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); width: 100px; height: 4px; border-radius: 2px; background: rgba(0,0,0,0.18); z-index: 100; }
+
+/* ── Status Bar ── */
+.status-bar {
+  position: absolute; top: 0; left: 0; right: 0; height: 44px; z-index: 90;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 22px 0; font-size: 12px; font-weight: 600; color: #FFFFFF;
+  pointer-events: none;
+}
+.sb-right { display: flex; align-items: center; gap: 5px; }
+.sb-right svg { width: 16px; height: 16px; }
+
+/* ── Screen ── */
+.screen {
+  position: absolute; inset: 0; border-radius: 55px; overflow: hidden;
+  display: flex; flex-direction: column; background: #F5F9F5;
+}
+.screen-scroll { flex: 1; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+.screen-scroll::-webkit-scrollbar { display: none; }
+
+/* ── Top Nav ── */
+.top-nav {
+  background: #1B5E20; padding: 56px 16px 14px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.back-pill { display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 8px; padding: 4px 8px 4px 4px; cursor: pointer;
+  text-decoration: none; color: #FFFFFF; transition: background 0.2s; }
+.back-pill:hover { background: rgba(255,255,255,0.25); }
+.back-pill svg { flex-shrink: 0; }
+.back-pill span { font-size: 11px; font-weight: 500; }
+.nav-title { font-size: 16px; font-weight: 600; color: #FFFFFF; }
+.nav-right { font-size: 22px; }
+
+/* ── Points Hero ── */
+.points-hero {
+  background: #1B5E20; padding: 0 16px 28px;
+}
+.points-card {
+  background: rgba(255,255,255,0.12); border-radius: 16px;
+  padding: 20px; border: 1px solid rgba(255,255,255,0.2);
+  text-align: center;
+}
+.points-value { font-size: 48px; font-weight: 900; color: #FFFFFF; }
+.points-label { font-size: 13px; font-weight: 400; color: rgba(255,255,255,0.7); margin-top: 4px; }
+.rank-row { margin-top: 12px; display: flex; justify-content: center; align-items: center; gap: 8px; }
+.rank-text { font-size: 13px; font-weight: 600; color: #FFFFFF; }
+.rank-link { font-size: 12px; font-weight: 500; color: #4CAF50; text-decoration: none; cursor: pointer; }
+.rank-link:hover { opacity: 0.8; }
+.progress-label { font-size: 11px; font-weight: 400; color: rgba(255,255,255,0.7); margin-top: 14px; text-align: center; }
+.progress-bar-wrap { width: 100%; height: 6px; background: rgba(255,255,255,0.2);
+  border-radius: 3px; overflow: hidden; margin-top: 8px; }
+.progress-fill { height: 100%; background: #4CAF50; border-radius: 3px;
+  width: 0%; transition: width 1s ease-out; }
+
+/* ── Main Content ── */
+.main-content {
+  background: #F5F9F5; border-radius: 20px 20px 0 0;
+  margin-top: -12px; padding: 16px 16px 80px; flex: 1;
+}
+
+/* ── Tab Row ── */
+.tab-row {
+  background: #FFFFFF; border-bottom: 1px solid #F0F0F0;
+  display: flex; margin-bottom: 16px;
+}
+.tab { flex: 1; padding: 12px 0; text-align: center;
+  border-bottom: 2px solid transparent; cursor: pointer;
+  font-size: 13px; font-weight: 500; color: #9E9E9E;
+  transition: all 0.2s; }
+.tab.active { border-bottom-color: #1B5E20; font-weight: 600; color: #1B5E20; }
+
+/* ── Section Label ── */
+.section-label { font-size: 13px; font-weight: 600; color: #1A1A1A; margin-bottom: 12px; }
+.section-label.grayed { color: #9E9E9E; }
+
+/* ── Badges Grid ── */
+.badges-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px; }
+.badge {
+  background: #FFFFFF; border-radius: 14px; padding: 14px;
+  text-align: center; border: 2px solid #4CAF50;
+  box-shadow: 0 2px 8px rgba(76,175,80,0.2);
+  cursor: pointer; transition: transform 0.2s;
+}
+.badge:hover { transform: scale(1.05); }
+.badge.locked {
+  background: #F5F5F5; border-color: #E0E0E0; opacity: 0.7;
+  box-shadow: none; cursor: not-allowed;
+}
+.badge.locked:hover { transform: none; }
+.badge-emoji { font-size: 32px; display: block; }
+.badge.locked .badge-emoji { filter: grayscale(1); }
+.badge-name { font-size: 12px; font-weight: 600; color: #1A1A1A; margin-top: 6px; }
+.badge.locked .badge-name { color: #9E9E9E; }
+.badge-desc { font-size: 10px; font-weight: 400; color: #9E9E9E; margin-top: 2px; }
+.badge.locked .badge-desc { color: #BDBDBD; }
+.badge-pts { font-size: 10px; font-weight: 600; color: #4CAF50; margin-top: 4px; }
+.badge.locked .badge-pts { color: #BDBDBD; }
+
+/* ── Activity Row ── */
+.activity-row {
+  background: #FFFFFF; border-radius: 10px; padding: 12px 14px;
+  display: flex; align-items: center; gap: 12px; margin-bottom: 8px;
+}
+.activity-icon { width: 36px; height: 36px; border-radius: 50%;
+  background: #E8F5E9; display: flex; align-items: center;
+  justify-content: center; font-size: 18px; flex-shrink: 0; }
+.activity-content { flex: 1; }
+.activity-name { font-size: 13px; font-weight: 600; color: #1A1A1A; }
+.activity-time { font-size: 11px; font-weight: 400; color: #9E9E9E; margin-top: 2px; }
+.activity-pts { font-size: 13px; font-weight: 700; color: #4CAF50; }
+.activity-total {
+  background: #E8F5E9; border-radius: 10px; padding: 12px 14px;
+  display: flex; justify-content: space-between; align-items: center; margin-top: 4px;
+}
+.activity-total-label { font-size: 13px; font-weight: 600; color: #1B5E20; }
+.activity-total-pts { font-size: 16px; font-weight: 700; color: #1B5E20; }
+
+/* ── How to Earn Card ── */
+.earn-card {
+  margin-top: 16px; background: #FFFFFF; border-radius: 14px;
+  padding: 14px; border: 1px solid #C8E6C9;
+}
+.earn-title { font-size: 13px; font-weight: 600; color: #1B5E20; margin-bottom: 10px; }
+.earn-row { display: flex; justify-content: space-between; padding: 6px 0;
+  border-bottom: 1px solid #F5F5F5; font-size: 12px; }
+.earn-row:last-child { border-bottom: none; }
+.earn-name { font-weight: 400; color: #616161; }
+.earn-pts { font-weight: 600; color: #1B5E20; }
+
+/* ── Bottom Nav ── */
+.bottom-nav {
+  background: #FFFFFF; border-top: 1px solid #E0E0E0;
+  padding: 8px 0 20px; display: flex; justify-content: space-around;
+  flex-shrink: 0;
+}
+.nav-tab { display: flex; flex-direction: column; align-items: center; gap: 3px; cursor: pointer; flex: 1; text-decoration: none; }
+.nav-icon { font-size: 18px; line-height: 1; }
+.nav-lbl { font-size: 10px; font-weight: 400; color: #9E9E9E; }
+.nav-tab.active .nav-lbl { font-weight: 600; color: #1B5E20; }
+
+/* ── Toast ── */
+.toast {
+  position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%);
+  background: #1A1A1A; color: #FFFFFF; font-size: 12px; font-weight: 500;
+  font-family: 'Inter', sans-serif; border-radius: 8px; padding: 8px 16px;
+  white-space: nowrap; z-index: 200; pointer-events: none;
+  opacity: 0; transition: opacity 0.2s;
+}
+.toast.show { opacity: 1; }
+
+/* ── Hidden state ── */
+.hidden { display: none !important; }
+
+/* ── Frame label ── */
+.frame-label { margin-top: 16px; font-size: 13px; font-weight: 500; color: #888888; text-align: center; }
+</style>
+</head>
+<body>
+
+<a href="/" style="position:fixed;top:24px;left:24px;z-index:999;background:#FFFFFF;border:1px solid #C8E6C9;border-radius:8px;padding:8px 14px;display:inline-flex;align-items:center;gap:6px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.08);text-decoration:none;transition:all 0.2s;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:#1B5E20;" onmouseover="this.style.background='#F5F9F5';this.style.borderColor='#1B5E20';" onmouseout="this.style.background='#FFFFFF';this.style.borderColor='#C8E6C9';">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1B5E20" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+  Directory
+</a>
+
+<div class="page-title">ReNew Leaders Connect 2026 — Mobile App</div>
+
+<div style="display:flex;flex-direction:column;align-items:center;">
+<div class="iphone">
+  <div class="notch"></div>
+  <div class="home-bar"></div>
+
+  <!-- Status Bar -->
+  <div class="status-bar">
+    <span>9:41</span>
+    <div class="sb-right">
+      <svg viewBox="0 0 16 16"><rect x="0" y="9" width="3" height="7" rx="0.5" fill="white"/><rect x="4" y="6" width="3" height="10" rx="0.5" fill="white"/><rect x="8" y="3" width="3" height="13" rx="0.5" fill="white"/><rect x="12" y="0" width="3" height="16" rx="0.5" fill="white" opacity="0.35"/></svg>
+      <svg viewBox="0 0 16 16" fill="none"><path d="M1 12.5C3.5 8.5 12.5 8.5 15 12.5" stroke="white" stroke-width="1.5" stroke-linecap="round"/><path d="M3.5 10C5.5 7.5 10.5 7.5 12.5 10" stroke="white" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="14" r="1.2" fill="white"/></svg>
+      <svg viewBox="0 0 24 12" fill="none"><rect x="0" y="1" width="20" height="10" rx="2" stroke="white" stroke-width="1"/><rect x="21" y="3.5" width="2" height="5" rx="1" fill="white" opacity="0.4"/><rect x="2" y="3" width="13" height="6" rx="1" fill="white"/></svg>
+    </div>
+  </div>
+
+  <div class="screen">
+
+    <!-- Top Nav -->
+    <div class="top-nav">
+      <a href="/mobile/m-07-home-dashboard-v2.html" class="back-pill">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        <span>Home</span>
+      </a>
+      <span class="nav-title">My Points</span>
+      <span class="nav-right">🏆</span>
+    </div>
+
+    <!-- Points Hero -->
+    <div class="points-hero">
+      <div class="points-card">
+        <div class="points-value" id="pointsCounter">0</div>
+        <div class="points-label">Total Points</div>
+        <div class="rank-row">
+          <span class="rank-text">#4 on Leaderboard</span>
+          <a href="/mobile/m-20-leaderboard.html" class="rank-link">View →</a>
+        </div>
+        <div class="progress-label">130 pts to reach #3 (Rohan Kapoor · 980 pts)</div>
+        <div class="progress-bar-wrap">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Screen Scroll -->
+    <div class="screen-scroll">
+      <div class="main-content">
+
+        <!-- Tab Row -->
+        <div class="tab-row">
+          <div class="tab active" onclick="switchTab('badges')">🏅 Badges</div>
+          <div class="tab" onclick="switchTab('activity')">📊 Activity Log</div>
+        </div>
+
+        <!-- ── TAB 1: BADGES ── -->
+        <div id="tab-badges">
+          <div class="section-label">Earned Badges</div>
+          <div class="badges-grid">
+            <div class="badge" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+              <span class="badge-emoji">🌅</span>
+              <div class="badge-name">Early Bird</div>
+              <div class="badge-desc">Arrived Day 1</div>
+              <div class="badge-pts">+25 pts</div>
+            </div>
+            <div class="badge" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+              <span class="badge-emoji">🤝</span>
+              <div class="badge-name">Networker</div>
+              <div class="badge-desc">5+ Connections</div>
+              <div class="badge-pts">+50 pts</div>
+            </div>
+            <div class="badge" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+              <span class="badge-emoji">🗳️</span>
+              <div class="badge-name">Poll Voter</div>
+              <div class="badge-desc">Voted in poll</div>
+              <div class="badge-pts">+20 pts</div>
+            </div>
+            <div class="badge" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+              <span class="badge-emoji">📅</span>
+              <div class="badge-name">Agenda Setter</div>
+              <div class="badge-desc">Bookmarked 3+</div>
+              <div class="badge-pts">+15 pts</div>
+            </div>
+            <div class="badge" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+              <span class="badge-emoji">📸</span>
+              <div class="badge-name">Moment Maker</div>
+              <div class="badge-desc">Shared a post</div>
+              <div class="badge-pts">+20 pts</div>
+            </div>
+          </div>
+
+          <div class="section-label grayed">Locked Badges</div>
+          <div class="badges-grid">
+            <div class="badge locked" onclick="showLockedToast()">
+              <span class="badge-emoji">🧠</span>
+              <div class="badge-name">Quiz Champion</div>
+              <div class="badge-desc">Score 4/4 on quiz</div>
+              <div class="badge-pts">🔒 Locked</div>
+            </div>
+            <div class="badge locked" onclick="showLockedToast()">
+              <span class="badge-emoji">⭐</span>
+              <div class="badge-name">Session Star</div>
+              <div class="badge-desc">Attend all sessions</div>
+              <div class="badge-pts">🔒 Locked</div>
+            </div>
+            <div class="badge locked" onclick="showLockedToast()">
+              <span class="badge-emoji">🔗</span>
+              <div class="badge-name">Super Connector</div>
+              <div class="badge-desc">10+ connections</div>
+              <div class="badge-pts">🔒 Locked</div>
+            </div>
+            <div class="badge locked" onclick="showLockedToast()">
+              <span class="badge-emoji">💬</span>
+              <div class="badge-name">Q&A Champion</div>
+              <div class="badge-desc">Top upvoted question</div>
+              <div class="badge-pts">🔒 Locked</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── TAB 2: ACTIVITY LOG ── -->
+        <div id="tab-activity" class="hidden">
+          <div class="section-label">How you earned points</div>
+
+          <div class="activity-row">
+            <div class="activity-icon">🧠</div>
+            <div class="activity-content">
+              <div class="activity-name">Completed AI Quiz</div>
+              <div class="activity-time">Today 11:45 AM</div>
+            </div>
+            <div class="activity-pts">+100 pts</div>
+          </div>
+
+          <div class="activity-row">
+            <div class="activity-icon">🗳️</div>
+            <div class="activity-content">
+              <div class="activity-name">Voted in Live Poll</div>
+              <div class="activity-time">Today 10:32 AM</div>
+            </div>
+            <div class="activity-pts">+50 pts</div>
+          </div>
+
+          <div class="activity-row">
+            <div class="activity-icon">🤝</div>
+            <div class="activity-content">
+              <div class="activity-name">Connected with Priya Sharma</div>
+              <div class="activity-time">Today 10:15 AM</div>
+            </div>
+            <div class="activity-pts">+15 pts</div>
+          </div>
+
+          <div class="activity-row">
+            <div class="activity-icon">📅</div>
+            <div class="activity-content">
+              <div class="activity-name">Attended ReNew 2030 Session</div>
+              <div class="activity-time">Today 09:05 AM</div>
+            </div>
+            <div class="activity-pts">+50 pts</div>
+          </div>
+
+          <div class="activity-row">
+            <div class="activity-icon">📸</div>
+            <div class="activity-content">
+              <div class="activity-name">Shared Event Post</div>
+              <div class="activity-time">Today 08:55 AM</div>
+            </div>
+            <div class="activity-pts">+20 pts</div>
+          </div>
+
+          <div class="activity-row">
+            <div class="activity-icon">🤝</div>
+            <div class="activity-content">
+              <div class="activity-name">Connected with Rohan Kapoor</div>
+              <div class="activity-time">Today 08:40 AM</div>
+            </div>
+            <div class="activity-pts">+15 pts</div>
+          </div>
+
+          <div class="activity-row">
+            <div class="activity-icon">📷</div>
+            <div class="activity-content">
+              <div class="activity-name">Scanned QR Code</div>
+              <div class="activity-time">Today 08:30 AM</div>
+            </div>
+            <div class="activity-pts">+15 pts</div>
+          </div>
+
+          <div class="activity-row">
+            <div class="activity-icon">🌅</div>
+            <div class="activity-content">
+              <div class="activity-name">Early Bird Check-in</div>
+              <div class="activity-time">Today 08:00 AM</div>
+            </div>
+            <div class="activity-pts">+25 pts</div>
+          </div>
+
+          <div class="activity-total">
+            <span class="activity-total-label">Total Earned Today</span>
+            <span class="activity-total-pts">870 pts</span>
+          </div>
+
+          <!-- How to Earn More -->
+          <div class="earn-card">
+            <div class="earn-title">💡 Earn more points</div>
+            <div class="earn-row">
+              <span class="earn-name">🧠 Complete session quiz</span>
+              <span class="earn-pts">+100 pts</span>
+            </div>
+            <div class="earn-row">
+              <span class="earn-name">📅 Attend a session</span>
+              <span class="earn-pts">+50 pts</span>
+            </div>
+            <div class="earn-row">
+              <span class="earn-name">🤝 Connect with someone</span>
+              <span class="earn-pts">+15 pts</span>
+            </div>
+            <div class="earn-row">
+              <span class="earn-name">📸 Share a post</span>
+              <span class="earn-pts">+20 pts</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">Complete the challenge to unlock this badge!</div>
+
+    <!-- Bottom Nav -->
+    <div class="bottom-nav">
+      <a href="/mobile/m-07-home-dashboard-v2.html" class="nav-tab" style="text-decoration:none;">
+        <div class="nav-icon">🏠</div>
+        <div class="nav-lbl">Home</div>
+      </a>
+      <a href="/mobile/m-22-master-schedule.html" class="nav-tab" style="text-decoration:none;">
+        <div class="nav-icon">📅</div>
+        <div class="nav-lbl">Agenda</div>
+      </a>
+      <a href="/mobile/m-09-networking-v2.html" class="nav-tab" style="text-decoration:none;">
+        <div class="nav-icon">🤝</div>
+        <div class="nav-lbl">Network</div>
+      </a>
+      <a href="/mobile/m-27-social-feed.html" class="nav-tab" style="text-decoration:none;">
+        <div class="nav-icon">📸</div>
+        <div class="nav-lbl">Feed</div>
+      </a>
+      <div class="nav-tab" onclick="showToast(event)">
+        <div class="nav-icon">☰</div>
+        <div class="nav-lbl">More</div>
+      </div>
+    </div>
+
+  </div><!-- /screen -->
+</div><!-- /iphone -->
+<div class="frame-label">Points & Badges</div>
+</div>
+
+<script>
+/* ── POINTS COUNTER ── */
+function animateCounter() {
+  const target = 870;
+  const duration = 1000;
+  const startTime = Date.now();
+  const counter = document.getElementById('pointsCounter');
+
+  function update() {
+    const elapsed = Date.now() - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    const easeOut = 1 - Math.pow(1 - progress, 3);
+    const current = Math.floor(target * easeOut);
+    counter.textContent = current;
+
+    if (progress < 1) {
+      requestAnimationFrame(update);
+    }
+  }
+
+  update();
+}
+
+/* ── PROGRESS BAR ── */
+function animateProgressBar() {
+  const fill = document.getElementById('progressFill');
+  const targetWidth = 87;
+  const duration = 1000;
+  const startTime = Date.now();
+
+  function update() {
+    const elapsed = Date.now() - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    const easeOut = 1 - Math.pow(1 - progress, 3);
+    const currentWidth = targetWidth * easeOut;
+    fill.style.width = currentWidth + '%';
+
+    if (progress < 1) {
+      requestAnimationFrame(update);
+    }
+  }
+
+  update();
+}
+
+/* ── TAB SWITCHING ── */
+function switchTab(tab) {
+  const badgesTab = document.getElementById('tab-badges');
+  const activityTab = document.getElementById('tab-activity');
+  const tabs = document.querySelectorAll('.tab');
+
+  if (tab === 'badges') {
+    badgesTab.classList.remove('hidden');
+    activityTab.classList.add('hidden');
+    tabs[0].classList.add('active');
+    tabs[1].classList.remove('active');
+  } else {
+    badgesTab.classList.add('hidden');
+    activityTab.classList.remove('hidden');
+    tabs[0].classList.remove('active');
+    tabs[1].classList.add('active');
+  }
+}
+
+/* ── TOAST ── */
+let toastTimer = null;
+function showLockedToast() {
+  const toast = document.getElementById('toast');
+  toast.textContent = 'Complete the challenge to unlock this badge!';
+  if (toastTimer) clearTimeout(toastTimer);
+  toast.classList.add('show');
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 2000);
+}
+
+function showToast(e) {
+  e.preventDefault();
+  const toast = document.getElementById('toast');
+  toast.textContent = 'Coming soon';
+  if (toastTimer) clearTimeout(toastTimer);
+  toast.classList.add('show');
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 2000);
+}
+
+/* ── INIT ── */
+window.addEventListener('load', () => {
+  animateCounter();
+  animateProgressBar();
+});
+
+/* ── BROWSER BACK SUPPORT ── */
+history.pushState(null, null, window.location.href);
+window.addEventListener('popstate', function() { window.history.back(); });
+</script>
+
+</body>
+</html>
